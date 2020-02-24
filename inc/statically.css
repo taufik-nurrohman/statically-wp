@@ -1,0 +1,72 @@
+body.settings_page_statically {
+  background: #fff;
+}
+
+.statically {
+  padding: 2.5rem;
+  max-width: 56rem;
+}
+
+.statically a:focus {
+  box-shadow: none;
+}
+
+.statically header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.statically nav {
+  padding: 1rem;
+}
+
+.statically nav ul {
+  display: flex;
+}
+
+.statically li a {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #444;
+  text-decoration: none;
+}
+
+.statically li+li a {
+  margin-left: 1rem;
+}
+
+.statically input {
+  border-color: #b9b8b8;
+  border-radius: .3rem;
+}
+
+.statically input:focus {
+  border-color: #79cbff;
+  box-shadow: none;
+}
+
+.statically .logo {
+  display: inline-block;
+}
+
+.statically .logo img {
+  max-width: 200px;
+}
+
+.statically .dashicons-twitter {
+  color: #1da1f2;
+}
+
+.statically .notice.notice-success {
+  border: 1px solid #eee;
+  border-left-color: #0fe273;
+  border-left-width: .25rem;
+  border-radius: .25rem;
+  margin-top: 1.1rem;
+}
+
+.statically .form-table {
+  margin-top: 1.1rem;
+}
