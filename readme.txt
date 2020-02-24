@@ -1,8 +1,9 @@
 === Statically ===
 
-Contributors: statically
+Contributors: statically, fransallen
 Tags: optimization, minification, cdn, content delivery network
 Requires at least: 4.6
+Requires PHP: 5.6
 Tested up to: 5.3
 Stable tag: trunk
 License: GPLv2 or later
@@ -18,25 +19,35 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 [**Statically**](https://statically.io/)
 
-= Features =
+#### FEATURES
 
 * Link assets to load from the Statically CDN.
 * Set included directories.
 * Define exclusions (directories or extensions).
 * Enable or disable for HTTPS.
 
-= Benefits =
+#### BENEFITS
 
 * Speeds up your site by serving assets from Statically Multi-CDN infrastructure.
 * Accelerate the delivery of your image files and add transformation capabilities.
 * Minify CSS or JavaScript files, on-the-fly.
 
-= System Requirements =
+== Installation ==
 
-* PHP >=5.6
-* WordPress >=4.6
+#### INSTALL STATICALLY FROM WITHIN WORDPRESS
 
-= Contribute =
+1. Visit the plugins page within your dashboard and select "Add New";
+2. Search for "Statically";
+3. Activate Statically from your Plugins page;
+4. Access the plugin settings from the "Settings" menu.
+
+#### INSTALL STATICALLY MANUALLY
+
+1. Upload the "statically" folder to the /wp-content/plugins/ directory;
+2. Activate the Statically plugin through the "Plugins" menu in WordPress;
+3. Access the plugin settings from the "Settings" menu.
+
+#### CONTRIBUTE
 
 * Anyone is welcome to contribute to the plugin on [GitHub](https://github.com/staticallyio/statically-wp).
 
