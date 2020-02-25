@@ -32,6 +32,10 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 * Accelerate the delivery of your image files and add transformation capabilities.
 * Minify CSS or JavaScript files, on-the-fly.
 
+#### CONTRIBUTE
+
+* Anyone is welcome to contribute to the plugin on [GitHub](https://github.com/staticallyio/statically-wp).
+
 == Installation ==
 
 #### INSTALL STATICALLY FROM WITHIN WORDPRESS
@@ -46,10 +50,6 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 1. Upload the "statically" folder to the /wp-content/plugins/ directory;
 2. Activate the Statically plugin through the "Plugins" menu in WordPress;
 3. Access the plugin settings from the "Settings" menu.
-
-#### CONTRIBUTE
-
-* Anyone is welcome to contribute to the plugin on [GitHub](https://github.com/staticallyio/statically-wp).
 
 == Changelog ==
 
