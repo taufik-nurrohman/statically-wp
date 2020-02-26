@@ -1,13 +1,13 @@
 <?php
-/*
-   Plugin Name: Statically
-   Plugin URI:  https://statically.io/wordpress
-   Description: Free CDN to optimize your static assets such as images, CSS or JavaScript files.
-   Author:      Statically
-   Author URI:  https://statically.io
-   Text Domain: statically
-   License:     GPLv2 or later
-   Version:     0.0.1
+/**
+ * Plugin Name: Statically
+ * Plugin URI:  https://statically.io/wordpress
+ * Description: Free CDN to optimize your static assets such as images, CSS or JavaScript files.
+ * Version:     0.0.1
+ * Author:      Statically
+ * Author URI:  https://statically.io
+ * License:     GPLv2 or later
+ * Text Domain: statically
  */
 
 
