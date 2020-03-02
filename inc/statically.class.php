@@ -71,6 +71,13 @@ class Statically
                 'add_settings_page',
             ]
         );
+        add_action(
+            'admin_enqueue_scripts',
+            [
+                'Statically_Settings',
+                'enqueue_styles',
+            ]
+        );
         add_filter(
             'plugin_action_links_' .STATICALLY_BASE,
             [
@@ -150,8 +157,10 @@ class Statically
                 'url'            => 'https://cdn.statically.io/sites/' . parse_url(get_option('home'), PHP_URL_HOST),
                 'dirs'           => 'wp-content,wp-includes',
                 'excludes'       => '.php',
+                'emoji'          => '1',
                 'relative'       => '1',
                 'https'          => '1',
+                'query_strings'  => '1',
                 'statically_api_key' => '',
             ]
         );
@@ -213,8 +222,10 @@ class Statically
                 'url'             => 'https://cdn.statically.io/sites/' . parse_url(get_option('home'), PHP_URL_HOST),
                 'dirs'            => 'wp-content,wp-includes',
                 'excludes'        => '.php',
+                'emoji'           => 1,
                 'relative'        => 1,
                 'https'           => 1,
+                'query_strings'   => 1,
                 'statically_api_key'  => '',
             ]
         );
@@ -239,8 +250,10 @@ class Statically
             $options['url'],
             $options['dirs'],
             $excludes,
+            $options['emoji'],
             $options['relative'],
             $options['https'],
+            $options['query_strings'],
             $options['statically_api_key']
         );
     }
