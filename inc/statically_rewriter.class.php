@@ -60,6 +60,7 @@ class Statically_Rewriter
             add_filter( 'script_loader_src', [$this, 'cdn_url_emoji_release_js'], 10, 2 );
         }
 
+        $this->_deregister_styles();
         $this->_deregister_scripts();
     }
 
@@ -170,11 +171,32 @@ class Statically_Rewriter
 
 
     /**
+     * register new style URL
+     * 
+     * @since 0.1.0
+     */
+
+    private function _deregister_styles() {
+        global $wp_version;
+
+        wp_deregister_style( 'wp-block-library' );
+        wp_register_style( 'wp-block-library', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/css/dist/block-library/style.min.css", false, $wp_version );
+
+        wp_deregister_style( 'wp-block-library-theme' );
+        wp_register_style( 'wp-block-library-theme', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/css/dist/block-library/theme.min.css", false, $wp_version );
+
+        wp_deregister_style( 'dashicons' );
+        wp_register_style( 'dashicons', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/css/dashicons.min.css", false, $wp_version );
+    }
+
+
+    /**
      * register new script URL
      * 
      * @since 0.1.0
      */
-    private function _deregister_scripts() {
+
+     private function _deregister_scripts() {
         global $wp_version;
 
         $jq_v = '1.12.4';
