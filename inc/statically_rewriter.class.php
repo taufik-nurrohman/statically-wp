@@ -15,7 +15,9 @@ class Statically_Rewriter
     var $excludes       = [];       // excludes
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
+    var $query_strings  = false;    // remove query strings from assets
     var $statically_api_key = null; // required API key for Statically
+    var $statically_wpbase_url = 'https://cdn.statically.io/wp'; // Statically Libs for WP
 
     /**
      * constructor
@@ -29,17 +31,36 @@ class Statically_Rewriter
         $cdn_url,
         $dirs,
         array $excludes,
+        $emoji,
         $relative,
         $https,
+        $query_strings,
         $statically_api_key
     ) {
         $this->blog_url       = $blog_url;
         $this->cdn_url        = $cdn_url;
         $this->dirs           = $dirs;
         $this->excludes       = $excludes;
+        $this->emoji          = $emoji;
         $this->relative       = $relative;
         $this->https          = $https;
+        $this->query_strings  = $query_strings;
         $this->statically_api_key = $statically_api_key;
+
+        // remove query strings
+        if($this->query_strings) {
+            add_filter( 'style_loader_src', [$this, 'remove_query_strings'], 999 );
+            add_filter( 'script_loader_src', [$this, 'remove_query_strings'], 999 );
+        }
+
+        // replace default WordPress emoji CDN with Statically
+        if($this->emoji) {
+            add_filter( 'emoji_svg_url', [$this, 'cdn_url_emoji'], 999 );
+            add_filter( 'emoji_url', [$this, 'cdn_url_emoji'], 999 );
+            add_filter( 'script_loader_src', [$this, 'cdn_url_emoji_release_js'], 10, 2 );
+        }
+
+        $this->_deregister_scripts();
     }
 
 
@@ -145,6 +166,75 @@ class Statically_Rewriter
         }
 
         return implode('|', array_map('quotemeta', array_map('trim', $input)));
+    }
+
+
+    /**
+     * register new script URL
+     * 
+     * @since 0.1.0
+     */
+    private function _deregister_scripts() {
+        global $wp_version;
+
+        $jq_v = '1.12.4';
+        $jq_migrate_v = '1.4.1';
+
+        // load jQuery from Statically Libs instead of proxy it from the site
+        wp_deregister_script( 'jquery-core' );
+        wp_register_script( 'jquery-core', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/js/jquery/jquery.js", false, $jq_v );
+
+        // load jQuery migrate from Statically Libs instead of proxy it from the site
+        wp_deregister_script( 'jquery-migrate' );
+        wp_register_script( 'jquery-migrate', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/js/jquery/jquery-migrate.min.js", false, $jq_migrate_v );
+    }
+
+
+    /**
+     * set new emoji CDN URL
+     * 
+     * @since 0.1.0
+     */
+
+    public function cdn_url_emoji() {
+        $url = $this->statically_wpbase_url . '/emoji/';
+        return $url;
+    }
+
+
+    /**
+     * set new wp-emoji-release.min.js CDN URL
+     * 
+     * @since 0.1.0
+     */
+
+    public function cdn_url_emoji_release_js($src, $name) {
+        global $wp_version;
+
+        if ( 'concatemoji' == $name ) {
+            $src = $this->statically_wpbase_url . "/c/$wp_version/wp-includes/js/wp-emoji-release.min.js";
+        }
+
+        return $src;
+    }
+
+
+    /**
+     * remove query strings from asset URL
+     *
+     * @since   0.1.0
+     * @change  0.1.0
+     *
+     * @param   string  $src  original asset URL
+     * @return  string  asset URL without query strings
+     */
+
+     public function remove_query_strings($src) {
+		if ( strpos( $src, '.css?' ) !== false || strpos( $src, '.js?' ) !== false ) {
+			$src = preg_replace( '/\?.*/', '', $src );
+		}
+
+		return $src;
     }
 
 
