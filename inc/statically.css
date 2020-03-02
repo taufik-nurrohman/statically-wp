@@ -70,3 +70,14 @@ body.settings_page_statically {
 .statically .form-table {
   margin-top: 1.1rem;
 }
+
+@media screen and (max-width: 600px) {
+  .statically header {
+    display: block;
+    text-align: center;
+  }
+
+  .statically nav ul {
+    justify-content: center;
+  }
+}
