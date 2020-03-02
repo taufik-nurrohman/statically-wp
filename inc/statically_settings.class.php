@@ -42,11 +42,17 @@ class Statically_Settings
 
     public static function validate_settings($data)
     {
+        if (!isset($data['emoji'])) {
+            $data['emoji'] = 0;
+        }
         if (!isset($data['relative'])) {
             $data['relative'] = 0;
         }
         if (!isset($data['https'])) {
             $data['https'] = 0;
+        }
+        if (!isset($data['query_strings'])) {
+            $data['query_strings'] = 0;
         }
         if (!isset($data['statically_api_key'])) {
             $data['statically_api_key'] = "";
@@ -56,8 +62,10 @@ class Statically_Settings
             'url'             => esc_url($data['url']),
             'dirs'            => esc_attr($data['dirs']),
             'excludes'        => esc_attr($data['excludes']),
+            'emoji'           => (int)($data['emoji']),
             'relative'        => (int)($data['relative']),
             'https'           => (int)($data['https']),
+            'query_strings'   => (int)($data['query_strings']),
             'statically_api_key'  => esc_attr($data['statically_api_key']),
         ];
     }
@@ -86,6 +94,25 @@ class Statically_Settings
 
 
     /**
+     * register plugin styles
+     * 
+     * @since 0.0.1
+     * @change 0.1.0
+     */
+
+    public function enqueue_styles() {
+        $current_screen = get_current_screen();
+
+        if ( strpos($current_screen->base, 'statically') === false) {
+            return;
+        }
+
+        // main css
+		wp_enqueue_style( 'statically', plugin_dir_url( __FILE__ ) . 'statically.css', array(), STATICALLY_VERSION );
+    }
+
+
+    /**
      * settings page
      *
      * @since   0.0.1
@@ -98,23 +125,20 @@ class Statically_Settings
     {
         $options = Statically::get_options();
 
-        wp_register_style( 'statically', plugin_dir_url( __FILE__ ) . 'statically.css', array(), STATICALLY_VERSION );
-		wp_enqueue_style( 'statically' );
-
       ?>
 
         <div class="statically wrap">
             <header>
                 <div class="logo">
-                    <a href="https://statically.io/" target="_blank" title="<?php _e('We optimize your WordPress site', 'statically'); ?>">
+                    <a href="https://statically.io/" target="_blank" title="<?php _e('Optimize your WordPress site', 'statically'); ?>">
                         <img src="<?php echo plugin_dir_url( __FILE__ ) . 'statically.svg'; ?>" />
                     </a>
                 </div>
 
                 <nav>
                     <ul>
-                        <li><a href="https://statically.io/contact" target="_blank"><?php _e('Help', 'statically'); ?></a></li>
-                        <li><a href="https://twitter.com/staticallyio" target="_blank"><i class="dashicons dashicons-twitter"></i></a></li>
+                        <li><a href="https://wordpress.org/support/plugin/statically/" target="_blank"><?php _e('Help', 'statically'); ?></a></li>
+                        <li><a href="https://twitter.com/staticallyio" target="_blank" title="Follow @staticallyio on Twitter"><i class="dashicons dashicons-twitter"></i></a></li>
                     </ul>
                 </nav>
             </header>
@@ -137,7 +161,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e("Enter the CDN URL without trailing", "statically"); ?> <code>/</code>
+                                    <?php _e("Enter the CDN URL without trailing slash", "statically"); ?>. <?php _e('The format is', 'statically'); ?> <code>https://cdn.statically.io/sites/:domain</code>
                                 </p>
                             </fieldset>
                         </td>
@@ -154,7 +178,7 @@ class Statically_Settings
                                </label>
 
                                <p class="description">
-                                   <?php _e('Statically API key to make this plugin working. <a href="https://statically.io/wordpress" target="_blank">Get one here</a>.', "statically"); ?>
+                                   <?php _e('Statically API key to make this plugin working &#8212; <a href="https://statically.io/wordpress" target="_blank">Get one here</a>', "statically"); ?>
                                </p>
                             </fieldset>
                        </td>
@@ -204,7 +228,7 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_images">
                                     <input type="checkbox" name="statically[images]" id="statically_images" value="1" checked="checked" disabled />
-                                    <?php _e("Automatically enabled for maximal performance of your image files.", "statically"); ?>
+                                    <?php _e("Automatically enabled for maximum performance of your image files.", "statically"); ?>
                                 </label>
                             </fieldset>
                         </td>
@@ -218,7 +242,21 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_minifications">
                                     <input type="checkbox" name="statically[minifications]" id="statically_minifications" value="1" checked="checked" disabled />
-                                    <?php _e("Automatically enabled for maximal performance of your static assets.", "statically"); ?>
+                                    <?php _e("Automatically enabled for maximum performance of your static assets.", "statically"); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e("Emoji CDN", "statically"); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_emoji">
+                                    <input type="checkbox" name="statically[emoji]" id="statically_emoji" value="1" <?php checked(1, $options['emoji']) ?> />
+                                    <?php _e("Replace the default WordPress emoji CDN with Statically (default: enabled).", "statically"); ?>
                                 </label>
                             </fieldset>
                         </td>
@@ -248,6 +286,24 @@ class Statically_Settings
                                    <input type="checkbox" name="statically[https]" id="statically_https" value="1" <?php checked(1, $options['https']) ?> />
                                    <?php _e("Enable CDN for HTTPS connections (default: enabled).", "statically"); ?>
                                </label>
+                           </fieldset>
+                       </td>
+                    </tr>
+
+                    <tr valign="top">
+                       <th scope="row">
+                           <?php _e("Remove Query Strings", "statically"); ?>
+                       </th>
+                       <td>
+                           <fieldset>
+                               <label for="statically_query_strings">
+                                   <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
+                                   <?php _e("Strip query strings such as <code>?ver=1.0</code> from assets.", "statically"); ?>
+                               </label>
+
+                               <p class="description">
+                                   <?php _e('Because Statically ignores query strings when downloading content from your site, it is recommended to leave this enabled.', 'statically'); ?>
+                               </p>
                            </fieldset>
                        </td>
                     </tr>
