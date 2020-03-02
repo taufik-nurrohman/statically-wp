@@ -25,6 +25,8 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 * Set included directories.
 * Define exclusions (directories or extensions).
 * Enable or disable for HTTPS.
+* Use Statically as the main emoji CDN.
+* Remove query string from assets.
 
 #### BENEFITS
 
@@ -52,6 +54,12 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 3. Access the plugin settings from the "Settings" menu.
 
 == Changelog ==
+
+= 0.1.0 =
+* First minor release
+* Changed the default emoji CDN URL with Statically
+* Added query strings remover
+* Loads jquery-core, jquery-migrate, dashicons, and wp-block-library from Statically Libs
 
 = 0.0.1 =
 * First release
