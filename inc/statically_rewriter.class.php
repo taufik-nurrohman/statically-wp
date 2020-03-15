@@ -9,14 +9,18 @@
 class Statically_Rewriter
 {
     var $blog_url       = null;     // origin URL
-    var $cdn_url        = null;     // CDN URL
+    var $cdn_url        = null;     // Zone URL
 
     var $dirs           = null;     // included directories
     var $excludes       = [];       // excludes
+    var $quality        = null;     // set image quality
+    var $size           = null;     // set image size
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
     var $query_strings  = false;    // remove query strings from assets
+
     var $statically_api_key = null; // required API key for Statically
+    var $statically_cdn_url = 'https://cdn.statically.io'; // Statically CDN URL
     var $statically_wpbase_url = 'https://cdn.statically.io/wp'; // Statically Libs for WP
 
     /**
@@ -31,6 +35,8 @@ class Statically_Rewriter
         $cdn_url,
         $dirs,
         array $excludes,
+        $quality,
+        $size,
         $emoji,
         $relative,
         $https,
@@ -41,6 +47,8 @@ class Statically_Rewriter
         $this->cdn_url        = $cdn_url;
         $this->dirs           = $dirs;
         $this->excludes       = $excludes;
+        $this->quality        = $quality;
+        $this->size           = $size;
         $this->emoji          = $emoji;
         $this->relative       = $relative;
         $this->https          = $https;
@@ -48,16 +56,16 @@ class Statically_Rewriter
         $this->statically_api_key = $statically_api_key;
 
         // remove query strings
-        if($this->query_strings) {
-            add_filter( 'style_loader_src', [$this, 'remove_query_strings'], 999 );
-            add_filter( 'script_loader_src', [$this, 'remove_query_strings'], 999 );
+        if ( $this->query_strings ) {
+            add_filter( 'style_loader_src', [ $this, 'remove_query_strings' ], 999 );
+            add_filter( 'script_loader_src', [ $this, 'remove_query_strings' ], 999 );
         }
 
         // replace default WordPress emoji CDN with Statically
-        if($this->emoji) {
-            add_filter( 'emoji_svg_url', [$this, 'cdn_url_emoji'], 999 );
-            add_filter( 'emoji_url', [$this, 'cdn_url_emoji'], 999 );
-            add_filter( 'script_loader_src', [$this, 'cdn_url_emoji_release_js'], 10, 2 );
+        if ( $this->emoji ) {
+            add_filter( 'emoji_svg_url', [ $this, 'cdn_url_emoji' ], 999 );
+            add_filter( 'emoji_url', [ $this, 'cdn_url_emoji' ], 999 );
+            add_filter( 'script_loader_src', [ $this, 'cdn_url_emoji_release_js' ], 10, 2 );
         }
 
         $this->_deregister_styles();
@@ -75,10 +83,10 @@ class Statically_Rewriter
      * @return  boolean  true if need to be excluded
      */
 
-    protected function exclude_asset(&$asset) {
+    protected function exclude_asset( &$asset ) {
         // excludes
-        foreach ($this->excludes as $exclude) {
-            if (!!$exclude && stristr($asset, $exclude) != false) {
+        foreach ( $this->excludes as $exclude ) {
+            if ( !!$exclude && stristr( $asset, $exclude ) != false ) {
                 return true;
             }
         }
@@ -95,8 +103,8 @@ class Statically_Rewriter
      * @param   string  $url a full url
      * @return  string  protocol relative url
      */
-    protected function relative_url($url) {
-        return substr($url, strpos($url, '//'));
+    protected function relative_url( $url ) {
+        return substr( $url, strpos( $url, '//' ) );
     }
 
 
@@ -110,42 +118,105 @@ class Statically_Rewriter
      * @return  string  updated url if not excluded
      */
 
-    protected function rewrite_url(&$asset) {
-        if ($this->exclude_asset($asset[0])) {
+    protected function rewrite_url( &$asset ) {
+        if ( $this->exclude_asset( $asset[0]) ) {
             return $asset[0];
         }
 
         // Don't rewrite if in preview mode
         if ( is_admin_bar_showing()
-                and array_key_exists('preview', $_GET)
-                and $_GET['preview'] == 'true' )
+                && array_key_exists( 'preview', $_GET )
+                && $_GET['preview'] == 'true' )
         {
             return $asset[0];
         }
 
-        $blog_url = $this->relative_url($this->blog_url);
+        $cdn_url = $this->cdn_url;
+        $blog_url = $this->relative_url( $this->blog_url );
         $subst_urls = [ 'http:'.$blog_url ];
 
         // rewrite both http and https URLs if we ticked 'enable CDN for HTTPS connections'
-        if ($this->https) {
+        if ( $this->https ) {
             $subst_urls = [
                 'http:'.$blog_url,
                 'https:'.$blog_url,
             ];
         }
 
+        // check if it is an image
+        if ( preg_match( '/.(bmp|gif|jpe?g|png|webp)/', $asset[0] ) ) {
+            // if image quality is set
+            if ( $this->quality !== 0 && $this->size === 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . '/q=' . $this->quality, $asset[0] );
+            }
+
+            // if image size is set
+            if ( $this->quality === 0 && $this->size !== 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . '/w=' . $this->size, $asset[0] );
+            }
+
+            // if both image quality and size are set
+            if ( $this->quality !== 0 && $this->size !== 0 ) {
+                $asset[0] = str_replace(
+                    $blog_url, $blog_url . '/q=' . $this->quality . ',w=' . $this->size, $asset[0]
+                );
+            }
+
+            // for relative URL when image quality is set
+            if ( $this->relative
+                    && !strstr( $asset[0], $blog_url )
+                    && $this->quality !== 0
+                    && $this->size === 0 )
+            {
+                $asset[0] = str_replace( $asset[0], '/q=' . $this->quality . $asset[0], $asset[0] );
+            }
+
+            // for relative URL when image size is set
+            if ( $this->relative
+                    && !strstr( $asset[0], $blog_url )
+                    && $this->quality === 0
+                    && $this->size !== 0 )
+            {
+                $asset[0] = str_replace( $asset[0], '/w=' . $this->size . $asset[0], $asset[0] );
+            }
+
+            // for relative URL when both image quality and size are set
+            if ( $this->relative
+                    && !strstr( $asset[0], $blog_url )
+                    && $this->quality !== 0
+                    && $this->size !== 0 )
+            {
+                $asset[0] = str_replace(
+                    $asset[0], '/q=' . $this->quality . ',w=' . $this->size . $asset[0], $asset[0]
+                );
+            }
+
+            // use /img/
+            $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
+
+            // if it's a custom domain
+            if ( !preg_match( '/cdn.statically.io/', $this->cdn_url ) ) {
+                $cdn_url = $cdn_url . '/statically/img';
+            }
+        }
+
+        // SVG image
+        if ( preg_match( '/.svg/', $asset[0] ) ) {
+            $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
+        }
+
         // is it a protocol independent URL?
-        if (strpos($asset[0], '//') === 0) {
-            return str_replace($blog_url, $this->cdn_url, $asset[0]);
+        if ( strpos( $asset[0], '//' ) === 0 ) {
+            return str_replace( $blog_url, $cdn_url, $asset[0] );
         }
 
         // check if not a relative path
-        if (!$this->relative || strstr($asset[0], $blog_url)) {
-            return str_replace($subst_urls, $this->cdn_url, $asset[0]);
+        if ( !$this->relative || strstr( $asset[0], $blog_url ) ) {
+            return str_replace( $subst_urls, $cdn_url, $asset[0] );
         }
 
         // relative URL
-        return $this->cdn_url . $asset[0];
+        return $cdn_url . $asset[0];
     }
 
 
@@ -159,14 +230,14 @@ class Statically_Rewriter
      */
 
     protected function get_dir_scope() {
-        $input = explode(',', $this->dirs);
+        $input = explode( ',', $this->dirs );
 
         // default
-        if ($this->dirs == '' || count($input) < 1) {
+        if ( $this->dirs == '' || count( $input ) < 1 ) {
             return 'wp\-content|wp\-includes';
         }
 
-        return implode('|', array_map('quotemeta', array_map('trim', $input)));
+        return implode( '|', array_map( 'quotemeta', array_map( 'trim', $input ) ) );
     }
 
 
@@ -196,7 +267,7 @@ class Statically_Rewriter
      * @since 0.1.0
      */
 
-     private function _deregister_scripts() {
+    private function _deregister_scripts() {
         global $wp_version;
 
         $jq_v = '1.12.4';
@@ -219,7 +290,7 @@ class Statically_Rewriter
      */
 
     public function cdn_url_emoji() {
-        $url = $this->statically_wpbase_url . '/emoji/';
+        $url = $this->statically_cdn_url . '/twemoji/';
         return $url;
     }
 
@@ -230,7 +301,7 @@ class Statically_Rewriter
      * @since 0.1.0
      */
 
-    public function cdn_url_emoji_release_js($src, $name) {
+    public function cdn_url_emoji_release_js( $src, $name ) {
         global $wp_version;
 
         if ( 'concatemoji' == $name ) {
@@ -251,7 +322,7 @@ class Statically_Rewriter
      * @return  string  asset URL without query strings
      */
 
-     public function remove_query_strings($src) {
+    public function remove_query_strings( $src ) {
 		if ( strpos( $src, '.css?' ) !== false || strpos( $src, '.js?' ) !== false ) {
 			$src = preg_replace( '/\?.*/', '', $src );
 		}
@@ -270,23 +341,23 @@ class Statically_Rewriter
      * @return  string  updated HTML doc with CDN links
      */
 
-    public function rewrite($html) {
+    public function rewrite( $html ) {
         // check if HTTPS and use CDN over HTTPS enabled
-        if (!$this->https && isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') {
+        if ( !$this->https && isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == 'on' ) {
             return $html;
         }
 
         // get dir scope in regex format
         $dirs = $this->get_dir_scope();
         $blog_url = $this->https
-            ? '(https?:|)'.$this->relative_url(quotemeta($this->blog_url))
-            : '(http:|)'.$this->relative_url(quotemeta($this->blog_url));
+            ? '(https?:|)'.$this->relative_url( quotemeta( $this->blog_url ) )
+            : '(http:|)'.$this->relative_url( quotemeta( $this->blog_url ) );
 
         // regex rule start
         $regex_rule = '#(?<=[(\"\'])';
 
         // check if relative paths
-        if ($this->relative) {
+        if ( $this->relative ) {
             $regex_rule .= '(?:'.$blog_url.')?';
         } else {
             $regex_rule .= $blog_url;
@@ -296,7 +367,7 @@ class Statically_Rewriter
         $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
 
         // call the cdn rewriter callback
-        $cdn_html = preg_replace_callback($regex_rule, [$this, 'rewrite_url'], $html);
+        $cdn_html = preg_replace_callback( $regex_rule, [$this, 'rewrite_url'], $html );
 
         return $cdn_html;
     }

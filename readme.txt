@@ -3,7 +3,7 @@
 Contributors: statically, fransallen
 Tags: optimization, minification, cdn, content delivery network
 Requires at least: 4.6
-Requires PHP: 5.6
+Requires PHP: 7.2
 Tested up to: 5.4
 Stable tag: trunk
 License: GPLv2 or later

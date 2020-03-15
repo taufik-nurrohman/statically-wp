@@ -79,7 +79,7 @@ class Statically
             ]
         );
         add_filter(
-            'plugin_action_links_' .STATICALLY_BASE,
+            'plugin_action_links_' . STATICALLY_BASE,
             [
                 __CLASS__,
                 'add_action_link',
@@ -109,7 +109,7 @@ class Statically
 
     public static function add_action_link($data) {
         // check permission
-        if ( ! current_user_can('manage_options') ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
             return $data;
         }
 
@@ -122,7 +122,7 @@ class Statically
                         [
                             'page' => 'statically',
                         ],
-                        admin_url('options-general.php')
+                        admin_url( 'options-general.php' )
                     ),
                     __("Settings")
                 ),
@@ -139,7 +139,7 @@ class Statically
      */
 
     public static function handle_uninstall_hook() {
-        delete_option('statically');
+        delete_option( 'statically' );
     }
 
 
@@ -154,9 +154,11 @@ class Statically
         add_option(
             'statically',
             [
-                'url'            => 'https://cdn.statically.io/sites/' . parse_url(get_option('home'), PHP_URL_HOST),
+                'url'            => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
                 'dirs'           => 'wp-content,wp-includes',
                 'excludes'       => '.php',
+                'quality'        => '0',
+                'size'           => '0',
                 'emoji'          => '1',
                 'relative'       => '1',
                 'https'          => '1',
@@ -176,12 +178,12 @@ class Statically
 
     public static function statically_requirements_check() {
         // WordPress version check
-        if ( version_compare($GLOBALS['wp_version'], STATICALLY_MIN_WP.'alpha', '<') ) {
+        if ( version_compare( $GLOBALS['wp_version'], STATICALLY_MIN_WP.'alpha', '<') ) {
             show_message(
                 sprintf(
                     '<div class="error"><p>%s</p></div>',
                     sprintf(
-                        __("Statically is optimized for WordPress %s. Please disable the plugin or upgrade your WordPress installation (recommended).", "statically"),
+                        __( "Statically is optimized for WordPress %s. Please disable the plugin or upgrade your WordPress installation (recommended).", "statically" ),
                         STATICALLY_MIN_WP
                     )
                 )
@@ -217,11 +219,13 @@ class Statically
 
     public static function get_options() {
         return wp_parse_args(
-            get_option('statically'),
+            get_option( 'statically' ),
             [
-                'url'             => 'https://cdn.statically.io/sites/' . parse_url(get_option('home'), PHP_URL_HOST),
+                'url'             => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
                 'dirs'            => 'wp-content,wp-includes',
                 'excludes'        => '.php',
+                'quality'         => '0',
+                'size'            => '0',
                 'emoji'           => 1,
                 'relative'        => 1,
                 'https'           => 1,
@@ -243,13 +247,15 @@ class Statically
     public static function get_rewriter() {
         $options = self::get_options();
 
-        $excludes = array_map('trim', explode(',', $options['excludes']));
+        $excludes = array_map( 'trim', explode( ',', $options['excludes'] ) );
 
         return new Statically_Rewriter(
-            get_option('home'),
+            get_option( 'home' ),
             $options['url'],
             $options['dirs'],
             $excludes,
+            $options['quality'],
+            $options['size'],
             $options['emoji'],
             $options['relative'],
             $options['https'],
@@ -270,18 +276,18 @@ class Statically
         $options = self::get_options();
 
         // check if origin equals cdn url
-        if (get_option('home') == $options['url']) {
+        if ( get_option( 'home' ) == $options['url'] ) {
             return;
         }
 
         // check if Statically API Key is set before start rewriting
-        if (! array_key_exists('statically_api_key', $options)
-              or strlen($options['statically_api_key'] ) < 32 ) {
+        if ( ! array_key_exists( 'statically_api_key', $options )
+              || strlen( $options['statically_api_key'] ) < 32 ) {
             return;
         }
 
         $rewriter = self::get_rewriter();
-        ob_start(array(&$rewriter, 'rewrite'));
+        ob_start( array( &$rewriter, 'rewrite' ) );
     }
 
 
@@ -292,9 +298,9 @@ class Statically
      * @change  0.0.1
      */
 
-    public static function rewrite_the_content($html) {
+    public static function rewrite_the_content( $html ) {
         $rewriter = self::get_rewriter();
-        return $rewriter->rewrite($html);
+        return $rewriter->rewrite( $html );
     }
 
 }
