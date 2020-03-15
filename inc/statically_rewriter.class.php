@@ -112,7 +112,7 @@ class Statically_Rewriter
      * rewrite url
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.2.0
      *
      * @param   string  $asset  current asset
      * @return  string  updated url if not excluded
