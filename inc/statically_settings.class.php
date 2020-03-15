@@ -42,19 +42,19 @@ class Statically_Settings
 
     public static function validate_settings( $data )
     {
-        if ( !isset( $data['emoji'] ) ) {
+        if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
-        if ( !isset( $data['relative'] ) ) {
+        if ( ! isset( $data['relative'] ) ) {
             $data['relative'] = 0;
         }
-        if ( !isset( $data['https'] ) ) {
+        if ( ! isset( $data['https'] ) ) {
             $data['https'] = 0;
         }
-        if ( !isset( $data['query_strings'] ) ) {
+        if ( ! isset( $data['query_strings'] ) ) {
             $data['query_strings'] = 0;
         }
-        if ( !isset( $data['statically_api_key'] ) ) {
+        if ( ! isset( $data['statically_api_key'] ) ) {
             $data['statically_api_key'] = '';
         }
 
