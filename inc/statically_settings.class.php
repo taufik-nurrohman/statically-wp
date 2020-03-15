@@ -248,7 +248,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set maximum quality for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set the maximum quality for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -266,7 +266,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set allowed maximum size for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set the maximum size for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
