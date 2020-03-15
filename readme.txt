@@ -22,11 +22,14 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 #### FEATURES
 
 * Link assets to load from the Statically CDN.
+* Set image quality.
+* Set image size.
+* Custom domain support.
+* Use Statically as the main emoji CDN.
+* Enable or disable for HTTPS.
+* Remove query string from assets.
 * Set included directories.
 * Define exclusions (directories or extensions).
-* Enable or disable for HTTPS.
-* Use Statically as the main emoji CDN.
-* Remove query string from assets.
 
 #### BENEFITS
 
@@ -54,6 +57,11 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 3. Access the plugin settings from the "Settings" menu.
 
 == Changelog ==
+
+= 0.2.0 =
+* Added image quality and size options
+* Improve URL rewriter
+* Custom domain support
 
 = 0.1.0 =
 * First minor release
