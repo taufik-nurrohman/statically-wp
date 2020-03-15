@@ -86,7 +86,7 @@ class Statically_Rewriter
     protected function exclude_asset( &$asset ) {
         // excludes
         foreach ( $this->excludes as $exclude ) {
-            if ( !!$exclude && stristr( $asset, $exclude ) != false ) {
+            if ( !! $exclude && stristr( $asset, $exclude ) != false ) {
                 return true;
             }
         }
@@ -164,7 +164,7 @@ class Statically_Rewriter
 
             // for relative URL when image quality is set
             if ( $this->relative
-                    && !strstr( $asset[0], $blog_url )
+                    && ! strstr( $asset[0], $blog_url )
                     && $this->quality !== 0
                     && $this->size === 0 )
             {
@@ -182,7 +182,7 @@ class Statically_Rewriter
 
             // for relative URL when both image quality and size are set
             if ( $this->relative
-                    && !strstr( $asset[0], $blog_url )
+                    && ! strstr( $asset[0], $blog_url )
                     && $this->quality !== 0
                     && $this->size !== 0 )
             {
@@ -195,7 +195,7 @@ class Statically_Rewriter
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if it's a custom domain
-            if ( !preg_match( '/cdn.statically.io/', $this->cdn_url ) ) {
+            if ( ! preg_match( '/cdn.statically.io/', $this->cdn_url ) ) {
                 $cdn_url = $cdn_url . '/statically/img';
             }
         }
@@ -211,7 +211,7 @@ class Statically_Rewriter
         }
 
         // check if not a relative path
-        if ( !$this->relative || strstr( $asset[0], $blog_url ) ) {
+        if ( ! $this->relative || strstr( $asset[0], $blog_url ) ) {
             return str_replace( $subst_urls, $cdn_url, $asset[0] );
         }
 
@@ -343,7 +343,7 @@ class Statically_Rewriter
 
     public function rewrite( $html ) {
         // check if HTTPS and use CDN over HTTPS enabled
-        if ( !$this->https && isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == 'on' ) {
+        if ( ! $this->https && isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == 'on' ) {
             return $html;
         }
 
