@@ -352,7 +352,7 @@ class Statically_Settings
                         </th>
                         <td>
                             <fieldset>
-                                <label for="statically_relative">
+                                <label for="statically_purge">
                                     <?php _e( 'Coming soon! While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
                                 </label>
                             </fieldset>
