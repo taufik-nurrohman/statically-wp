@@ -195,7 +195,9 @@ class Statically_Rewriter
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if it's a custom domain
-            if ( ! preg_match( '/cdn.statically.io/', $this->cdn_url ) ) {
+            if ( ! preg_match( '/cdn.statically.io/', $this->cdn_url )
+					&& ( $this->quality !== 0 || $this->size !== 0 ) )
+			{
                 $cdn_url = $cdn_url . '/statically/img';
             }
         }
