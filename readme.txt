@@ -58,6 +58,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.2.1 =
+* Improve custom domain support
+
 = 0.2.0 =
 * Added image quality and size options
 * Improve URL rewriter
