@@ -144,7 +144,7 @@ class Statically_Rewriter
         }
 
         // check if it is an image
-        if ( preg_match( '/.(bmp|gif|jpe?g|png|webp)/', $asset[0] ) ) {
+        if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/', $asset[0] ) ) {
             // if image quality is set
             if ( $this->quality !== 0 && $this->size === 0 ) {
                 $asset[0] = str_replace( $blog_url, $blog_url . '/q=' . $this->quality, $asset[0] );
@@ -203,7 +203,7 @@ class Statically_Rewriter
         }
 
         // SVG image
-        if ( preg_match( '/.svg/', $asset[0] ) ) {
+        if ( preg_match( '/\.svg/', $asset[0] ) ) {
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
         }
 
