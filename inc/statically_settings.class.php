@@ -54,6 +54,9 @@ class Statically_Settings
         if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
+        if ( ! isset( $data['og'] ) ) {
+            $data['og'] = 0;
+        }
         if ( ! isset( $data['relative'] ) ) {
             $data['relative'] = 0;
         }
@@ -76,6 +79,7 @@ class Statically_Settings
             'height'          => (int)( $data['height'] ),
             'webp'            => (int)( $data['webp'] ),
             'emoji'           => (int)( $data['emoji'] ),
+            'og'              => (int)( $data['og'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
             'query_strings'   => (int)( $data['query_strings'] ),
@@ -336,6 +340,24 @@ class Statically_Settings
                                     <input type="checkbox" name="statically[emoji]" id="statically_emoji" value="1" <?php checked(1, $options['emoji']) ?> />
                                     <?php _e( 'Replace the default WordPress emoji CDN with Statically. Default: <code>ON</code>', 'statically' ); ?>
                                 </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Open Graph Image', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_og">
+                                    <input type="checkbox" name="statically[og]" id="statically_og" value="1" <?php checked(1, $options['og']) ?> />
+                                    <?php _e( 'Add automatic Open Graph Image. Default: <code>OFF</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'When there is no feature image set, create an image from the page title with the Statically OG Image service and use it as your site\'s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
+                                </p>
                             </fieldset>
                         </td>
                     </tr>

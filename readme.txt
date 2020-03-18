@@ -9,7 +9,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Free CDN to optimize your static assets such as images, CSS or JavaScript files.
+The all-in-one solution for your WordPress static asset delivery.
 
 == Description ==
 
@@ -22,10 +22,11 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 #### FEATURES
 
 * Link assets to load from the Statically CDN.
-* Set image quality.
-* Set image size.
+* Image resizing.
+* Adjust image compression level.
 * Custom domain support.
 * Use Statically as the main emoji CDN.
+* Enable automatic Open Graph Image service.
 * Enable or disable for HTTPS.
 * Remove query string from assets.
 * Set included directories.
@@ -36,6 +37,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 * Speeds up your site by serving assets from Statically Multi-CDN infrastructure.
 * Accelerate the delivery of your image files and add transformation capabilities.
 * Minify CSS or JavaScript files, on-the-fly.
+* Save storage by serving post featured images with Statically OG Image service.
 
 #### CONTRIBUTE
 
@@ -58,8 +60,11 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.4.0 =
+* Option to enable OG Image service
+
 = 0.3.0 =
-* Option to enable and disable Auto-WebP
+* Option to enable and disable auto-WebP
 
 = 0.2.2 =
 * Improve Statically Images regex

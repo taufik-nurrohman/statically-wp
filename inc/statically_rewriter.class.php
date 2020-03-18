@@ -17,6 +17,7 @@ class Statically_Rewriter
     var $width          = null;     // set image width
     var $height         = null;     // set image height
     var $webp           = null;     // enable WebP
+    var $emoji          = null;     // set emoji CDN
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
     var $query_strings  = false;    // remove query strings from assets
@@ -42,6 +43,7 @@ class Statically_Rewriter
         $height,
         $webp,
         $emoji,
+        $og,
         $relative,
         $https,
         $query_strings,
@@ -56,22 +58,28 @@ class Statically_Rewriter
         $this->height         = $height;
         $this->webp           = $webp;
         $this->emoji          = $emoji;
+        $this->og             = $og;
         $this->relative       = $relative;
         $this->https          = $https;
         $this->query_strings  = $query_strings;
         $this->statically_api_key = $statically_api_key;
 
         // remove query strings
-        if ( $this->query_strings ) {
+        if ( $this->query_strings !== 0 ) {
             add_filter( 'style_loader_src', [ $this, 'remove_query_strings' ], 999 );
             add_filter( 'script_loader_src', [ $this, 'remove_query_strings' ], 999 );
         }
 
         // replace default WordPress emoji CDN with Statically
-        if ( $this->emoji ) {
+        if ( $this->emoji !== 0 ) {
             add_filter( 'emoji_svg_url', [ $this, 'cdn_url_emoji' ], 999 );
             add_filter( 'emoji_url', [ $this, 'cdn_url_emoji' ], 999 );
             add_filter( 'script_loader_src', [ $this, 'cdn_url_emoji_release_js' ], 10, 2 );
+        }
+
+        // OG image service
+        if ( $this->og !== 0 ) {
+            add_action( 'wp_head', [ $this, 'og_image' ], 1 );
         }
 
         $this->_deregister_styles();
@@ -346,6 +354,25 @@ class Statically_Rewriter
 		}
 
 		return $src;
+    }
+
+
+    /**
+     * generate OG image
+     * 
+     * @since   0.4.0
+     * @change  0.4.0
+     */
+
+    public function og_image() {
+        if ( ! has_post_thumbnail() ) {
+            $url = $this->statically_cdn_url . '/og/';
+            $text = rawurlencode( get_the_title() );
+            $og = '<meta property="og:image" content="' . $url . $text . '.png" />' . "\n";
+            $og .= '<meta name="twitter:image" content="' . $url . $text . '.png" />' . "\n";
+
+            echo $og;
+        }
     }
 
 

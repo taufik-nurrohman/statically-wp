@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Statically
  * Plugin URI:  https://statically.io/wordpress
- * Description: Free CDN to optimize your static assets such as images, CSS or JavaScript files.
- * Version:     0.3.0
+ * Description: The all-in-one solution for your WordPress static asset delivery.
+ * Version:     0.4.0
  * Author:      Statically
  * Author URI:  https://statically.io
  * License:     GPLv2 or later
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) OR exit;
 
 
 /* constants */
-define( 'STATICALLY_VERSION', '0.3.0' );
+define( 'STATICALLY_VERSION', '0.4.0' );
 define( 'STATICALLY_FILE', __FILE__ );
 define( 'STATICALLY_DIR', dirname( __FILE__ ) );
 define( 'STATICALLY_BASE', plugin_basename( __FILE__ ) );
