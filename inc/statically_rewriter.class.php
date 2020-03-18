@@ -378,6 +378,7 @@ class Statically_Rewriter
             }
 
             $og = '<meta property="og:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
+            $og .= '<meta property="og:image:secure_url" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
             $og .= '<meta name="twitter:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
 
             echo $og;
