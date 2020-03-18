@@ -352,7 +352,7 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_og">
                                     <input type="checkbox" name="statically[og]" id="statically_og" value="1" <?php checked(1, $options['og']) ?> />
-                                    <?php _e( 'Add automatic Open Graph Image. Default: <code>OFF</code>', 'statically' ); ?>
+                                    <?php _e( 'Enable automatic Open Graph Image service. Default: <code>OFF</code>', 'statically' ); ?>
                                 </label>
 
                                 <p class="description">
