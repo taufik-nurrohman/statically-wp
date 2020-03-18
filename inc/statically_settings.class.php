@@ -245,7 +245,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Optimize all images via CDN. Add capabilities to compress and resize. This also minify SVG files. Configure setting below to set different quality or size.', 'statically' ); ?>
+                                    <?php _e( 'Optimize all images via CDN. Add the ability to compress and resize. It also minimizes SVG files. Configure the settings below to set a different quality or size.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -263,7 +263,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set desired compression rate for all images.  Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set the compression rate for all images.  Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -282,7 +282,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set desired maximum width for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set the maximum width for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
 
                                 <label for="statically_height">
@@ -292,7 +292,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set desired maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set the maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
