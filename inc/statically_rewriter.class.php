@@ -367,9 +367,18 @@ class Statically_Rewriter
     public function og_image() {
         if ( ! has_post_thumbnail() ) {
             $url = $this->statically_cdn_url . '/og/';
-            $text = rawurlencode( get_the_title() );
-            $og = '<meta property="og:image" content="' . $url . $text . '.png" />' . "\n";
-            $og .= '<meta name="twitter:image" content="' . $url . $text . '.png" />' . "\n";
+            $text = get_the_title();
+
+            if ( is_home() ) {
+                $text = get_bloginfo( 'name' );
+            }
+
+            if ( strlen( $text ) === 0 ) {
+                return;
+            }
+
+            $og = '<meta property="og:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
+            $og .= '<meta name="twitter:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
 
             echo $og;
         }
