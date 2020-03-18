@@ -14,7 +14,9 @@ class Statically_Rewriter
     var $dirs           = null;     // included directories
     var $excludes       = [];       // excludes
     var $quality        = null;     // set image quality
-    var $size           = null;     // set image size
+    var $width          = null;     // set image width
+    var $height         = null;     // set image height
+    var $webp           = null;     // enable WebP
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
     var $query_strings  = false;    // remove query strings from assets
@@ -36,7 +38,9 @@ class Statically_Rewriter
         $dirs,
         array $excludes,
         $quality,
-        $size,
+        $width,
+        $height,
+        $webp,
         $emoji,
         $relative,
         $https,
@@ -48,7 +52,9 @@ class Statically_Rewriter
         $this->dirs           = $dirs;
         $this->excludes       = $excludes;
         $this->quality        = $quality;
-        $this->size           = $size;
+        $this->width          = $width;
+        $this->height         = $height;
+        $this->webp           = $webp;
         $this->emoji          = $emoji;
         $this->relative       = $relative;
         $this->https          = $https;
@@ -112,7 +118,7 @@ class Statically_Rewriter
      * rewrite url
      *
      * @since   0.0.1
-     * @change  0.2.0
+     * @change  0.3.0
      *
      * @param   string  $asset  current asset
      * @return  string  updated url if not excluded
@@ -145,50 +151,52 @@ class Statically_Rewriter
 
         // check if it is an image
         if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/', $asset[0] ) ) {
-            // if image quality is set
-            if ( $this->quality !== 0 && $this->size === 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . '/q=' . $this->quality, $asset[0] );
+            // if image quality is ON
+            if ( $this->quality !== 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . ',q=' . $this->quality, $asset[0] );
             }
 
-            // if image size is set
-            if ( $this->quality === 0 && $this->size !== 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . '/w=' . $this->size, $asset[0] );
+            // if image height is ON
+            if ( $this->height !== 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . ',h=' . $this->height, $asset[0] );
             }
 
-            // if both image quality and size are set
-            if ( $this->quality !== 0 && $this->size !== 0 ) {
-                $asset[0] = str_replace(
-                    $blog_url, $blog_url . '/q=' . $this->quality . ',w=' . $this->size, $asset[0]
-                );
+            // if image width is ON
+            if ( $this->width !== 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . ',w=' . $this->width, $asset[0] );
             }
 
-            // for relative URL when image quality is set
-            if ( $this->relative
-                    && ! strstr( $asset[0], $blog_url )
-                    && $this->quality !== 0
-                    && $this->size === 0 )
-            {
-                $asset[0] = str_replace( $asset[0], '/q=' . $this->quality . $asset[0], $asset[0] );
+            // if image auto-webp is ON
+            if ( $this->webp !== 0 ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . '/f=auto', $asset[0] );
+            } else {
+                $asset[0] = str_replace( $blog_url . ',', $blog_url . '/', $asset[0] );
             }
 
-            // for relative URL when image size is set
-            if ( $this->relative
-                    && !strstr( $asset[0], $blog_url )
-                    && $this->quality === 0
-                    && $this->size !== 0 )
-            {
-                $asset[0] = str_replace( $asset[0], '/w=' . $this->size . $asset[0], $asset[0] );
+            // for relative URL when image quality is ON
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->quality !== 0 ) {
+                $asset[0] = str_replace( $asset[0], ',q=' . $this->quality . $asset[0], $asset[0] );
             }
 
-            // for relative URL when both image quality and size are set
-            if ( $this->relative
-                    && ! strstr( $asset[0], $blog_url )
-                    && $this->quality !== 0
-                    && $this->size !== 0 )
-            {
-                $asset[0] = str_replace(
-                    $asset[0], '/q=' . $this->quality . ',w=' . $this->size . $asset[0], $asset[0]
-                );
+            // for relative URL when image height is ON
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->height !== 0 ) {
+                $asset[0] = str_replace( $asset[0], ',h=' . $this->height . $asset[0], $asset[0] );
+            }
+
+            // for relative URL when image width is ON
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->width !== 0 ) {
+                $asset[0] = str_replace( $asset[0], ',w=' . $this->width . $asset[0], $asset[0] );
+            }
+
+            // for relative URL when image auto-webp is ON
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->webp !== 0 ) {
+                $asset[0] = str_replace( $asset[0], '/f=auto' . $asset[0], $asset[0] );
+            }
+
+            // for relative URL when image auto-webp is OFF
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->webp === 0 ) {
+                $asset[0] = substr($asset[0], strpos($asset[0], ',') + 1);
+                $asset[0] = '/' . $asset[0];
             }
 
             // use /img/
@@ -196,7 +204,7 @@ class Statically_Rewriter
 
             // if it's a custom domain
             if ( ! preg_match( '/cdn.statically.io/', $this->cdn_url )
-					&& ( $this->quality !== 0 || $this->size !== 0 ) )
+					&& ( $this->quality !== 0 || $this->width !== 0 ) )
 			{
                 $cdn_url = $cdn_url . '/statically/img';
             }
@@ -246,7 +254,8 @@ class Statically_Rewriter
     /**
      * register new style URL
      * 
-     * @since 0.1.0
+     * @since   0.1.0
+     * @change  0.1.0
      */
 
     private function _deregister_styles() {
@@ -266,7 +275,8 @@ class Statically_Rewriter
     /**
      * register new script URL
      * 
-     * @since 0.1.0
+     * @since   0.1.0
+     * @change  0.3.0
      */
 
     private function _deregister_scripts() {
@@ -282,13 +292,18 @@ class Statically_Rewriter
         // load jQuery migrate from Statically Libs instead of proxy it from the site
         wp_deregister_script( 'jquery-migrate' );
         wp_register_script( 'jquery-migrate', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/js/jquery/jquery-migrate.min.js", false, $jq_migrate_v );
+
+        // load wp-embed.js from Statically Libs instead of proxy it from the site
+        wp_deregister_script( 'wp-embed' );
+        wp_register_script( 'wp-embed', $this->statically_wpbase_url . "/c/$wp_version/wp-includes/js/wp-embed.min.js", false, $wp_version );
     }
 
 
     /**
      * set new emoji CDN URL
      * 
-     * @since 0.1.0
+     * @since   0.1.0
+     * @change  0.1.0
      */
 
     public function cdn_url_emoji() {
@@ -300,7 +315,8 @@ class Statically_Rewriter
     /**
      * set new wp-emoji-release.min.js CDN URL
      * 
-     * @since 0.1.0
+     * @since   0.1.0
+     * @change  0.1.0
      */
 
     public function cdn_url_emoji_release_js( $src, $name ) {

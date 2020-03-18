@@ -58,6 +58,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.3.0 =
+* Option to enable and disable Auto-WebP
+
 = 0.2.2 =
 * Improve Statically Images regex
 

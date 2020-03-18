@@ -42,6 +42,15 @@ class Statically_Settings
 
     public static function validate_settings( $data )
     {
+        if ( ! isset( $data['quality'] ) ) {
+            $data['quality'] = 0;
+        }
+        if ( ! isset( $data['width'] ) ) {
+            $data['width'] = 0;
+        }
+        if ( ! isset( $data['height'] ) ) {
+            $data['height'] = 0;
+        }
         if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
@@ -63,7 +72,9 @@ class Statically_Settings
             'dirs'            => esc_attr( $data['dirs'] ),
             'excludes'        => esc_attr( $data['excludes'] ),
             'quality'         => (int)( $data['quality'] ),
-            'size'            => (int)( $data['size'] ),
+            'width'           => (int)( $data['width'] ),
+            'height'          => (int)( $data['height'] ),
+            'webp'            => (int)( $data['webp'] ),
             'emoji'           => (int)( $data['emoji'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
@@ -232,6 +243,10 @@ class Statically_Settings
                                     <input type="checkbox" name="statically[images]" id="statically_images" value="1" checked="checked" disabled />
                                     <?php _e( 'Automatically enabled for maximum performance of your image files.', 'statically' ); ?>
                                 </label>
+
+                                <p class="description">
+                                    <?php _e( 'Optimize all images via CDN. Add capabilities to compress and resize. This also minify SVG files. Configure setting below to set different quality or size.', 'statically' ); ?>
+                                </p>
                             </fieldset>
                         </td>
                     </tr>
@@ -244,11 +259,11 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_quality">
                                     <input type="number" name="statically[quality]" id="statically_quality" value="<?php echo $options['quality']; ?>" min="0" max="100" style="max-width: 6em" />
-                                    <?php _e( 'Value between: <code>10 - 100</code>', 'statically' ); ?>
+                                    <?php _e( ' % &#8212; Value between: <code>10 - 100</code>', 'statically' ); ?>
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set the maximum quality for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set desired compression rate for all images.  Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -256,18 +271,43 @@ class Statically_Settings
 
                     <tr valign="top">
                         <th scope="row">
-                            <?php _e( 'Image Size', 'statically' ); ?>
+                            <?php _e( 'Image Resize', 'statically' ); ?>
                         </th>
                         <td>
                             <fieldset>
-                                <label for="statically_size">
-                                    <input type="number" name="statically[size]" id="statically_size" value="<?php echo $options['size']; ?>" min="0" max="2000" style="max-width: 6em" />
-                                    <?php _e( 'Value up to: <code>2000</code>', 'statically' ); ?>
+                                <label for="statically_width">
+                                    <h4 style="margin-top: 0;">Max-width</h4>
+                                    <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
+                                    <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'Set the maximum size for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                    <?php _e( 'Set desired maximum width for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                                 </p>
+
+                                <label for="statically_height">
+                                    <h4>Max-height</h4>
+                                    <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
+                                    <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'Set desired maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                                </p>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Auto WebP', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_webp">
+                                    <input type="checkbox" name="statically[webp]" id="statically_webp" value="1" <?php checked(1, $options['webp']) ?> />
+                                    <?php _e( 'Convert image into the next-gen WebP format when browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
+                                </label>
                             </fieldset>
                         </td>
                     </tr>
@@ -294,7 +334,7 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_emoji">
                                     <input type="checkbox" name="statically[emoji]" id="statically_emoji" value="1" <?php checked(1, $options['emoji']) ?> />
-                                    <?php _e( 'Replace the default WordPress emoji CDN with Statically (default: enabled).', 'statically' ); ?>
+                                    <?php _e( 'Replace the default WordPress emoji CDN with Statically. Default: <code>ON</code>', 'statically' ); ?>
                                 </label>
                             </fieldset>
                         </td>
@@ -308,7 +348,7 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_relative">
                                     <input type="checkbox" name="statically[relative]" id="statically_relative" value="1" <?php checked(1, $options['relative']) ?> />
-                                    <?php _e( 'Enable CDN for relative paths (default: enabled).', 'statically' ); ?>
+                                    <?php _e( 'Enable CDN for relative paths. Default: <code>ON</code>', 'statically' ); ?>
                                 </label>
                             </fieldset>
                         </td>
@@ -322,7 +362,7 @@ class Statically_Settings
                            <fieldset>
                                <label for="statically_https">
                                    <input type="checkbox" name="statically[https]" id="statically_https" value="1" <?php checked(1, $options['https']) ?> />
-                                   <?php _e( 'Enable CDN for HTTPS connections (default: enabled).', 'statically' ); ?>
+                                   <?php _e( 'Enable CDN for HTTPS connections. Default: <code>ON</code>', 'statically' ); ?>
                                </label>
                            </fieldset>
                        </td>
@@ -336,11 +376,11 @@ class Statically_Settings
                            <fieldset>
                                <label for="statically_query_strings">
                                    <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
-                                   <?php _e( 'Strip query strings such as <code>?ver=1.0</code> from assets.', 'statically' ); ?>
+                                   <?php _e( 'Strip query strings such as <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
                                </label>
 
                                <p class="description">
-                                   <?php _e( 'Because Statically ignores query strings when downloading content from your site, it is recommended to leave this enabled.', 'statically' ); ?>
+                                   <?php _e( 'Since Statically ignores query strings when downloading content from your site, it is recommended to leave this option enabled.', 'statically' ); ?>
                                </p>
                            </fieldset>
                        </td>

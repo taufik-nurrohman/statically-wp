@@ -71,6 +71,11 @@ body.settings_page_statically {
   margin-top: 1.1rem;
 }
 
+.statically label h4 {
+  margin-top: 1em;
+  margin-bottom: .5em;
+}
+
 @media screen and (max-width: 600px) {
   .statically header {
     display: block;
