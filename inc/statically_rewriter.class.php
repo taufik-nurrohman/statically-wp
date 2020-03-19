@@ -16,8 +16,12 @@ class Statically_Rewriter
     var $quality        = null;     // set image quality
     var $width          = null;     // set image width
     var $height         = null;     // set image height
-    var $webp           = null;     // enable WebP
-    var $emoji          = null;     // set emoji CDN
+    var $webp           = false;    // enable WebP
+    var $emoji          = false;    // set emoji CDN
+    var $og             = false;    // enable OG Image service
+    var $og_theme       = null;     // set OG Image theme
+    var $og_fontsize    = null;     // set OG Image font-size
+    var $og_type        = null;     // set OG Image file type
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
     var $query_strings  = false;    // remove query strings from assets
@@ -44,6 +48,9 @@ class Statically_Rewriter
         $webp,
         $emoji,
         $og,
+        $og_theme,
+        $og_fontsize,
+        $og_type,
         $relative,
         $https,
         $query_strings,
@@ -59,6 +66,9 @@ class Statically_Rewriter
         $this->webp           = $webp;
         $this->emoji          = $emoji;
         $this->og             = $og;
+        $this->og_theme       = $og_theme;
+        $this->og_fontsize    = $og_fontsize;
+        $this->og_type        = $og_type;
         $this->relative       = $relative;
         $this->https          = $https;
         $this->query_strings  = $query_strings;
@@ -361,25 +371,63 @@ class Statically_Rewriter
      * generate OG image
      * 
      * @since   0.4.0
-     * @change  0.4.0
+     * @change  0.4.1
      */
 
     public function og_image() {
         if ( ! has_post_thumbnail() ) {
-            $url = $this->statically_cdn_url . '/og/';
             $text = get_the_title();
-
             if ( is_home() ) {
                 $text = get_bloginfo( 'name' );
             }
-
             if ( strlen( $text ) === 0 ) {
                 return;
             }
 
-            $og = '<meta property="og:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
-            $og .= '<meta property="og:image:secure_url" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
-            $og .= '<meta name="twitter:image" content="' . $url . rawurlencode( $text ) . '.png" />' . "\n";
+            // start options
+            $options = '';
+            if ( $this->og_theme !== 'light' ) {
+                $options = '/theme=' . $this->og_theme;
+            }
+
+            // define font size for OG Image Font Size option
+            $font_lg = '120px';
+            $font_xl = '150px';
+            if ( $this->og_fontsize === 'large' ) {
+                $fontsize = $font_lg;
+            }
+            if ( $this->og_fontsize === 'extra-large' ) {
+                $fontsize = $font_xl;
+            }
+
+            // font size
+            if ( $this->og_fontsize !== 'medium' ) {
+                $options .= ',fontSize=' . $fontsize;
+            }
+
+            // image type
+            $type = '.jpg';
+            if ( $this->og_type === 'png' ) {
+                $type = '.png';
+            }
+
+            // clean up params if the theme is light by finding and remove
+            // the first comma `,` from options and change it to slash `/`
+            if ( $this->og_theme === 'light' ) {
+                $options = substr($options, strpos($options, ',') + 1);
+                $options = '/' . $options;
+            }
+
+            // end options
+            $options .= '/';
+
+            $url = $this->statically_cdn_url . '/og' . $options;
+            $url = $url . rawurlencode( $text ) . $type;
+
+            // this is where the OG Image service shows
+            $og = '<meta property="og:image" content="' . $url . '" />' . "\n";
+            $og .= '<meta property="og:image:secure_url" content="' . $url . '" />' . "\n";
+            $og .= '<meta name="twitter:image" content="' . $url .'" />' . "\n";
 
             echo $og;
         }

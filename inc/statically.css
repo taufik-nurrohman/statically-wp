@@ -59,6 +59,14 @@ body.settings_page_statically {
   color: #1da1f2;
 }
 
+.statically .dashicons-yes {
+  color: #14d462;
+}
+
+.statically .dashicons-no {
+  color: #f35353;
+}
+
 .statically .notice.notice-success {
   border: 1px solid #eee;
   border-left-color: #0fe273;

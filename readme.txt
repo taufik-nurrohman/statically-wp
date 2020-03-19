@@ -9,7 +9,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The all-in-one solution for your WordPress static asset delivery.
+The all-in-one solution for your WordPress static asset optimization and delivery.
 
 == Description ==
 
@@ -37,7 +37,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 * Speeds up your site by serving assets from Statically Multi-CDN infrastructure.
 * Accelerate the delivery of your image files and add transformation capabilities.
 * Minify CSS or JavaScript files, on-the-fly.
-* Save storage by serving post featured images with Statically OG Image service.
+* Save storage by serving post featured image with Statically OG Image service.
 
 #### CONTRIBUTE
 
@@ -59,6 +59,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 3. Access the plugin settings from the "Settings" menu.
 
 == Changelog ==
+
+= 0.4.1 =
+* Added OG Image customization
 
 = 0.4.0 =
 * Option to enable OG Image service

@@ -57,6 +57,15 @@ class Statically_Settings
         if ( ! isset( $data['og'] ) ) {
             $data['og'] = 0;
         }
+        if ( ! isset( $data['og_theme'] ) ) {
+            $data['og_theme'] = 'light';
+        }
+        if ( ! isset( $data['og_theme'] ) ) {
+            $data['og_fontsize'] = 'medium';
+        }
+        if ( ! isset( $data['og_type'] ) ) {
+            $data['og_type'] = 'jpeg';
+        }
         if ( ! isset( $data['relative'] ) ) {
             $data['relative'] = 0;
         }
@@ -80,6 +89,9 @@ class Statically_Settings
             'webp'            => (int)( $data['webp'] ),
             'emoji'           => (int)( $data['emoji'] ),
             'og'              => (int)( $data['og'] ),
+            'og_theme'        => esc_attr( $data['og_theme'] ),
+            'og_fontsize'     => esc_attr( $data['og_fontsize'] ),
+            'og_type'         => esc_attr( $data['og_type'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
             'query_strings'   => (int)( $data['query_strings'] ),
@@ -147,7 +159,7 @@ class Statically_Settings
         <div class="statically wrap">
             <header>
                 <div class="logo">
-                    <a href="https://statically.io/" target="_blank" title="<?php _e( 'Optimize your WordPress site', 'statically' ); ?>">
+                    <a href="https://statically.io/" target="_blank" title="<?php _e( 'Optimization for your website static assets.', 'statically' ); ?>">
                         <img src="<?php echo plugin_dir_url( __FILE__ ) . 'statically.svg'; ?>" />
                     </a>
                 </div>
@@ -237,7 +249,7 @@ class Statically_Settings
                         </td>
                     </tr>
 
-                    <tr valign="top">
+                    <tr valign="top" id="images">
                         <th scope="row">
                             <?php _e( 'Image Optimization', 'statically' ); ?>
                         </th>
@@ -356,8 +368,33 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'When there is no feature image set, create an image from the page title with the Statically OG Image service and use it as your site\'s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
+                                    <?php _e( 'When there is no Featured Image set, create an image from the page title with the Statically OG Image service and use it as your site\'s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
                                 </p>
+
+                                <label for="statically_og-theme">
+                                    <h4>Theme</h4>
+                                    <select name="statically[og_theme]">
+                                        <option <?php if ( $options['og_theme'] === 'light' ) echo 'selected="selected"'; ?> value="light">light</option>
+                                        <option <?php if ( $options['og_theme'] === 'dark' ) echo 'selected="selected"'; ?> value="dark">dark</option>
+                                    </select>
+                                </label>
+
+                                <label for="statically_og-fontsize">
+                                    <h4>Font Size</h4>
+                                    <select name="statically[og_fontsize]">
+                                        <option <?php if ( $options['og_fontsize'] === 'medium' ) echo 'selected="selected"'; ?> value="medium">medium</option>
+                                        <option <?php if ( $options['og_fontsize'] === 'large' ) echo 'selected="selected"'; ?> value="large">large</option>
+                                        <option <?php if ( $options['og_fontsize'] === 'extra-large' ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>
+                                    </select>
+                                </label>
+
+                                <label for="statically_og-type">
+                                    <h4>File Type</h4>
+                                    <select name="statically[og_type]">
+                                        <option <?php if ( $options['og_type'] === 'jpeg' ) echo 'selected="selected"'; ?> value="jpeg">jpeg</option>
+                                        <option <?php if ( $options['og_type'] === 'png' ) echo 'selected="selected"'; ?> value="png">png</option>
+                                    </select>
+                                </label>
                             </fieldset>
                         </td>
                     </tr>
@@ -415,8 +452,43 @@ class Statically_Settings
                         <td>
                             <fieldset>
                                 <label for="statically_purge">
-                                    <?php _e( 'Coming soon! While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
+                                    <?php _e( 'Coming soon!', 'statically' ); ?>
                                 </label>
+
+                                <p class="description">
+                                    <?php _e( '<strong>You can also try changing <a href="#images">Image Quality or Resize</a> settings</strong> to get the fresh version of the image.', 'statically' ); ?>
+                                </p>
+
+                                <p class="description">
+                                    <?php _e( 'While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
+                                </p>
+
+                                <label style="margin-top: 2em!important;">
+                                    <i class="dashicons dashicons-info"></i>
+                                    <?php _e( 'Note that you must specify the full URL of the file in order for your request being procced.', 'statically' ); ?>
+                                </label>
+
+                                <ul>
+                                    <li>
+                                        <code><em>https://cdn.statically.io/sites/example.com/myscript.js</em></code> <i class="dashicons dashicons-yes"></i>
+                                    </li>
+                                    <li>
+                                        <code><em>https://cdn.statically.io/img/example.com/myphoto.jpg</em></code> <i class="dashicons dashicons-yes"></i>
+                                    </li>
+                                    <li>
+                                        <code><em>https://example.com/myphoto.jpg</em></code> <i class="dashicons dashicons-yes"></i>
+                                    </li>
+                                
+                                    <li>
+                                        <code><em>https://cdn.statically.io/sites/example.com</em></code> <i class="dashicons dashicons-no"></i>
+                                    </li>
+                                    <li>
+                                        <code><em>https://cdn.statically.io/img/example.com/*</em></code> <i class="dashicons dashicons-no"></i>
+                                    </li>
+                                    <li>
+                                        <code><em>https://example.com/*</em></code> <i class="dashicons dashicons-no"></i>
+                                    </li>
+                                </ul>
                             </fieldset>
                         </td>
                     </tr>

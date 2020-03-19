@@ -147,7 +147,7 @@ class Statically
      * run activation hook
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.1
      */
 
     public static function handle_activation_hook() {
@@ -163,6 +163,9 @@ class Statically
                 'webp'           => '0',
                 'emoji'          => '1',
                 'og'             => '0',
+                'og_theme'       => 'light',
+                'og_fontsize'    => 'medium',
+                'og_type'        => 'jpeg',
                 'relative'       => '1',
                 'https'          => '1',
                 'query_strings'  => '1',
@@ -215,7 +218,7 @@ class Statically
      * return plugin options
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.1
      *
      * @return  array  $diff  data pairs
      */
@@ -233,6 +236,9 @@ class Statically
                 'webp'            => 0,
                 'emoji'           => 1,
                 'og'              => 0,
+                'og_theme'        => 'light',
+                'og_fontsize'     => 'medium',
+                'og_type'         => 'jpeg',
                 'relative'        => 1,
                 'https'           => 1,
                 'query_strings'   => 1,
@@ -246,7 +252,7 @@ class Statically
      * return new rewriter
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.1
      *
      */
 
@@ -266,6 +272,9 @@ class Statically
             $options['webp'],
             $options['emoji'],
             $options['og'],
+            $options['og_theme'],
+            $options['og_fontsize'],
+            $options['og_type'],
             $options['relative'],
             $options['https'],
             $options['query_strings'],
