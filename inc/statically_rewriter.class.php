@@ -415,7 +415,9 @@ class Statically_Rewriter
             // the first comma `,` from options and change it to slash `/`
             if ( $this->og_theme === 'light' ) {
                 $options = substr($options, strpos($options, ',') + 1);
-                $options = '/' . $options;
+                if ( $this->og_fontsize !== 'medium' ) {
+                    $options = '/' . $options;
+                }
             }
 
             // end options
