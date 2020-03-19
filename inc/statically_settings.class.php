@@ -186,7 +186,7 @@ class Statically_Settings
                         <td>
                             <fieldset>
                                 <label for="statically_url">
-                                    <input type="text" name="statically[url]" id="statically_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text" />
+                                    <input type="text" name="statically[url]" id="statically_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text" required />
                                 </label>
 
                                 <p class="description">
@@ -203,7 +203,7 @@ class Statically_Settings
                        <td>
                            <fieldset>
                                <label for="statically_api_key">
-                                   <input type="password" name="statically[statically_api_key]" id="statically_api_key" value="<?php echo $options['statically_api_key']; ?>" size="64" class="regular-text" />
+                                   <input type="password" name="statically[statically_api_key]" id="statically_api_key" value="<?php echo $options['statically_api_key']; ?>" size="64" class="regular-text" required />
                                </label>
 
                                <p class="description">
