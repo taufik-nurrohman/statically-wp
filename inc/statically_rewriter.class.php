@@ -92,6 +92,9 @@ class Statically_Rewriter
             add_action( 'wp_head', [ $this, 'og_image' ], 1 );
         }
 
+        // add DNS prefetch meta
+        add_action( 'wp_head', [ $this, 'dns_prefetch' ], 1 );
+
         $this->_deregister_styles();
         $this->_deregister_scripts();
     }
@@ -221,9 +224,7 @@ class Statically_Rewriter
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if it's a custom domain
-            if ( ! preg_match( '/cdn.statically.io/', $this->cdn_url )
-					&& ( $this->quality !== 0 || $this->width !== 0 ) )
-			{
+            if ( $this->is_custom_domain() && ( $this->quality !== 0 || $this->width !== 0 ) ) {
                 $cdn_url = $cdn_url . '/statically/img';
             }
         }
@@ -266,6 +267,17 @@ class Statically_Rewriter
         }
 
         return implode( '|', array_map( 'quotemeta', array_map( 'trim', $input ) ) );
+    }
+
+    /**
+     * check if the $cdn_url is custom domain
+     *
+     * @since   0.4.1
+     * @change  0.4.1
+     */
+
+    protected function is_custom_domain() {
+        return ! preg_match( '/cdn.statically.io/', $this->cdn_url );
     }
 
 
@@ -432,6 +444,23 @@ class Statically_Rewriter
             $og .= '<meta name="twitter:image" content="' . $url .'" />' . "\n";
 
             echo $og;
+        }
+    }
+
+
+    /**
+     * add DNS prefetch meta
+     * 
+     * @since   0.4.1
+     * @change  0.4.1
+     */
+
+    public function dns_prefetch() {
+        // meta for custom domain
+        if ( $this->is_custom_domain() ) {
+            $domain = parse_url( $this->cdn_url, PHP_URL_HOST );
+            $dns = '<link rel="dns-prefetch" href="//' . $domain . '" />' . "\n";
+            echo $dns;
         }
     }
 
