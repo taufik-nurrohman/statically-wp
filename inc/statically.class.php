@@ -270,7 +270,6 @@ class Statically
             $options['url'],
             $options['dirs'],
             $excludes,
-            $options['qs_excludes'],
             $options['quality'],
             $options['width'],
             $options['height'],
