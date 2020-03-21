@@ -147,7 +147,7 @@ class Statically
      * run activation hook
      *
      * @since   0.0.1
-     * @change  0.4.1
+     * @change  0.4.2
      */
 
     public static function handle_activation_hook() {
@@ -157,6 +157,7 @@ class Statically
                 'url'            => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
                 'dirs'           => 'wp-content,wp-includes',
                 'excludes'       => '.php',
+                'qs_excludes'    => 'no-statically',
                 'quality'        => '0',
                 'width'          => '0',
                 'height'         => '0',
@@ -169,6 +170,7 @@ class Statically
                 'relative'       => '1',
                 'https'          => '1',
                 'query_strings'  => '1',
+                'private'        => '0',
                 'statically_api_key' => '',
             ]
         );
@@ -218,7 +220,7 @@ class Statically
      * return plugin options
      *
      * @since   0.0.1
-     * @change  0.4.1
+     * @change  0.4.2
      *
      * @return  array  $diff  data pairs
      */
@@ -230,6 +232,7 @@ class Statically
                 'url'             => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
                 'dirs'            => 'wp-content,wp-includes',
                 'excludes'        => '.php',
+                'qs_excludes'     => 'no-statically',
                 'quality'         => '0',
                 'width'           => '0',
                 'height'          => '0',
@@ -242,6 +245,7 @@ class Statically
                 'relative'        => 1,
                 'https'           => 1,
                 'query_strings'   => 1,
+                'private'         => 0,
                 'statically_api_key'  => '',
             ]
         );
@@ -252,7 +256,7 @@ class Statically
      * return new rewriter
      *
      * @since   0.0.1
-     * @change  0.4.1
+     * @change  0.4.2
      *
      */
 
@@ -266,6 +270,7 @@ class Statically
             $options['url'],
             $options['dirs'],
             $excludes,
+            $options['qs_excludes'],
             $options['quality'],
             $options['width'],
             $options['height'],
@@ -278,6 +283,7 @@ class Statically
             $options['relative'],
             $options['https'],
             $options['query_strings'],
+            $options['private'],
             $options['statically_api_key']
         );
     }
@@ -287,11 +293,12 @@ class Statically
      * run rewrite hook
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.2
      */
 
     public static function handle_rewrite_hook() {
         $options = self::get_options();
+        $qs_excludes = array_map( 'trim', explode( ',', $options['qs_excludes'] ) );
 
         // check if origin equals cdn url
         if ( get_option( 'home' ) == $options['url'] ) {
@@ -301,6 +308,18 @@ class Statically
         // check if Statically API Key is set before start rewriting
         if ( ! array_key_exists( 'statically_api_key', $options )
               || strlen( $options['statically_api_key'] ) < 32 ) {
+            return;
+        }
+
+        // check for query strings that should be ignored from rewriting
+        foreach ( $qs_excludes as $qs_exclude ) {
+            if ( !! $qs_exclude && array_key_exists( $qs_exclude, $_GET ) ) {
+                return;
+            }
+        }
+
+        // check if private is enabled
+        if ( $options['private'] !== 0 && is_user_logged_in() ) {
             return;
         }
 

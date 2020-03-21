@@ -34,7 +34,7 @@ class Statically_Settings
      * validation of settings
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.2
      *
      * @param   array  $data  array with form data
      * @return  array         array with validated values
@@ -75,6 +75,9 @@ class Statically_Settings
         if ( ! isset( $data['query_strings'] ) ) {
             $data['query_strings'] = 0;
         }
+        if ( ! isset( $data['private'] ) ) {
+            $data['private'] = 0;
+        }
         if ( ! isset( $data['statically_api_key'] ) ) {
             $data['statically_api_key'] = '';
         }
@@ -83,6 +86,7 @@ class Statically_Settings
             'url'             => esc_url( $data['url'] ),
             'dirs'            => esc_attr( $data['dirs'] ),
             'excludes'        => esc_attr( $data['excludes'] ),
+            'qs_excludes'     => esc_attr( $data['qs_excludes'] ),
             'quality'         => (int)( $data['quality'] ),
             'width'           => (int)( $data['width'] ),
             'height'          => (int)( $data['height'] ),
@@ -95,6 +99,7 @@ class Statically_Settings
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
             'query_strings'   => (int)( $data['query_strings'] ),
+            'private'         => (int)( $data['private'] ),
             'statically_api_key'  => esc_attr( $data['statically_api_key'] ),
         ];
     }
@@ -145,7 +150,7 @@ class Statically_Settings
      * settings page
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.4.2
      *
      * @return  void
      */
@@ -215,7 +220,7 @@ class Statically_Settings
 
                     <tr valign="top">
                         <th scope="row">
-                            <?php _e( 'Included Directories', 'statically' ); ?>
+                            <?php _e( 'Asset Inclusions', 'statically' ); ?>
                         </th>
                         <td>
                             <fieldset>
@@ -233,7 +238,7 @@ class Statically_Settings
 
                     <tr valign="top">
                         <th scope="row">
-                            <?php _e( 'Exclusions', 'statically' ); ?>
+                            <?php _e( 'Asset Exclusions', 'statically' ); ?>
                         </th>
                         <td>
                             <fieldset>
@@ -443,6 +448,42 @@ class Statically_Settings
                                </p>
                            </fieldset>
                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                       <th scope="row">
+                           <?php _e( 'Disable for Logged-in Users', 'statically' ); ?>
+                       </th>
+                       <td>
+                           <fieldset>
+                               <label for="statically_private">
+                                   <input type="checkbox" name="statically[private]" id="statically_private" value="1" <?php checked(1, $options['private']) ?> />
+                                   <?php _e( 'Turn off Statically for logged-in users. Default: <code>OFF</code>', 'statically' ); ?>
+                               </label>
+                           </fieldset>
+                       </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Exclude from Pages with Query Strings', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_qs-excludes">
+                                    <input type="text" name="statically[qs_excludes]" id="statically_qs-excludes" value="<?php echo $options['qs_excludes']; ?>" size="64" class="regular-text" />
+                                    <?php _e( 'Default: <code>no-statically</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'Pages with query string containing these parameters will not perform Statically optimization. For example, if we set <code>no-statically</code> then <code>/?no-statically=1</code> will not be optimized. Enter the query string keys separated by', 'statically' ); ?> <code>,</code>
+                                </p>
+
+                                <p class="description">
+                                    <?php _e( 'This can be useful when you use other plugins that require query strings to work and you want to turn off Statically to avoid possible JavaScript errors.', 'statically' ); ?>
+                                </p>
+                            </fieldset>
+                        </td>
                     </tr>
 
                     <tr valign="top">
