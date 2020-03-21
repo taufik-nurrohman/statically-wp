@@ -318,7 +318,7 @@ class Statically
         }
 
         // check if private is enabled
-        if ( $options['private'] !== 0 && is_user_logged_in() ) {
+        if ( $options['private'] === 1 && is_user_logged_in() ) {
             return;
         }
 
