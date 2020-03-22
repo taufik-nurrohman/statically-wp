@@ -559,7 +559,7 @@ class Statically_Settings
             </a>
         </span>
         <p>and</p>
-        <span>Share to your friends so their wesite fast as yours! <a class="tweet" href="" target="_blank">Tweet</a></span>
+        <span>Share to your friends so their wesite fast as yours! <a class="tweet" href="https://twitter.com/intent/tweet?hashtags=statically&amp;related=statically&amp;url=https://statically.io&amp;text=<?php _e( urlencode(  'The all-in-one solution for your website static asset optimization and CDN, try @staticallyio now!' ) ); ?>" target="_blank">Tweet</a></span>
     </div>
 </footer>
         <?php
