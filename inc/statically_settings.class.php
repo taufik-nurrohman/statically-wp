@@ -559,14 +559,16 @@ class Statically_Settings
             </a>
         </span>
         <p><?php _e( 'and', 'statically' ); ?></p>
-        <span>
-            <?php _e( 'Share to your friends so their website&#39;s fast as yours!', 'statically' ); ?>
+        <span class="twitter">
+            <span class="mobile-block">
+                <?php _e( 'Share with your friends so that their website is as fast as yours!', 'statically' ); ?>
+            </span>
             <a
                 class="tweet"
                 href="https://twitter.com/intent/tweet?hashtags=statically&amp;related=statically&amp;url=https://statically.io&amp;text=<?php _e( urlencode(  'The all-in-one solution for your website static asset optimization and CDN, try @staticallyio now!' ), 'statically' ); ?>"
                 target="_blank"
             >
-                <?php _e ( 'Tweet', 'statically' ); ?>
+                <i class="dashicons dashicons-twitter"></i> <?php _e ( 'Tweet', 'statically' ); ?>
             </a>
         </span>
     </div>

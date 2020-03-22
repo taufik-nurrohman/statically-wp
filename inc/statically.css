@@ -149,6 +149,10 @@ body.settings_page_statically #wpcontent {
   color:#e0a500;
 }
 
+.stly-footer .social .dashicons-twitter {
+  font-size: 18px;
+}
+
 @media screen and (max-width: 600px) {
   .stly-header {
     display: block;
@@ -171,6 +175,10 @@ body.settings_page_statically #wpcontent {
   .stly-footer .rating {
     padding: 0;
     text-transform: capitalize;
+  }
+
+  .stly-footer .social .twitter span:first-child {
+    margin-bottom: 1rem;
   }
 
   .mobile-block {
