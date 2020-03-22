@@ -60,6 +60,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.4.3 =
+* Updated UI
+
 = 0.4.2 =
 * Option to disable for logged-in users
 * Option to add exclusions to pages with the specified query string
