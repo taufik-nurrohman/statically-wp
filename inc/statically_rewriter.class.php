@@ -506,7 +506,7 @@ class Statically_Rewriter
                 if ( !! $domain ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
-                        "/https?:\/\/$domain_regex(.*\.(?:jpg|gif|png))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . '$1', $html
+                        "/https?:\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . '$1', $html
                     );
                 }
             }
