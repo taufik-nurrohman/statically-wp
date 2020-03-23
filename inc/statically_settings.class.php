@@ -51,6 +51,9 @@ class Statically_Settings
         if ( ! isset( $data['height'] ) ) {
             $data['height'] = 0;
         }
+        if ( ! isset( $data['webp'] ) ) {
+            $data['webp'] = 0;
+        }
         if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
@@ -91,6 +94,7 @@ class Statically_Settings
             'width'           => (int)( $data['width'] ),
             'height'          => (int)( $data['height'] ),
             'webp'            => (int)( $data['webp'] ),
+            'external_images'  => esc_attr( $data['external_images'] ),
             'emoji'           => (int)( $data['emoji'] ),
             'og'              => (int)( $data['og'] ),
             'og_theme'        => esc_attr( $data['og_theme'] ),
@@ -332,6 +336,23 @@ class Statically_Settings
                                 <input type="checkbox" name="statically[webp]" id="statically_webp" value="1" <?php checked(1, $options['webp']) ?> />
                                 <?php _e( 'Convert image into the next-gen WebP format when browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
                             </label>
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row">
+                        <?php _e( 'Load external images with Statically', 'statically' ); ?>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <label for="external_images">
+                                <input type="text" name="statically[external_images]" id="external_images" value="<?php echo $options['external_images']; ?>" size="64" class="regular-text" />
+                            </label>
+
+                            <p class="description">
+                                <?php _e( 'Images that are from these external domains will be included to Statically. Enter domains separated by', 'statically' ); ?> <code>,</code>
+                            </p>
                         </fieldset>
                     </td>
                 </tr>

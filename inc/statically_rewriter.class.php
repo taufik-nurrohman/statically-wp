@@ -17,6 +17,7 @@ class Statically_Rewriter
     var $width          = null;     // set image width
     var $height         = null;     // set image height
     var $webp           = false;    // enable WebP
+    var $external_images = null;    // set external image domains
     var $emoji          = false;    // set emoji CDN
     var $og             = false;    // enable OG Image service
     var $og_theme       = null;     // set OG Image theme
@@ -45,6 +46,7 @@ class Statically_Rewriter
         $quality,
         $width,
         $height,
+        $external_images,
         $webp,
         $emoji,
         $og,
@@ -63,6 +65,7 @@ class Statically_Rewriter
         $this->quality        = $quality;
         $this->width          = $width;
         $this->height         = $height;
+        $this->external_images = $external_images;
         $this->webp           = $webp;
         $this->emoji          = $emoji;
         $this->og             = $og;
@@ -172,59 +175,19 @@ class Statically_Rewriter
 
         // check if it is an image
         if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/', $asset[0] ) ) {
-            // if image quality is ON
-            if ( $this->quality !== 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . ',q=' . $this->quality, $asset[0] );
-            }
+            // check options and apply transformations
+            $asset[0] = str_replace( $blog_url, $blog_url . $this->image_tranformations(), $asset[0] );
 
-            // if image height is ON
-            if ( $this->height !== 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . ',h=' . $this->height, $asset[0] );
-            }
-
-            // if image width is ON
-            if ( $this->width !== 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . ',w=' . $this->width, $asset[0] );
-            }
-
-            // if image auto-webp is ON
-            if ( $this->webp !== 0 ) {
-                $asset[0] = str_replace( $blog_url, $blog_url . '/f=auto', $asset[0] );
-            } else {
-                $asset[0] = str_replace( $blog_url . ',', $blog_url . '/', $asset[0] );
-            }
-
-            // for relative URL when image quality is ON
-            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->quality !== 0 ) {
-                $asset[0] = str_replace( $asset[0], ',q=' . $this->quality . $asset[0], $asset[0] );
-            }
-
-            // for relative URL when image height is ON
-            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->height !== 0 ) {
-                $asset[0] = str_replace( $asset[0], ',h=' . $this->height . $asset[0], $asset[0] );
-            }
-
-            // for relative URL when image width is ON
-            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->width !== 0 ) {
-                $asset[0] = str_replace( $asset[0], ',w=' . $this->width . $asset[0], $asset[0] );
-            }
-
-            // for relative URL when image auto-webp is ON
-            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->webp !== 0 ) {
-                $asset[0] = str_replace( $asset[0], '/f=auto' . $asset[0], $asset[0] );
-            }
-
-            // for relative URL when image auto-webp is OFF
-            if ( $this->relative && ! strstr( $asset[0], $blog_url ) && $this->webp === 0 ) {
-                $asset[0] = substr($asset[0], strpos($asset[0], ',') + 1);
-                $asset[0] = '/' . $asset[0];
+            // relative URL
+            if ( $this->relative && ! strstr( $asset[0], $blog_url ) ) {
+                $asset[0] = str_replace( $asset[0], $this->image_tranformations() . $asset[0], $asset[0] );
             }
 
             // use /img/
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if it's a custom domain
-            if ( $this->is_custom_domain() && ( $this->quality !== 0 || $this->width !== 0 ) ) {
+            if ( $this->is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
                 $cdn_url = $cdn_url . '/statically/img';
             }
         }
@@ -246,6 +209,42 @@ class Statically_Rewriter
 
         // relative URL
         return $cdn_url . $asset[0];
+    }
+
+    protected function image_tranformations() {
+        $tf = '/';
+
+        // if image auto-webp is ON
+        if ( $this->webp ) {
+            $tf .= 'f=auto';
+        }
+
+        // if image width is ON
+        if ( $this->width ) {
+            $tf .= ',w=' . $this->width;
+        }
+
+        // if image height is ON
+        if ( $this->height ) {
+            $tf .= ',h=' . $this->height;
+        }
+
+        // if image quality is ON
+        if ( $this->quality ) {
+            $tf .= ',q=' . $this->quality;
+        }
+
+        // if everything are set except webp
+        if ( $this->webp === 0 && (
+                $this->width ||
+                $this->height ||
+                $this->quality
+            ) ) {
+            $tf = substr($tf, strpos($tf, ',') + 1);
+            $tf = '/' . $tf;
+        }
+
+        return $tf;
     }
 
 
@@ -486,6 +485,7 @@ class Statically_Rewriter
         $blog_url = $this->https
             ? '(https?:|)'.$this->relative_url( quotemeta( $this->blog_url ) )
             : '(http:|)'.$this->relative_url( quotemeta( $this->blog_url ) );
+        $external_images = $excludes = array_map( 'trim', explode( ',', $this->external_images ) );
 
         // regex rule start
         $regex_rule = '#(?<=[(\"\'])';
@@ -499,6 +499,18 @@ class Statically_Rewriter
 
         // regex rule end
         $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
+
+        // rules for proxying external images
+        if ( $this->external_images ) {
+            foreach ( $external_images as $domain ) {
+                if ( !! $domain ) {
+                    $domain_regex = str_replace( '.', '\.', $domain );
+                    $html = preg_replace(
+                        "/https?:\/\/$domain_regex(.*\.(?:jpg|gif|png))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . '$1', $html
+                    );
+                }
+            }
+        }
 
         // call the cdn rewriter callback
         $cdn_html = preg_replace_callback( $regex_rule, [$this, 'rewrite_url'], $html );

@@ -58,7 +58,12 @@ spl_autoload_register('STATICALLY_autoload');
 
 /* autoload funktion */
 function STATICALLY_autoload( $class ) {
-    if ( in_array( $class, [ 'Statically', 'Statically_Rewriter', 'Statically_Settings' ] ) ) {
+    if ( in_array(
+        $class, [
+            'Statically',
+            'Statically_Rewriter',
+            'Statically_Settings'
+        ] ) ) {
         require_once(
             sprintf(
                 '%s/inc/%s.class.php',
