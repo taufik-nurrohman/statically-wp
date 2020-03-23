@@ -57,6 +57,9 @@ class Statically_Settings
         if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
+        if ( ! isset( $data['favicon'] ) ) {
+            $data['favicon'] = 0;
+        }
         if ( ! isset( $data['og'] ) ) {
             $data['og'] = 0;
         }
@@ -96,6 +99,7 @@ class Statically_Settings
             'webp'            => (int)( $data['webp'] ),
             'external_images'  => esc_attr( $data['external_images'] ),
             'emoji'           => (int)( $data['emoji'] ),
+            'favicon'         => (int)( $data['favicon'] ),
             'og'              => (int)( $data['og'] ),
             'og_theme'        => esc_attr( $data['og_theme'] ),
             'og_fontsize'     => esc_attr( $data['og_fontsize'] ),
@@ -381,6 +385,24 @@ class Statically_Settings
                                 <input type="checkbox" name="statically[emoji]" id="statically_emoji" value="1" <?php checked(1, $options['emoji']) ?> />
                                 <?php _e( 'Replace the default WordPress emoji CDN with Statically. Default: <code>ON</code>', 'statically' ); ?>
                             </label>
+                        </fieldset>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row">
+                        <?php _e( 'Favicon', 'statically' ); ?>
+                    </th>
+                    <td>
+                        <fieldset>
+                            <label for="statically_favicon">
+                                <input type="checkbox" name="statically[favicon]" id="statically_favicon" value="1" <?php checked(1, $options['favicon']) ?> />
+                                <?php _e( 'Set a favicon for your website using Statically Favicon service. Default: <code>OFF</code>', 'statically' ); ?>
+                            </label>
+
+                            <p class="description">
+                                <?php _e( 'This feature allows you to generate a personalized image based on your website\'s name using Statically Favicon service and then use it as your website\'s favicon. Only use this feature if you haven\'t set one.', 'statically' ); ?>
+                            </p>
                         </fieldset>
                     </td>
                 </tr>

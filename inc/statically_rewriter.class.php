@@ -19,6 +19,7 @@ class Statically_Rewriter
     var $webp           = false;    // enable WebP
     var $external_images = null;    // set external image domains
     var $emoji          = false;    // set emoji CDN
+    var $favicon        = false;    // set website's Favicon
     var $og             = false;    // enable OG Image service
     var $og_theme       = null;     // set OG Image theme
     var $og_fontsize    = null;     // set OG Image font-size
@@ -49,6 +50,7 @@ class Statically_Rewriter
         $external_images,
         $webp,
         $emoji,
+        $favicon,
         $og,
         $og_theme,
         $og_fontsize,
@@ -68,6 +70,7 @@ class Statically_Rewriter
         $this->external_images = $external_images;
         $this->webp           = $webp;
         $this->emoji          = $emoji;
+        $this->favicon        = $favicon;
         $this->og             = $og;
         $this->og_theme       = $og_theme;
         $this->og_fontsize    = $og_fontsize;
@@ -93,6 +96,11 @@ class Statically_Rewriter
         // OG image service
         if ( $this->og ) {
             add_action( 'wp_head', [ $this, 'og_image' ], 1 );
+        }
+        
+        // Favicon service
+        if ( $this->favicon ) {
+            add_action( 'wp_head', [ $this, 'favicon' ], 1 );
         }
 
         // add DNS prefetch meta
@@ -444,6 +452,19 @@ class Statically_Rewriter
 
             echo $og;
         }
+    }
+
+
+    public function favicon() {
+        $name = 'WordPress Local';
+        $url = $this->statically_cdn_url . '/favicons/g/';
+        $url = $url . urlencode( $name ) . '.png';
+
+        $icon = '<link rel="icon" href="' . $url . '" sizes="32x32" />' . "\n";
+        $icon .= '<link rel="icon" href="' . $url . '" sizes="192x192" />' . "\n";
+        $icon .= '<link rel="apple-touch-icon-precomposed" href="' . $url . '" />' . "\n";
+
+        echo $icon;
     }
 
 
