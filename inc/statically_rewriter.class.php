@@ -78,20 +78,20 @@ class Statically_Rewriter
         $this->statically_api_key = $statically_api_key;
 
         // remove query strings
-        if ( $this->query_strings !== 0 ) {
+        if ( $this->query_strings ) {
             add_filter( 'style_loader_src', [ $this, 'remove_query_strings' ], 999 );
             add_filter( 'script_loader_src', [ $this, 'remove_query_strings' ], 999 );
         }
 
         // replace default WordPress emoji CDN with Statically
-        if ( $this->emoji !== 0 ) {
+        if ( $this->emoji ) {
             add_filter( 'emoji_svg_url', [ $this, 'cdn_url_emoji' ], 999 );
             add_filter( 'emoji_url', [ $this, 'cdn_url_emoji' ], 999 );
             add_filter( 'script_loader_src', [ $this, 'cdn_url_emoji_release_js' ], 10, 2 );
         }
 
         // OG image service
-        if ( $this->og !== 0 ) {
+        if ( $this->og ) {
             add_action( 'wp_head', [ $this, 'og_image' ], 1 );
         }
 
