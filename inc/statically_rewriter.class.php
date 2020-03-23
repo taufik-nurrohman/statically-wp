@@ -482,6 +482,7 @@ class Statically_Rewriter
 
         // get dir scope in regex format
         $dirs = $this->get_dir_scope();
+        $blog_domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
         $blog_url = $this->https
             ? '(https?:|)'.$this->relative_url( quotemeta( $this->blog_url ) )
             : '(http:|)'.$this->relative_url( quotemeta( $this->blog_url ) );
@@ -503,10 +504,10 @@ class Statically_Rewriter
         // rules for proxying external images
         if ( $this->external_images ) {
             foreach ( $external_images as $domain ) {
-                if ( !! $domain ) {
+                if ( !! $domain && ! strstr( $domain, $blog_domain ) ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
-                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . '$1', $html
+                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . ',ext=1$1', $html
                     );
                 }
             }
