@@ -34,7 +34,7 @@ class Statically_Settings
      * validation of settings
      *
      * @since   0.0.1
-     * @change  0.4.2
+     * @change  0.5.0
      *
      * @param   array  $data  array with form data
      * @return  array         array with validated values
@@ -158,7 +158,7 @@ class Statically_Settings
      * settings page
      *
      * @since   0.0.1
-     * @change  0.4.2
+     * @change  0.5.0
      *
      * @return  void
      */

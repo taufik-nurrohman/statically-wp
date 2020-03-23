@@ -36,7 +36,7 @@ class Statically_Rewriter
      * constructor
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.5.0
      */
 
     function __construct(
@@ -454,15 +454,32 @@ class Statically_Rewriter
         }
     }
 
+    /**
+     * generate Favicon
+     * 
+     * @since   0.5.0
+     * @change  0.5.0
+     */
 
     public function favicon() {
-        $name = 'WordPress Local';
-        $url = $this->statically_cdn_url . '/favicons/g/';
-        $url = $url . urlencode( $name ) . '.png';
+        // default variables
+        $size_small = '64';
+        $size_medium = $size_small * 2;
+        $size_large = $size_small * 4;
+        $name = get_bloginfo( 'name' );
+        $image = '/' . urlencode( $name ) . '.png';
 
-        $icon = '<link rel="icon" href="' . $url . '" sizes="32x32" />' . "\n";
-        $icon .= '<link rel="icon" href="' . $url . '" sizes="192x192" />' . "\n";
-        $icon .= '<link rel="apple-touch-icon-precomposed" href="' . $url . '" />' . "\n";
+        // set sizes for meta tag
+        $sizes_small = $size_small . 'x' . $size_small;
+        $sizes_medium = $size_medium . 'x' . $size_medium;
+
+        // start URL
+        $url = $this->statically_cdn_url . '/favicons/g/s=';
+
+        // meta tag
+        $icon = '<link rel="icon" href="' . $url . $size_small . $image . '" sizes="' . $sizes_small . '" />' . "\n";
+        $icon .= '<link rel="icon" href="' . $url . $size_medium . $image . '" sizes="' . $sizes_medium . '" />' . "\n";
+        $icon .= '<link rel="apple-touch-icon-precomposed" href="' . $url . $size_large . $image . '" />' . "\n";
 
         echo $icon;
     }
@@ -489,7 +506,7 @@ class Statically_Rewriter
      * rewrite url
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.5.0
      *
      * @param   string  $html  current raw HTML doc
      * @return  string  updated HTML doc with CDN links

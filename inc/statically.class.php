@@ -147,7 +147,7 @@ class Statically
      * run activation hook
      *
      * @since   0.0.1
-     * @change  0.4.2
+     * @change  0.5.0
      */
 
     public static function handle_activation_hook() {
@@ -222,7 +222,7 @@ class Statically
      * return plugin options
      *
      * @since   0.0.1
-     * @change  0.4.2
+     * @change  0.5.0
      *
      * @return  array  $diff  data pairs
      */
@@ -260,7 +260,7 @@ class Statically
      * return new rewriter
      *
      * @since   0.0.1
-     * @change  0.4.2
+     * @change  0.5.0
      *
      */
 

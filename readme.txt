@@ -23,9 +23,12 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 * Link assets to load from the Statically CDN.
 * Image resizing.
+* Image auto-WebP.
 * Adjust image compression level.
 * Custom domain support.
+* Optimize external images.
 * Use Statically as the main emoji CDN.
+* Generate favicon based on website's name.
 * Enable automatic Open Graph Image service.
 * Enable or disable for HTTPS.
 * Remove query string from assets.
@@ -59,6 +62,10 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 3. Access the plugin settings from the "Settings" menu.
 
 == Changelog ==
+
+= 0.5.0
+* Support for external images
+* Added Favicon feature
 
 = 0.4.3 =
 * Updated UI
