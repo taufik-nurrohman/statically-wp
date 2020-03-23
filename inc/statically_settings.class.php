@@ -425,7 +425,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'This feature allows you to generate a personalized image based on your website\'s name using Statically Favicon service and then use it as your website\'s favicon. Only use this feature if you haven\'t set one.', 'statically' ); ?>
+                                    <?php _e( 'This feature allows you to generate a personalized image based on the name of your website using Statically Favicon service and then use it as your website&#39;s favicon. Only use this feature if you haven&#39;t set one.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -443,7 +443,7 @@ class Statically_Settings
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'When there is no Featured Image set, create an image from the page title with the Statically OG Image service and use it as your site\'s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
+                                    <?php _e( 'When there is no Featured Image set, create an image from the page title with the Statically OG Image service and use it as your site&#39;s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
                                 </p>
 
                                 <label for="statically_og-theme">
