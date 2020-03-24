@@ -164,8 +164,9 @@ body.settings_page_statically #wpcontent {
 .stly-tab ul {
   display: flex;
   padding: 1rem;
-  margin: auto 1.5rem;
+  margin: auto;
   margin-bottom: -3px;
+  max-width: 70rem;
 }
 .stly-tab li a {
   color: #23282d;
@@ -219,5 +220,8 @@ body.settings_page_statically #wpcontent {
 @media screen and (max-width: 1250px) {
   .stly, .stly-header {
     max-width: 95%;
+  }
+  .stly-tab ul {
+    max-width: 90%;
   }
 }

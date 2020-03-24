@@ -194,8 +194,8 @@ class Statically_Settings
         <li><a data-stly-tab="general" href="#general">General</a></li>
         <li><a data-stly-tab="optimization" href="#optimization">Optimization</a></li>
         <li><a data-stly-tab="misc" href="#misc">Misc</a></li>
+        <li><a data-stly-tab="caching" href="#caching">Caching</a></li>
         <li><a data-stly-tab="advanced" href="#advanced">Advanced</a></li>
-        <li><a data-stly-tab="purge" href="#purge">Purge</a></li>
     </ul>
 </nav>
 
@@ -379,7 +379,7 @@ class Statically_Settings
 
                     <tr valign="top">
                         <th scope="row">
-                            <?php _e( 'Load external images with Statically', 'statically' ); ?>
+                            <?php _e( 'Allowed External Images', 'statically' ); ?>
                         </th>
                         <td>
                             <fieldset>
@@ -389,6 +389,42 @@ class Statically_Settings
 
                                 <p class="description">
                                     <?php _e( 'Images that are from these external domains will be included to Statically. Enter domains separated by', 'statically' ); ?> <code>,</code>
+                                </p>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Disable for Logged-in Users', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_private">
+                                    <input type="checkbox" name="statically[private]" id="statically_private" value="1" <?php checked(1, $options['private']) ?> />
+                                    <?php _e( 'Turn off Statically for logged-in users. Default: <code>OFF</code>', 'statically' ); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Exclude Query Strings', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_qs-excludes">
+                                    <input type="text" name="statically[qs_excludes]" id="statically_qs-excludes" value="<?php echo $options['qs_excludes']; ?>" size="64" class="regular-text" />
+                                    <?php _e( 'Default: <code>no-statically</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'Pages with query string containing these parameters will not perform Statically optimization. For example, if we set <code>no-statically</code> then <code>/?no-statically=1</code> will not be optimized. Enter the query string keys separated by', 'statically' ); ?> <code>,</code>
+                                </p>
+
+                                <p class="description">
+                                    <?php _e( 'This can be useful when you use other plugins that require query string to work and you want to turn off Statically to avoid possible JavaScript errors.', 'statically' ); ?>
                                 </p>
                             </fieldset>
                         </td>
@@ -476,95 +512,8 @@ class Statically_Settings
                 </table>
             </div>
 
-            <div data-stly-layout="advanced">
-                <h3 class="title">Advanced</h3>                
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Relative Path', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_relative">
-                                    <input type="checkbox" name="statically[relative]" id="statically_relative" value="1" <?php checked(1, $options['relative']) ?> />
-                                    <?php _e( 'Enable CDN for relative paths. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'CDN HTTPS', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_https">
-                                    <input type="checkbox" name="statically[https]" id="statically_https" value="1" <?php checked(1, $options['https']) ?> />
-                                    <?php _e( 'Enable CDN for HTTPS connections. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Remove Query Strings', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_query_strings">
-                                    <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
-                                    <?php _e( 'Strip query strings such as <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Since Statically ignores query strings when downloading content from your site, it is recommended to leave this option enabled.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Disable for Logged-in Users', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_private">
-                                    <input type="checkbox" name="statically[private]" id="statically_private" value="1" <?php checked(1, $options['private']) ?> />
-                                    <?php _e( 'Turn off Statically for logged-in users. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Exclude from Pages with Query Strings', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_qs-excludes">
-                                    <input type="text" name="statically[qs_excludes]" id="statically_qs-excludes" value="<?php echo $options['qs_excludes']; ?>" size="64" class="regular-text" />
-                                    <?php _e( 'Default: <code>no-statically</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Pages with query string containing these parameters will not perform Statically optimization. For example, if we set <code>no-statically</code> then <code>/?no-statically=1</code> will not be optimized. Enter the query string keys separated by', 'statically' ); ?> <code>,</code>
-                                </p>
-
-                                <p class="description">
-                                    <?php _e( 'This can be useful when you use other plugins that require query strings to work and you want to turn off Statically to avoid possible JavaScript errors.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div data-stly-layout="purge">
-                <h3 class="title">Purge</h3>
+            <div data-stly-layout="caching">
+                <h3 class="title">Caching</h3>
                 <table class="form-table">
                     <tr valign="top">
                         <th scope="row">
@@ -616,6 +565,56 @@ class Statically_Settings
                 </table>
             </div>
 
+            <div data-stly-layout="advanced">
+                <h3 class="title">Advanced</h3>                
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Relative Path', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_relative">
+                                    <input type="checkbox" name="statically[relative]" id="statically_relative" value="1" <?php checked(1, $options['relative']) ?> />
+                                    <?php _e( 'Enable CDN for relative paths. Default: <code>ON</code>', 'statically' ); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'CDN HTTPS', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_https">
+                                    <input type="checkbox" name="statically[https]" id="statically_https" value="1" <?php checked(1, $options['https']) ?> />
+                                    <?php _e( 'Enable CDN for HTTPS connections. Default: <code>ON</code>', 'statically' ); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Remove Query Strings', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_query_strings">
+                                    <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
+                                    <?php _e( 'Strip query strings such as <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'Since Statically ignores query strings when downloading content from your site, it is recommended to leave this option enabled.', 'statically' ); ?>
+                                </p>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <?php submit_button(); ?>
         </form>
     </div>
@@ -624,6 +623,7 @@ class Statically_Settings
 <footer class="stly stly-footer">
     <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>
     <a href="https://statically.io/contact/" target="_blank"><?php _e( 'Get a custom domain', 'statically'); ?></a>
+    <a href="options-general.php?page=statically-debug"><?php _e( 'Debug', 'statically'); ?></a>
 
     <div class="social">
         <span class="rating">
