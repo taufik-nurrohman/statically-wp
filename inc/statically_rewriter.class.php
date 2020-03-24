@@ -22,7 +22,7 @@ class Statically_Rewriter
     var $favicon        = false;    // set website's Favicon
     var $favicon_shape  = null;     // set favicon's shape
     var $favicon_bg     = null;     // set favicon's background
-    var $favicon_color = null;     // set favicon's font color
+    var $favicon_color  = null;     // set favicon's font color
     var $og             = false;    // enable OG Image service
     var $og_theme       = null;     // set OG Image theme
     var $og_fontsize    = null;     // set OG Image font-size
@@ -114,9 +114,6 @@ class Statically_Rewriter
 
         // add DNS prefetch meta
         add_action( 'wp_head', [ $this, 'dns_prefetch' ], 1 );
-
-        $this->_deregister_styles();
-        $this->_deregister_scripts();
     }
 
 
@@ -215,7 +212,7 @@ class Statically_Rewriter
         }
 
         // is it a protocol independent URL?
-        if ( strpos( $asset[0], '//' ) === 0 ) {
+        if ( 0 === strpos( $asset[0], '//' ) ) {
             return str_replace( $blog_url, $cdn_url, $asset[0] );
         }
 
@@ -252,7 +249,7 @@ class Statically_Rewriter
         }
 
         // if everything are set except webp
-        if ( $this->webp === 0 && (
+        if ( 0 === $this->webp && (
                 $this->width ||
                 $this->height ||
                 $this->quality
@@ -387,7 +384,7 @@ class Statically_Rewriter
      */
 
     public function remove_query_strings( $src ) {
-		if ( strpos( $src, '.css?' ) !== false || strpos( $src, '.js?' ) !== false ) {
+		if ( false !== strpos( $src, '.css?' ) || false !== strpos( $src, '.js?' ) ) {
 			$src = preg_replace( '/\?.*/', '', $src );
 		}
 
@@ -408,42 +405,42 @@ class Statically_Rewriter
             if ( is_home() ) {
                 $text = get_bloginfo( 'name' );
             }
-            if ( strlen( $text ) === 0 ) {
+            if ( 0 === strlen( $text ) ) {
                 return;
             }
 
             // start options
             $options = '';
-            if ( $this->og_theme !== 'light' ) {
+            if ( 'light' !== $this->og_theme  ) {
                 $options = '/theme=' . $this->og_theme;
             }
 
             // define font size for OG Image Font Size option
             $font_lg = '120px';
             $font_xl = '150px';
-            if ( $this->og_fontsize === 'large' ) {
+            if ( 'large' === $this->og_fontsize ) {
                 $fontsize = $font_lg;
             }
-            if ( $this->og_fontsize === 'extra-large' ) {
+            if ( 'extra-large' === $this->og_fontsize ) {
                 $fontsize = $font_xl;
             }
 
             // font size
-            if ( $this->og_fontsize !== 'medium' ) {
+            if ( 'medium' !== $this->og_fontsize ) {
                 $options .= ',fontSize=' . $fontsize;
             }
 
             // image type
             $type = '.jpg';
-            if ( $this->og_type === 'png' ) {
+            if ( 'png' === $this->og_type ) {
                 $type = '.png';
             }
 
             // clean up params if the theme is light by finding and remove
             // the first comma `,` from options and change it to slash `/`
-            if ( $this->og_theme === 'light' ) {
+            if ( 'light' === $this->og_theme ) {
                 $options = substr($options, strpos($options, ',') + 1);
-                if ( $this->og_fontsize !== 'medium' ) {
+                if ( 'medium' !== $this->og_fontsize ) {
                     $options = '/' . $options;
                 }
             }
@@ -487,17 +484,17 @@ class Statically_Rewriter
 
         // start options
         $options = '';
-        if ( $this->favicon_shape !== 'rounded' ) {
+        if ( 'rounded' !== $this->favicon_shape ) {
             $options = '/square=1';
         }
 
         // option for background
-        if ( $favicon_bg !== '000000' ) {
+        if ( '000000' !== $favicon_bg ) {
             $options .= ',bg=' . $favicon_bg;
         }
 
         // option for color
-        if ( $favicon_color !== 'ffffff' ) {
+        if ( 'ffffff' !== $favicon_color ) {
             $options .= ',c=' . $favicon_color;
         }
 
@@ -506,10 +503,10 @@ class Statically_Rewriter
 
         // clean up params if shape is rounded by finding and remove
         // the first comma `,` from options and change it to slash `/`
-        if ( $this->favicon_shape === 'rounded' && $favicon_bg === '000000' && $favicon_color === 'ffffff' ||
-        $this->favicon_shape === 'rounded' && $favicon_bg !== '000000' && $favicon_color === 'ffffff' ||
-        $this->favicon_shape === 'rounded' && $favicon_bg === '000000' && $favicon_color !== 'ffffff' ||
-        $this->favicon_shape === 'rounded' && $favicon_bg !== '000000' && $favicon_color !== 'ffffff' ) {
+        if ( 'rounded' === $this->favicon_shape && '000000' === $favicon_bg && 'ffffff' === $favicon_color ||
+        'rounded' === $this->favicon_shape && '000000' !== $favicon_bg && 'ffffff' === $favicon_color ||
+        'rounded' === $this->favicon_shape && '000000' === $favicon_bg && 'ffffff' !== $favicon_color ||
+        'rounded' === $this->favicon_shape && '000000' !== $favicon_bg && 'ffffff' !== $favicon_color ) {
             $options = substr($options, strpos($options, ',') + 1);
             $options = '/' . $options;
         }

@@ -26,74 +26,35 @@ class Statically
      * constructor
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.5.0
      */
 
     public function __construct() {
+        $options = self::get_options( 'statically' );
+        if ( $options['wpadmin'] == 1 ) {
+            $action_name = 'init';
+        } else {
+            $action_name = 'template_redirect';
+        }
+
         /* CDN rewriter hook */
-        add_action(
-            'template_redirect',
-            [
-                __CLASS__,
-                'handle_rewrite_hook',
-            ]
-        );
+        add_action( $action_name, [ __CLASS__, 'handle_rewrite_hook' ] );
+
+        /* WP Core CDN rewriter hook */
+        add_action( $action_name, [ 'Statically_WPCDN', 'rewrite_assets' ] );
 
         /* Rewrite rendered content in REST API */
-        add_filter(
-            'the_content',
-            [
-                __CLASS__,
-                'rewrite_the_content',
-            ],
-            100
-        );
+        add_filter( 'the_content', [ __CLASS__, 'rewrite_the_content', ], 100 );
 
         /* Hooks */
-        add_action(
-            'admin_init',
-            [
-                __CLASS__,
-                'register_textdomain',
-            ]
-        );
-        add_action(
-            'admin_init',
-            [
-                'Statically_Settings',
-                'register_settings',
-            ]
-        );
-        add_action(
-            'admin_menu',
-            [
-                'Statically_Settings',
-                'add_settings_page',
-            ]
-        );
-        add_action(
-            'admin_enqueue_scripts',
-            [
-                'Statically_Settings',
-                'enqueue_styles',
-            ]
-        );
-        add_filter(
-            'plugin_action_links_' . STATICALLY_BASE,
-            [
-                __CLASS__,
-                'add_action_link',
-            ]
-        );
+        add_action( 'admin_init', [ __CLASS__, 'register_textdomain' ] );
+        add_action( 'admin_init', [ 'Statically_Settings', 'register_settings' ] );
+        add_action( 'admin_menu', [ 'Statically_Settings', 'add_settings_page' ] );
+        add_action( 'admin_enqueue_scripts', [ 'Statically_Settings', 'enqueue_styles' ] );
+        add_filter( 'plugin_action_links_' . STATICALLY_BASE, [ __CLASS__, 'add_action_link' ] );
 
         /* admin notices */
-        add_action(
-            'all_admin_notices',
-            [
-                __CLASS__,
-                'statically_requirements_check',
-            ]
-        );
+        add_action( 'all_admin_notices', [ __CLASS__, 'statically_requirements_check' ] );
     }
 
 
@@ -172,9 +133,11 @@ class Statically
                 'og_theme'       => 'light',
                 'og_fontsize'    => 'medium',
                 'og_type'        => 'jpeg',
+                'wpadmin'        => '0',
                 'relative'       => '1',
                 'https'          => '1',
                 'query_strings'  => '1',
+                'wpcdn'          => '1',
                 'private'        => '0',
                 'statically_api_key' => '',
             ]
@@ -252,9 +215,11 @@ class Statically
                 'og_theme'        => 'light',
                 'og_fontsize'     => 'medium',
                 'og_type'         => 'jpeg',
+                'wpadmin'         => 1,
                 'relative'        => 1,
                 'https'           => 1,
                 'query_strings'   => 1,
+                'wpcdn'           => 1,
                 'private'         => 0,
                 'statically_api_key'  => '',
             ]
@@ -294,9 +259,11 @@ class Statically
             $options['og_theme'],
             $options['og_fontsize'],
             $options['og_type'],
+            $options['wpadmin'],
             $options['relative'],
             $options['https'],
             $options['query_strings'],
+            $options['wpcdn'],
             $options['private'],
             $options['statically_api_key']
         );
@@ -333,7 +300,7 @@ class Statically
         }
 
         // check if private is enabled
-        if ( $options['private'] === 1 && is_user_logged_in() ) {
+        if ( $options['private'] && is_user_logged_in() ) {
             return;
         }
 

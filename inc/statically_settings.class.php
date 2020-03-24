@@ -81,6 +81,9 @@ class Statically_Settings
         if ( ! isset( $data['og_type'] ) ) {
             $data['og_type'] = 'jpeg';
         }
+        if ( ! isset( $data['wpadmin'] ) ) {
+            $data['wpadmin'] = 0;
+        }
         if ( ! isset( $data['relative'] ) ) {
             $data['relative'] = 0;
         }
@@ -89,6 +92,9 @@ class Statically_Settings
         }
         if ( ! isset( $data['query_strings'] ) ) {
             $data['query_strings'] = 0;
+        }
+        if ( ! isset( $data['wpcdn'] ) ) {
+            $data['wpcdn'] = 0;
         }
         if ( ! isset( $data['private'] ) ) {
             $data['private'] = 0;
@@ -116,9 +122,11 @@ class Statically_Settings
             'og_theme'        => esc_attr( $data['og_theme'] ),
             'og_fontsize'     => esc_attr( $data['og_fontsize'] ),
             'og_type'         => esc_attr( $data['og_type'] ),
+            'wpadmin'         => (int)( $data['wpadmin'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
             'query_strings'   => (int)( $data['query_strings'] ),
+            'wpcdn'           => (int)( $data['wpcdn'] ),
             'private'         => (int)( $data['private'] ),
             'statically_api_key'  => esc_attr( $data['statically_api_key'] ),
         ];
@@ -157,7 +165,7 @@ class Statically_Settings
     public function enqueue_styles() {
         $current_screen = get_current_screen();
 
-        if ( strpos( $current_screen->base, 'statically' ) === false ) {
+        if ( false === strpos( $current_screen->base, 'statically' ) ) {
             return;
         }
 
@@ -408,6 +416,24 @@ class Statically_Settings
 
                     <tr valign="top">
                         <th scope="row">
+                            <?php _e( 'WordPress Static Assets', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_wpcdn">
+                                    <input type="checkbox" name="statically[wpcdn]" id="statically_wpcdn" value="1" <?php checked(1, $options['wpcdn']) ?> />
+                                    <?php _e( 'Accelerate WordPress static assets with Statically WP-CDN. Default: <code>ON</code>', 'statically' ); ?>
+                                </label>
+
+                                <p class="description">
+                                    <?php _e( 'That means if core/plugin/theme assets like JavaScript and CSS are available on the WordPress SVN, then serve them using Statically WP-CDN. This is useful to reduce load on your server.', 'statically' ); ?>
+                                </p>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
                             <?php _e( 'Disable for Logged-in Users', 'statically' ); ?>
                         </th>
                         <td>
@@ -479,8 +505,8 @@ class Statically_Settings
                                 <label for="statically_favicon-shape">
                                     <h4>Shape</h4>
                                     <select class="mr-1" name="statically[favicon_shape]">
-                                        <option <?php if ( $options['favicon_shape'] === 'rounded' ) echo 'selected="selected"'; ?> value="rounded">rounded</option>
-                                        <option <?php if ( $options['favicon_shape'] === 'square' ) echo 'selected="selected"'; ?> value="square">square</option>
+                                        <option <?php if ( 'rounded' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="rounded">rounded</option>
+                                        <option <?php if ( 'square' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="square">square</option>
                                     </select>
                                 </label>
 
@@ -515,25 +541,25 @@ class Statically_Settings
                                 <label for="statically_og-theme">
                                     <h4>Theme</h4>
                                     <select class="mr-1" name="statically[og_theme]">
-                                        <option <?php if ( $options['og_theme'] === 'light' ) echo 'selected="selected"'; ?> value="light">light</option>
-                                        <option <?php if ( $options['og_theme'] === 'dark' ) echo 'selected="selected"'; ?> value="dark">dark</option>
+                                        <option <?php if ( 'light' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="light">light</option>
+                                        <option <?php if ( 'dark' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="dark">dark</option>
                                     </select>
                                 </label>
 
                                 <label for="statically_og-fontsize">
                                     <h4>Font Size</h4>
                                     <select class="mr-1" name="statically[og_fontsize]">
-                                        <option <?php if ( $options['og_fontsize'] === 'medium' ) echo 'selected="selected"'; ?> value="medium">medium</option>
-                                        <option <?php if ( $options['og_fontsize'] === 'large' ) echo 'selected="selected"'; ?> value="large">large</option>
-                                        <option <?php if ( $options['og_fontsize'] === 'extra-large' ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>
+                                        <option <?php if ( 'medium' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="medium">medium</option>
+                                        <option <?php if ( 'large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="large">large</option>
+                                        <option <?php if ( 'extra-large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>
                                     </select>
                                 </label>
 
                                 <label for="statically_og-type">
                                     <h4>File Type</h4>
                                     <select name="statically[og_type]">
-                                        <option <?php if ( $options['og_type'] === 'jpeg' ) echo 'selected="selected"'; ?> value="jpeg">jpeg</option>
-                                        <option <?php if ( $options['og_type'] === 'png' ) echo 'selected="selected"'; ?> value="png">png</option>
+                                        <option <?php if ( 'jpeg' === $options['og_type'] ) echo 'selected="selected"'; ?> value="jpeg">jpeg</option>
+                                        <option <?php if ( 'png' === $options['og_type'] ) echo 'selected="selected"'; ?> value="png">png</option>
                                     </select>
                                 </label>
                             </fieldset>
@@ -596,8 +622,22 @@ class Statically_Settings
             </div>
 
             <div data-stly-layout="advanced">
-                <h3 class="title">Advanced</h3>                
+                <h3 class="title">Advanced</h3>          
                 <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php _e( 'Enable on WP-Admin', 'statically' ); ?>
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="statically_wpadmin">
+                                    <input type="checkbox" name="statically[wpadmin]" id="statically_wpadmin" value="1" <?php checked(1, $options['wpadmin']) ?> />
+                                    <?php _e( 'Enable Statically on WP-Admin area. Default: <code>OFF</code>', 'statically' ); ?>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
                     <tr valign="top">
                         <th scope="row">
                             <?php _e( 'Relative Path', 'statically' ); ?>
@@ -634,7 +674,7 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_query_strings">
                                     <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
-                                    <?php _e( 'Strip query strings such as <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
+                                    <?php _e( 'Strip query strings like <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
                                 </label>
 
                                 <p class="description">

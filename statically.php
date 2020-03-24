@@ -61,6 +61,7 @@ function STATICALLY_autoload( $class ) {
     if ( in_array(
         $class, [
             'Statically',
+            'Statically_WPCDN',
             'Statically_Rewriter',
             'Statically_Settings'
         ] ) ) {
