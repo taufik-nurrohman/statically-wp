@@ -486,12 +486,12 @@ class Statically_Settings
 
                                 <label for="statically_favicon-bg">
                                     <h4>Background</h4>
-                                    <input type="color" name="statically[favicon_bg]" class="mr-1" id="statically_favicon-bg" value="<?php echo $options['favicon_bg']; ?>" ?>
+                                    <input type="color" name="statically[favicon_bg]" class="mr-1" id="statically_favicon-bg" value="<?php echo $options['favicon_bg']; ?>" />
                                 </label>
 
                                 <label for="statically_favicon-color">
                                     <h4>Font Color</h4>
-                                    <input type="color" name="statically[favicon_color]" class="mr-1" id="statically_favicon-color" value="<?php echo $options['favicon_color']; ?>" ?>
+                                    <input type="color" name="statically[favicon_color]" class="mr-1" id="statically_favicon-color" value="<?php echo $options['favicon_color']; ?>" />
                                 </label>
                             </fieldset>
                         </td>

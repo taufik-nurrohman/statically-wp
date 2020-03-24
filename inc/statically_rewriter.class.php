@@ -104,12 +104,12 @@ class Statically_Rewriter
 
         // OG image service
         if ( $this->og ) {
-            add_action( 'wp_head', [ $this, 'og_image' ], 1 );
+            add_action( 'wp_head', [ $this, 'og_image' ], 2 );
         }
         
         // Favicon service
         if ( $this->favicon ) {
-            add_action( 'wp_head', [ $this, 'favicon' ], 1 );
+            add_action( 'wp_head', [ $this, 'favicon' ], 2 );
         }
 
         // add DNS prefetch meta
