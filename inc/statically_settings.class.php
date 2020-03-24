@@ -60,6 +60,15 @@ class Statically_Settings
         if ( ! isset( $data['favicon'] ) ) {
             $data['favicon'] = 0;
         }
+        if ( ! isset( $data['favicon_shape'] ) ) {
+            $data['favicon_shape'] = 'rounded';
+        }
+        if ( ! isset( $data['favicon_bg'] ) ) {
+            $data['favicon_bg'] = '#000000';
+        }
+        if ( ! isset( $data['favicon_color'] ) ) {
+            $data['favicon_color'] = '#ffffff';
+        }
         if ( ! isset( $data['og'] ) ) {
             $data['og'] = 0;
         }
@@ -100,6 +109,9 @@ class Statically_Settings
             'external_images'  => esc_attr( $data['external_images'] ),
             'emoji'           => (int)( $data['emoji'] ),
             'favicon'         => (int)( $data['favicon'] ),
+            'favicon_shape'   => esc_attr( $data['favicon_shape'] ),
+            'favicon_bg'      => esc_attr( $data['favicon_bg'] ),
+            'favicon_color'   => esc_attr( $data['favicon_color'] ),
             'og'              => (int)( $data['og'] ),
             'og_theme'        => esc_attr( $data['og_theme'] ),
             'og_fontsize'     => esc_attr( $data['og_fontsize'] ),
@@ -457,12 +469,30 @@ class Statically_Settings
                             <fieldset>
                                 <label for="statically_favicon">
                                     <input type="checkbox" name="statically[favicon]" id="statically_favicon" value="1" <?php checked(1, $options['favicon']) ?> />
-                                    <?php _e( 'Set a favicon for your website using Statically Favicon service. Default: <code>OFF</code>', 'statically' ); ?>
+                                    <?php _e( 'Set a favicon for your website using the Statically Favicon service. Default: <code>OFF</code>', 'statically' ); ?>
                                 </label>
 
                                 <p class="description">
-                                    <?php _e( 'This feature allows you to generate a personalized image based on the name of your website using Statically Favicon service and then use it as your website&#39;s favicon. Only use this feature if you haven&#39;t set one.', 'statically' ); ?>
+                                    <?php _e( 'This feature allows you to generate a personalized image based on the name of your website using the Statically Favicon service and then use it as your website&#39;s favicon. Only use this feature if you haven&#39;t set one.', 'statically' ); ?>
                                 </p>
+
+                                <label for="statically_favicon-shape">
+                                    <h4>Shape</h4>
+                                    <select class="mr-1" name="statically[favicon_shape]">
+                                        <option <?php if ( $options['favicon_shape'] === 'rounded' ) echo 'selected="selected"'; ?> value="rounded">rounded</option>
+                                        <option <?php if ( $options['favicon_shape'] === 'square' ) echo 'selected="selected"'; ?> value="square">square</option>
+                                    </select>
+                                </label>
+
+                                <label for="statically_favicon-bg">
+                                    <h4>Background</h4>
+                                    <input type="color" name="statically[favicon_bg]" class="mr-1" id="statically_favicon-bg" value="<?php echo $options['favicon_bg']; ?>" ?>
+                                </label>
+
+                                <label for="statically_favicon-color">
+                                    <h4>Font Color</h4>
+                                    <input type="color" name="statically[favicon_color]" class="mr-1" id="statically_favicon-color" value="<?php echo $options['favicon_color']; ?>" ?>
+                                </label>
                             </fieldset>
                         </td>
                     </tr>
@@ -484,7 +514,7 @@ class Statically_Settings
 
                                 <label for="statically_og-theme">
                                     <h4>Theme</h4>
-                                    <select name="statically[og_theme]">
+                                    <select class="mr-1" name="statically[og_theme]">
                                         <option <?php if ( $options['og_theme'] === 'light' ) echo 'selected="selected"'; ?> value="light">light</option>
                                         <option <?php if ( $options['og_theme'] === 'dark' ) echo 'selected="selected"'; ?> value="dark">dark</option>
                                     </select>
@@ -492,7 +522,7 @@ class Statically_Settings
 
                                 <label for="statically_og-fontsize">
                                     <h4>Font Size</h4>
-                                    <select name="statically[og_fontsize]">
+                                    <select class="mr-1" name="statically[og_fontsize]">
                                         <option <?php if ( $options['og_fontsize'] === 'medium' ) echo 'selected="selected"'; ?> value="medium">medium</option>
                                         <option <?php if ( $options['og_fontsize'] === 'large' ) echo 'selected="selected"'; ?> value="large">large</option>
                                         <option <?php if ( $options['og_fontsize'] === 'extra-large' ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>

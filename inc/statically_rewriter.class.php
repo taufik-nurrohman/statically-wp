@@ -20,6 +20,9 @@ class Statically_Rewriter
     var $external_images = null;    // set external image domains
     var $emoji          = false;    // set emoji CDN
     var $favicon        = false;    // set website's Favicon
+    var $favicon_shape  = null;     // set favicon's shape
+    var $favicon_bg     = null;     // set favicon's background
+    var $favicon_color = null;     // set favicon's font color
     var $og             = false;    // enable OG Image service
     var $og_theme       = null;     // set OG Image theme
     var $og_fontsize    = null;     // set OG Image font-size
@@ -51,6 +54,9 @@ class Statically_Rewriter
         $webp,
         $emoji,
         $favicon,
+        $favicon_shape,
+        $favicon_bg,
+        $favicon_color,
         $og,
         $og_theme,
         $og_fontsize,
@@ -71,6 +77,9 @@ class Statically_Rewriter
         $this->webp           = $webp;
         $this->emoji          = $emoji;
         $this->favicon        = $favicon;
+        $this->favicon_shape  = $favicon_shape;
+        $this->favicon_bg     = $favicon_bg;
+        $this->favicon_color = $favicon_color;
         $this->og             = $og;
         $this->og_theme       = $og_theme;
         $this->og_fontsize    = $og_fontsize;
@@ -442,6 +451,7 @@ class Statically_Rewriter
             // end options
             $options .= '/';
 
+            // combine URL
             $url = $this->statically_cdn_url . '/og' . $options;
             $url = $url . rawurlencode( $text ) . $type;
 
@@ -468,13 +478,44 @@ class Statically_Rewriter
         $size_large = $size_small * 4;
         $name = get_bloginfo( 'name' );
         $image = '/' . urlencode( $name ) . '.png';
+        $favicon_bg = str_replace('#', '', $this->favicon_bg);
+        $favicon_color = str_replace('#', '', $this->favicon_color);
 
         // set sizes for meta tag
         $sizes_small = $size_small . 'x' . $size_small;
         $sizes_medium = $size_medium . 'x' . $size_medium;
 
-        // start URL
-        $url = $this->statically_cdn_url . '/favicons/g/s=';
+        // start options
+        $options = '';
+        if ( $this->favicon_shape !== 'rounded' ) {
+            $options = '/square=1';
+        }
+
+        // option for background
+        if ( $favicon_bg !== '000000' ) {
+            $options .= ',bg=' . $favicon_bg;
+        }
+
+        // option for color
+        if ( $favicon_color !== 'ffffff' ) {
+            $options .= ',c=' . $favicon_color;
+        }
+
+        // option for size
+        $options .= ',s=';
+
+        // clean up params if shape is rounded by finding and remove
+        // the first comma `,` from options and change it to slash `/`
+        if ( $this->favicon_shape === 'rounded' && $favicon_bg === '000000' && $favicon_color === 'ffffff' ||
+        $this->favicon_shape === 'rounded' && $favicon_bg !== '000000' && $favicon_color === 'ffffff' ||
+        $this->favicon_shape === 'rounded' && $favicon_bg === '000000' && $favicon_color !== 'ffffff' ||
+        $this->favicon_shape === 'rounded' && $favicon_bg !== '000000' && $favicon_color !== 'ffffff' ) {
+            $options = substr($options, strpos($options, ',') + 1);
+            $options = '/' . $options;
+        }
+
+        // combine URL
+        $url = $this->statically_cdn_url . '/favicons/g' . $options;
 
         // meta tag
         $icon = '<link rel="icon" href="' . $url . $size_small . $image . '" sizes="' . $sizes_small . '" />' . "\n";

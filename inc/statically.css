@@ -24,6 +24,11 @@ body.settings_page_statically #wpcontent {
   border-color: #79cbff;
   box-shadow: none;
 }
+.stly input[type="color"] {
+  border-radius: 3px;
+  width: 90px;
+  height: 32px;
+}
 .stly .notice.notice-success {
   border: 1px solid #eee;
   border-left-color: #0fe273;
@@ -62,6 +67,9 @@ body.settings_page_statically #wpcontent {
   background: #63b3ed;
   border-color: #4299e1;
   box-shadow: none;
+}
+.stly .mr-1 {
+  margin-right: .6rem;
 }
 
 /** Header */
@@ -214,6 +222,9 @@ body.settings_page_statically #wpcontent {
   }
   .stly-tab li:last-child a {
     margin-right: 2.5rem;
+  }
+  .stly input[type="color"] {
+    height: 41px;
   }
 }
 
