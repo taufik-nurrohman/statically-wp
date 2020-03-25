@@ -12,7 +12,7 @@
 
                 include STATICALLY_DIR . '/views/options-general.php';
                 include STATICALLY_DIR . '/views/options-optimization.php';
-                include STATICALLY_DIR . '/views/options-misc.php';
+                include STATICALLY_DIR . '/views/options-extra.php';
                 include STATICALLY_DIR . '/views/options-caching.php';
                 include STATICALLY_DIR . '/views/options-advanced.php';
 

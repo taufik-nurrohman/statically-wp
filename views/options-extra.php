@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) OR exit; ?>
 
-<div data-stly-layout="misc">
-    <h3 class="title">Miscellaneous</h3>
+<div data-stly-layout="extra">
+    <h3 class="title">Extra</h3>
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
