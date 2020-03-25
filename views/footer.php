@@ -3,7 +3,7 @@
 <footer class="stly stly-footer">
     <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>
     <a href="https://statically.io/contact/" target="_blank"><?php _e( 'Get a custom domain', 'statically'); ?></a>
-    <a href="?page=statically-debugger"><?php _e( 'Debug', 'statically'); ?></a>
+    <a href="<?php echo admin_url( 'admin.php?page=statically-debugger' ); ?>"><?php _e( 'Debug', 'statically'); ?></a>
 
     <div class="social">
         <span class="rating">

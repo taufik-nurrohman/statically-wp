@@ -36,7 +36,7 @@ $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.sv
 
     <?php if ( Statically::admin_pagenow( 'statically-debugger' ) ) : ?>
         <li>
-            <a href="<?php echo add_query_arg( [ 'page' => 'statically', ], admin_url( 'admin.php' ) ); ?>">
+            <a href="<?php echo admin_url( 'admin.php?page=statically' ); ?>">
                 <i class="dashicons dashicons-arrow-left"></i>
                 <?php _e( 'Back to Settings', 'statically' ); ?>
             </a>
