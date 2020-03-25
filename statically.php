@@ -61,9 +61,13 @@ function STATICALLY_autoload( $class ) {
     if ( in_array(
         $class, [
             'Statically',
-            'Statically_WPCDN',
             'Statically_Rewriter',
-            'Statically_Settings'
+            'Statically_WPCDN',
+            'Statically_Emoji',
+            'Statically_Favicons',
+            'Statically_OG',
+            'Statically_Settings',
+            'Statically_Debugger'
         ] ) ) {
         require_once(
             sprintf(

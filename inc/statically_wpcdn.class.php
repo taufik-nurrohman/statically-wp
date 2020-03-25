@@ -6,17 +6,19 @@
  * @since 0.5.0
  */
 
-class Statically_WPCDN {
+class Statically_WPCDN
+{
 	const CDN = 'https://cdn.statically.io/wp/';
 
 	/**
 	 * Sets up action handlers needed for Statically class.
 	 */
-	public static function rewrite_assets() {
-		$GLOBALS['concatenate_scripts'] = false;
+	public static function hook() {
 		$options = Statically::get_options();
 
 		if ( $options['wpcdn'] ) {
+			$GLOBALS['concatenate_scripts'] = false;
+
 			add_action( 'wp_print_scripts', array( __CLASS__, 'cdnize_assets' ) );
 			add_action( 'wp_print_styles', array( __CLASS__, 'cdnize_assets' ) );
 			add_action( 'admin_print_scripts', array( __CLASS__, 'cdnize_assets' ) );
@@ -163,7 +165,7 @@ class Statically_WPCDN {
 
 			$assets = array(); // The variable will be redefined in the included file.
 
-			include STATICALLY_DIR . '/inc/statically-manifest.php';
+			include STATICALLY_DIR . '/inc/statically.manifest.php';
 			return $assets;
 		}
 

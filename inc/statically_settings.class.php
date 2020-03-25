@@ -8,6 +8,7 @@
 
 class Statically_Settings
 {
+    const ICON_BASE64_SVG = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYuNjc1bW0iIGhlaWdodD0iMTYuNjc1bW0iIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbC1ydWxlPSJldmVub2RkIiBpbWFnZS1yZW5kZXJpbmc9Im9wdGltaXplUXVhbGl0eSIgc2hhcGUtcmVuZGVyaW5nPSJnZW9tZXRyaWNQcmVjaXNpb24iIHRleHQtcmVuZGVyaW5nPSJnZW9tZXRyaWNQcmVjaXNpb24iIHZpZXdCb3g9IjAgMCA0NDUuNjcgNDQ1LjMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjExMC42NyIgeDI9IjMzNC4zMiIgeTE9IjQxNC44IiB5Mj0iMzAuMTkiIGdyYWRpZW50VHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNTU1LjcpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q3MjQzMCIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZkYTI1OSIgb2Zmc2V0PSIxIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLjMzNDI3IC0xNTU2KSI+PHBhdGggZD0ibTMwIDE2NjYuN2M2Mi0xMDcgMTk4LTE0MyAzMDQtODEgMTA3IDYyIDE0MyAxOTggODEgMzA0LTYyIDEwNy0xOTggMTQzLTMwNCA4MS0xMDctNjItMTQzLTE5OC04MS0zMDR6IiBmaWxsPSJ1cmwoI2EpIi8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMTk0IC4xMTIzNiAtLjExMjkyIDEuMjI1NSAtMjIuMjUxIDE0NzguNCkiIHN0cm9rZT0iI2ZlZmVmZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyMy4wNDEiPjxnIHN0cm9rZT0iI2ZlZmVmZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyMy4wNDEiPjxwYXRoIGQ9Ik0yODMgMjI2bC00Ny0xOSA3NC0xMDVMMTU2IDIyMmw1MiAxOC03MyAxMDZ6IiBmaWxsPSIjZmVmZWZlIiBzdHJva2U9IiNmZWZlZmUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMjMuMDQxIi8+PC9nPjwvZz48L2c+PC9zdmc+';
 
 
     /**
@@ -134,15 +135,15 @@ class Statically_Settings
 
 
     /**
-     * add settings page
+     * add menu page
      *
      * @since   0.0.1
-     * @change  0.0.1
+     * @change  0.5.0
      */
 
     public static function add_settings_page()
     {
-        $page = add_options_page(
+        $page = add_menu_page(
             'Statically',
             'Statically',
             'manage_options',
@@ -150,30 +151,34 @@ class Statically_Settings
             [
                 __CLASS__,
                 'settings_page',
-            ]
+            ],
+            self::ICON_BASE64_SVG
         );
     }
 
 
     /**
-     * register plugin styles
-     * 
-     * @since 0.0.1
-     * @change 0.1.0
+     * Adjusts position of dashboard menu icons
+     *
+     * @param string[] $menu_order list of menu items
+     * @return string[] list of menu items
      */
+    public static function set_menu_order( array $menu_order ) : array {
+        $order = [];
+        $file  = plugin_basename( __FILE__ );
 
-    public function enqueue_styles() {
-        $current_screen = get_current_screen();
-
-        if ( false === strpos( $current_screen->base, 'statically' ) ) {
-            return;
+        foreach ( $menu_order as $index => $item ) {
+            if ( $item === 'index.php' ) {
+                $order[] = $item;
+            }
         }
 
-        // main css
-		wp_enqueue_style( 'statically', plugin_dir_url( __FILE__ ) . 'statically.css', array(), STATICALLY_VERSION );
+        $order = array(
+            'index.php',
+            'statically',
+        );
 
-        // main js
-        wp_enqueue_script( 'statically', plugin_dir_url( __FILE__ ) . 'statically.js', array(), STATICALLY_VERSION );
+        return $order;
     }
 
 
@@ -190,537 +195,8 @@ class Statically_Settings
     {
         $options = Statically::get_options();
 
-      ?>
-
-<header class="stly-header-container">
-    <div class="stly-header">
-        <div class="logo">
-            <a href="https://statically.io/" target="_blank" title="<?php _e( 'Optimization for your website static assets.', 'statically' ); ?>">
-                <img src="<?php echo plugin_dir_url( __FILE__ ) . 'statically.svg'; ?>" />
-            </a>
-        </div>
-
-        <nav>
-            <ul>
-                <li><a href="https://wordpress.org/support/plugin/statically/" target="_blank"><?php _e( 'Help', 'statically' ); ?></a></li>
-                <li><a href="https://twitter.com/intent/follow?screen_name=staticallyio" target="_blank" title="Follow @staticallyio on Twitter"><i class="dashicons dashicons-twitter"></i></a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<nav class="stly-tab">
-    <ul class="stly">
-        <li><a data-stly-tab="general" href="#general">General</a></li>
-        <li><a data-stly-tab="optimization" href="#optimization">Optimization</a></li>
-        <li><a data-stly-tab="misc" href="#misc">Misc</a></li>
-        <li><a data-stly-tab="caching" href="#caching">Caching</a></li>
-        <li><a data-stly-tab="advanced" href="#advanced">Advanced</a></li>
-    </ul>
-</nav>
-
-<section class="stly-plugin-container">
-    <div class="stly stly-options wrap">
-        <h2 style="display: none;"><?php _e( 'Statically', 'statically' ); ?></h2>
-
-        <form method="post" action="options.php">
-            <?php settings_fields( 'statically' ) ?>
-
-            <div data-stly-layout="general">
-                <h3 class="title">General</h3>
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Statically CDN URL', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_url">
-                                    <input type="text" name="statically[url]" id="statically_url" value="<?php echo $options['url']; ?>" size="64" class="regular-text" required />
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Enter the CDN URL without trailing slash', 'statically' ); ?>. <?php _e( 'The format is', 'statically' ); ?> <code>https://cdn.statically.io/sites/:domain</code>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Statically API Key', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_api_key">
-                                    <input type="password" name="statically[statically_api_key]" id="statically_api_key" value="<?php echo $options['statically_api_key']; ?>" size="64" class="regular-text" required />
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Statically API key to make this plugin working &#8212; <a href="https://statically.io/wordpress" target="_blank">Get one here</a>', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Asset Inclusions', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_dirs">
-                                    <input type="text" name="statically[dirs]" id="statically_dirs" value="<?php echo $options['dirs']; ?>" size="64" class="regular-text" />
-                                    <?php _e( 'Default: <code>wp-content,wp-includes</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Assets in these directories will be pointed to the CDN URL. Enter the directories separated by', 'statically' ); ?> <code>,</code>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Asset Exclusions', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_excludes">
-                                    <input type="text" name="statically[excludes]" id="statically_excludes" value="<?php echo $options['excludes']; ?>" size="64" class="regular-text" />
-                                    <?php _e( 'Default: <code>.php</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Enter the exclusions (directories or extensions) separated by', 'statically' ); ?> <code>,</code>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div data-stly-layout="optimization">
-                <h3 class="title">Optimization</h3>
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'CSS & JS Minifications', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_minifications">
-                                    <input type="checkbox" name="statically[minifications]" id="statically_minifications" value="1" checked="checked" disabled />
-                                    <?php _e( 'Automatically enabled for maximum performance of your static assets.', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top" id="images">
-                        <th scope="row">
-                            <?php _e( 'Image Optimization', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_images">
-                                    <input type="checkbox" name="statically[images]" id="statically_images" value="1" checked="checked" disabled />
-                                    <?php _e( 'Automatically enabled for maximum performance of your image files.', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Optimize all images via CDN. Add the ability to compress and resize. It also minimizes SVG files. Configure the settings below to set a different quality or size.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Image Quality', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_quality">
-                                    <input type="number" name="statically[quality]" id="statically_quality" value="<?php echo $options['quality']; ?>" min="0" max="100" style="max-width: 6em" />
-                                    <?php _e( ' % &#8212; Value between: <code>10 - 100</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Set the compression rate for all images.  Set <code>0</code> to disable.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Image Resize', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_width">
-                                    <h4 style="margin-top: 0;">Max-width</h4>
-                                    <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
-                                    <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Set the maximum width for all images. Set <code>0</code> to disable.', 'statically' ); ?>
-                                </p>
-
-                                <label for="statically_height">
-                                    <h4>Max-height</h4>
-                                    <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
-                                    <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Set the maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Auto WebP', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_webp">
-                                    <input type="checkbox" name="statically[webp]" id="statically_webp" value="1" <?php checked(1, $options['webp']) ?> />
-                                    <?php _e( 'Convert image into the next-gen WebP format when browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Allowed External Images', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="external_images">
-                                    <input type="text" name="statically[external_images]" id="external_images" value="<?php echo $options['external_images']; ?>" size="64" class="regular-text" />
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Images that are from these external domains will be included to Statically. Enter domains separated by', 'statically' ); ?> <code>,</code>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'WordPress Static Assets', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_wpcdn">
-                                    <input type="checkbox" name="statically[wpcdn]" id="statically_wpcdn" value="1" <?php checked(1, $options['wpcdn']) ?> />
-                                    <?php _e( 'Accelerate WordPress static assets with Statically WP-CDN. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'That means if core/plugin/theme assets like JavaScript and CSS are available on the WordPress SVN, then serve them using Statically WP-CDN. This is useful to reduce load on your server.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Disable for Logged-in Users', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_private">
-                                    <input type="checkbox" name="statically[private]" id="statically_private" value="1" <?php checked(1, $options['private']) ?> />
-                                    <?php _e( 'Turn off Statically for logged-in users. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Exclude Query Strings', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_qs-excludes">
-                                    <input type="text" name="statically[qs_excludes]" id="statically_qs-excludes" value="<?php echo $options['qs_excludes']; ?>" size="64" class="regular-text" />
-                                    <?php _e( 'Default: <code>no-statically</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Pages with query string containing these parameters will not perform Statically optimization. For example, if we set <code>no-statically</code> then <code>/?no-statically=1</code> will not be optimized. Enter the query string keys separated by', 'statically' ); ?> <code>,</code>
-                                </p>
-
-                                <p class="description">
-                                    <?php _e( 'This can be useful when you use other plugins that require query string to work and you want to turn off Statically to avoid possible JavaScript errors.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div data-stly-layout="misc">
-                <h3 class="title">Miscellaneous</h3>
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Emoji CDN', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_emoji">
-                                    <input type="checkbox" name="statically[emoji]" id="statically_emoji" value="1" <?php checked(1, $options['emoji']) ?> />
-                                    <?php _e( 'Replace the default WordPress emoji CDN with Statically. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Favicon', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_favicon">
-                                    <input type="checkbox" name="statically[favicon]" id="statically_favicon" value="1" <?php checked(1, $options['favicon']) ?> />
-                                    <?php _e( 'Set a favicon for your website using the Statically Favicon service. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'This feature allows you to generate a personalized image based on the name of your website using the Statically Favicon service and then use it as your website&#39;s favicon. Only use this feature if you haven&#39;t set one.', 'statically' ); ?>
-                                </p>
-
-                                <label for="statically_favicon-shape">
-                                    <h4>Shape</h4>
-                                    <select class="mr-1" name="statically[favicon_shape]">
-                                        <option <?php if ( 'rounded' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="rounded">rounded</option>
-                                        <option <?php if ( 'square' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="square">square</option>
-                                    </select>
-                                </label>
-
-                                <label for="statically_favicon-bg">
-                                    <h4>Background</h4>
-                                    <input type="color" name="statically[favicon_bg]" class="mr-1" id="statically_favicon-bg" value="<?php echo $options['favicon_bg']; ?>" />
-                                </label>
-
-                                <label for="statically_favicon-color">
-                                    <h4>Font Color</h4>
-                                    <input type="color" name="statically[favicon_color]" class="mr-1" id="statically_favicon-color" value="<?php echo $options['favicon_color']; ?>" />
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Open Graph Image', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_og">
-                                    <input type="checkbox" name="statically[og]" id="statically_og" value="1" <?php checked(1, $options['og']) ?> />
-                                    <?php _e( 'Enable automatic Open Graph Image service. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'When there is no Featured Image set, create an image from the page title with the Statically OG Image service and use it as your site&#39;s metadata. Useful for improving visibility on Facebook and Twitter. Learn more about <a href="https://ogp.me" target="_blank">The Open Graph protocol</a>.', 'statically' ); ?>
-                                </p>
-
-                                <label for="statically_og-theme">
-                                    <h4>Theme</h4>
-                                    <select class="mr-1" name="statically[og_theme]">
-                                        <option <?php if ( 'light' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="light">light</option>
-                                        <option <?php if ( 'dark' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="dark">dark</option>
-                                    </select>
-                                </label>
-
-                                <label for="statically_og-fontsize">
-                                    <h4>Font Size</h4>
-                                    <select class="mr-1" name="statically[og_fontsize]">
-                                        <option <?php if ( 'medium' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="medium">medium</option>
-                                        <option <?php if ( 'large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="large">large</option>
-                                        <option <?php if ( 'extra-large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>
-                                    </select>
-                                </label>
-
-                                <label for="statically_og-type">
-                                    <h4>File Type</h4>
-                                    <select name="statically[og_type]">
-                                        <option <?php if ( 'jpeg' === $options['og_type'] ) echo 'selected="selected"'; ?> value="jpeg">jpeg</option>
-                                        <option <?php if ( 'png' === $options['og_type'] ) echo 'selected="selected"'; ?> value="png">png</option>
-                                    </select>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div data-stly-layout="caching">
-                <h3 class="title">Caching</h3>
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Purge Cache', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_purge">
-                                    <?php _e( 'Coming soon!', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( '<strong>You can also try changing <a data-stly-tab="optimization" href="#optimization">Image Quality or Resize</a> settings</strong> to get the fresh version of the image.', 'statically' ); ?>
-                                </p>
-
-                                <p class="description">
-                                    <?php _e( 'While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
-                                </p>
-
-                                <label style="margin-top: 2em!important;">
-                                    <i class="dashicons dashicons-info"></i>
-                                    <?php _e( 'Note that you must specify the full URL of the file in order for your request being procced.', 'statically' ); ?>
-                                </label>
-
-                                <ul>
-                                    <li>
-                                        <code><em>https://cdn.statically.io/sites/example.com/myscript.js</em></code> <i class="dashicons dashicons-yes"></i>
-                                    </li>
-                                    <li>
-                                        <code><em>https://cdn.statically.io/img/example.com/myphoto.jpg</em></code> <i class="dashicons dashicons-yes"></i>
-                                    </li>
-                                    <li>
-                                        <code><em>https://example.com/myphoto.jpg</em></code> <i class="dashicons dashicons-yes"></i>
-                                    </li>
-                                
-                                    <li>
-                                        <code><em>https://cdn.statically.io/sites/example.com</em></code> <i class="dashicons dashicons-no"></i>
-                                    </li>
-                                    <li>
-                                        <code><em>https://cdn.statically.io/img/example.com/*</em></code> <i class="dashicons dashicons-no"></i>
-                                    </li>
-                                    <li>
-                                        <code><em>https://example.com/*</em></code> <i class="dashicons dashicons-no"></i>
-                                    </li>
-                                </ul>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div data-stly-layout="advanced">
-                <h3 class="title">Advanced</h3>          
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Enable on WP-Admin', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_wpadmin">
-                                    <input type="checkbox" name="statically[wpadmin]" id="statically_wpadmin" value="1" <?php checked(1, $options['wpadmin']) ?> />
-                                    <?php _e( 'Enable Statically on WP-Admin area. Default: <code>OFF</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Relative Path', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_relative">
-                                    <input type="checkbox" name="statically[relative]" id="statically_relative" value="1" <?php checked(1, $options['relative']) ?> />
-                                    <?php _e( 'Enable CDN for relative paths. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'CDN HTTPS', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_https">
-                                    <input type="checkbox" name="statically[https]" id="statically_https" value="1" <?php checked(1, $options['https']) ?> />
-                                    <?php _e( 'Enable CDN for HTTPS connections. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-                            </fieldset>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row">
-                            <?php _e( 'Remove Query Strings', 'statically' ); ?>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label for="statically_query_strings">
-                                    <input type="checkbox" name="statically[query_strings]" id="statically_query_strings" value="1" <?php checked(1, $options['query_strings']) ?> />
-                                    <?php _e( 'Strip query strings like <code>?ver=1.0</code> from assets. Default: <code>ON</code>', 'statically' ); ?>
-                                </label>
-
-                                <p class="description">
-                                    <?php _e( 'Since Statically ignores query strings when downloading content from your site, it is recommended to leave this option enabled.', 'statically' ); ?>
-                                </p>
-                            </fieldset>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <?php submit_button(); ?>
-        </form>
-    </div>
-</section>
-
-<footer class="stly stly-footer">
-    <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>
-    <a href="https://statically.io/contact/" target="_blank"><?php _e( 'Get a custom domain', 'statically'); ?></a>
-    <a href="options-general.php?page=statically-debug"><?php _e( 'Debug', 'statically'); ?></a>
-
-    <div class="social">
-        <span class="rating">
-            <?php _e( '<span class="wide-display">Do you think this is useful? Be kind and</span> rate Statically', 'statically' ); ?>
-            <a class="stars" href="https://wordpress.org/support/plugin/statically/reviews/?filter=5#new-post" target="_blank">
-                <i class="dashicons dashicons-star-filled"></i>
-                <i class="dashicons dashicons-star-filled"></i>
-                <i class="dashicons dashicons-star-filled"></i>
-                <i class="dashicons dashicons-star-filled"></i>
-                <i class="dashicons dashicons-star-filled"></i>
-            </a>
-        </span>
-        <p><?php _e( 'and', 'statically' ); ?></p>
-        <span class="twitter">
-            <span class="mobile-block">
-                <?php _e( 'Share with your friends so that their website is as fast as yours!', 'statically' ); ?>
-            </span>
-            <a
-                class="tweet"
-                href="https://twitter.com/intent/tweet?hashtags=statically&amp;related=statically&amp;url=https://statically.io&amp;text=<?php _e( urlencode(  'The all-in-one solution for your website static asset optimization and CDN, try @staticallyio now!' ), 'statically' ); ?>"
-                target="_blank"
-            >
-                <i class="dashicons dashicons-twitter"></i> <?php _e ( 'Tweet', 'statically' ); ?>
-            </a>
-        </span>
-    </div>
-</footer>
-        <?php
+        include STATICALLY_DIR . '/views/header.php';
+        include STATICALLY_DIR . '/views/options.php';
+        include STATICALLY_DIR . '/views/footer.php';
     }
 }

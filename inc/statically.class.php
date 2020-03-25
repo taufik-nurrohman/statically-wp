@@ -30,28 +30,42 @@ class Statically
      */
 
     public function __construct() {
-        $options = self::get_options( 'statically' );
-        if ( $options['wpadmin'] == 1 ) {
-            $action_name = 'init';
+        $options = Statically::get_options( 'statically' );
+        if ( $options['wpadmin'] ) {
+            $base_action = 'init';
         } else {
-            $action_name = 'template_redirect';
+            $base_action = 'template_redirect';
         }
 
         /* CDN rewriter hook */
-        add_action( $action_name, [ __CLASS__, 'handle_rewrite_hook' ] );
+        add_action( $base_action, [ __CLASS__, 'handle_rewrite_hook' ] );
 
         /* WP Core CDN rewriter hook */
-        add_action( $action_name, [ 'Statically_WPCDN', 'rewrite_assets' ] );
+        add_action( $base_action, [ 'Statically_WPCDN', 'hook' ] );
 
         /* Rewrite rendered content in REST API */
         add_filter( 'the_content', [ __CLASS__, 'rewrite_the_content', ], 100 );
+
+        /* Features */
+        add_action( $base_action, [ 'Statically_Emoji', 'hook' ] );
+        add_action( $base_action, [ 'Statically_Favicons', 'hook' ] );
+        add_action( 'wp_head', [ 'Statically_OG', 'hook' ], 3 );
+
+        // remove query strings
+        if ( $options['query_strings'] ) {
+            add_filter( 'style_loader_src', [ __CLASS__, 'remove_query_strings' ], 999 );
+            add_filter( 'script_loader_src', [ __CLASS__, 'remove_query_strings' ], 999 );
+        }
 
         /* Hooks */
         add_action( 'admin_init', [ __CLASS__, 'register_textdomain' ] );
         add_action( 'admin_init', [ 'Statically_Settings', 'register_settings' ] );
         add_action( 'admin_menu', [ 'Statically_Settings', 'add_settings_page' ] );
-        add_action( 'admin_enqueue_scripts', [ 'Statically_Settings', 'enqueue_styles' ] );
+        add_filter( 'custom_menu_order', '__return_true' );
+        add_filter( 'menu_order', [ 'Statically_Settings', 'set_menu_order' ] );
         add_filter( 'plugin_action_links_' . STATICALLY_BASE, [ __CLASS__, 'add_action_link' ] );
+        add_action( 'admin_menu', [ 'Statically_Debugger', 'add_settings_page' ] );
+        add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_scripts' ] );
 
         /* admin notices */
         add_action( 'all_admin_notices', [ __CLASS__, 'statically_requirements_check' ] );
@@ -154,7 +168,7 @@ class Statically
 
     public static function statically_requirements_check() {
         // WordPress version check
-        if ( version_compare( $GLOBALS['wp_version'], STATICALLY_MIN_WP.'alpha', '<') ) {
+        if ( version_compare( $GLOBALS['wp_version'], STATICALLY_MIN_WP . 'alpha', '<' ) ) {
             show_message(
                 sprintf(
                     '<div class="error"><p>%s</p></div>',
@@ -215,7 +229,7 @@ class Statically
                 'og_theme'        => 'light',
                 'og_fontsize'     => 'medium',
                 'og_type'         => 'jpeg',
-                'wpadmin'         => 1,
+                'wpadmin'         => 0,
                 'relative'        => 1,
                 'https'           => 1,
                 'query_strings'   => 1,
@@ -250,23 +264,62 @@ class Statically
             $options['height'],
             $options['external_images'],
             $options['webp'],
-            $options['emoji'],
-            $options['favicon'],
-            $options['favicon_shape'],
-            $options['favicon_bg'],
-            $options['favicon_color'],
-            $options['og'],
-            $options['og_theme'],
-            $options['og_fontsize'],
-            $options['og_type'],
-            $options['wpadmin'],
             $options['relative'],
             $options['https'],
-            $options['query_strings'],
-            $options['wpcdn'],
             $options['private'],
             $options['statically_api_key']
         );
+    }
+
+
+    /**
+     * remove query strings from asset URL
+     *
+     * @since   0.1.0
+     * @change  0.1.0
+     *
+     * @param   string  $src  original asset URL
+     * @return  string  asset URL without query strings
+     */
+
+    public static function remove_query_strings( $src ) {
+		if ( false !== strpos( $src, '.css?' ) || false !== strpos( $src, '.js?' ) ) {
+			$src = preg_replace( '/\?.*/', '', $src );
+		}
+
+		return $src;
+    }
+
+
+    public function admin_pagenow( $page ) {
+        global $pagenow;
+        if ( 'admin.php' === $pagenow &&
+                isset( $_GET['page'] ) && $page === $_GET['page'] ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * register plugin styles
+     * 
+     * @since 0.0.1
+     * @change 0.1.0
+     */
+
+    public function admin_scripts() {
+        if ( ! Statically::admin_pagenow( 'statically' ) &&
+                ! Statically::admin_pagenow( 'statically-debugger' ) ) {
+            return;
+        }
+
+        // main css
+		wp_enqueue_style( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.css', array(), STATICALLY_VERSION );
+
+        // main js
+        wp_enqueue_script( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.js', array(), STATICALLY_VERSION );
     }
 
 
@@ -282,7 +335,7 @@ class Statically
         $qs_excludes = array_map( 'trim', explode( ',', $options['qs_excludes'] ) );
 
         // check if origin equals cdn url
-        if ( get_option( 'home' ) == $options['url'] ) {
+        if ( $options['url'] === get_option( 'home' ) ) {
             return;
         }
 
@@ -292,7 +345,7 @@ class Statically
             return;
         }
 
-        // check for query strings that should be ignored from rewriting
+        // do not perform rewriting on pages with specified query strings
         foreach ( $qs_excludes as $qs_exclude ) {
             if ( !! $qs_exclude && array_key_exists( $qs_exclude, $_GET ) ) {
                 return;

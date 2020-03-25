@@ -1,6 +1,6 @@
 /** Body settings */
-body.settings_page_statically #wpcontent {
-  padding-left: 0;
+#wpcontent {
+  padding-left: 0!important;
 }
 
 /** Base */
