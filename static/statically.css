@@ -71,6 +71,9 @@
 .stly .mr-1 {
   margin-right: .6rem;
 }
+.stly pre.debugger strong {
+  text-transform: uppercase;
+}
 
 /** Header */
 .stly-header-container {

@@ -20,8 +20,7 @@
             <?php endif; ?>
 
             <?php if ( Statically::admin_pagenow( 'statically-debugger' ) ) :
-                echo 'Debugger ok';
+                include STATICALLY_DIR . '/views/debugger.php';
             endif; ?>
-        
     </div>
 </section>
