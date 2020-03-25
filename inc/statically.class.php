@@ -97,7 +97,7 @@ class Statically
                         [
                             'page' => 'statically',
                         ],
-                        admin_url( 'options-general.php' )
+                        admin_url( 'admin.php' )
                     ),
                     __("Settings")
                 ),
