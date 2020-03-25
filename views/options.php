@@ -1,3 +1,5 @@
+<?php defined( 'ABSPATH' ) OR exit; ?>
+
 <section class="stly-plugin-container">
     <div class="stly stly-options wrap">
         <h2 style="display: none;"><?php _e( 'Statically', 'statically' ); ?></h2>

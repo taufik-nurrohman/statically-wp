@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) OR exit;
+
 global $wp_version;
 $options = Statically::get_options();
 unset( $options['statically_api_key'] );

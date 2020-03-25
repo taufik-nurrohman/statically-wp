@@ -1,3 +1,5 @@
+<?php defined( 'ABSPATH' ) OR exit; ?>
+
 <footer class="stly stly-footer">
     <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>
     <a href="https://statically.io/contact/" target="_blank"><?php _e( 'Get a custom domain', 'statically'); ?></a>

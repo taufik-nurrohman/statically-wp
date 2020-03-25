@@ -1,3 +1,5 @@
+<?php defined( 'ABSPATH' ) OR exit; ?>
+
 <div data-stly-layout="general">
     <h3 class="title">General</h3>
     <table class="form-table">

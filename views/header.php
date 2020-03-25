@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) OR exit;
+
 $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.svg';
 
 ?>

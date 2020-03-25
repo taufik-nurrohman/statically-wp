@@ -1,3 +1,5 @@
+<?php defined( 'ABSPATH' ) OR exit; ?>
+
 <div data-stly-layout="optimization">
     <h3 class="title">Optimization</h3>
     <table class="form-table">
