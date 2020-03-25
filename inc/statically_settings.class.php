@@ -8,8 +8,6 @@
 
 class Statically_Settings
 {
-    const ICON_BASE64_SVG = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYuNjc1bW0iIGhlaWdodD0iMTYuNjc1bW0iIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbC1ydWxlPSJldmVub2RkIiBpbWFnZS1yZW5kZXJpbmc9Im9wdGltaXplUXVhbGl0eSIgc2hhcGUtcmVuZGVyaW5nPSJnZW9tZXRyaWNQcmVjaXNpb24iIHRleHQtcmVuZGVyaW5nPSJnZW9tZXRyaWNQcmVjaXNpb24iIHZpZXdCb3g9IjAgMCA0NDUuNjcgNDQ1LjMzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjExMC42NyIgeDI9IjMzNC4zMiIgeTE9IjQxNC44IiB5Mj0iMzAuMTkiIGdyYWRpZW50VHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNTU1LjcpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q3MjQzMCIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZkYTI1OSIgb2Zmc2V0PSIxIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLjMzNDI3IC0xNTU2KSI+PHBhdGggZD0ibTMwIDE2NjYuN2M2Mi0xMDcgMTk4LTE0MyAzMDQtODEgMTA3IDYyIDE0MyAxOTggODEgMzA0LTYyIDEwNy0xOTggMTQzLTMwNCA4MS0xMDctNjItMTQzLTE5OC04MS0zMDR6IiBmaWxsPSJ1cmwoI2EpIi8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMTk0IC4xMTIzNiAtLjExMjkyIDEuMjI1NSAtMjIuMjUxIDE0NzguNCkiIHN0cm9rZT0iI2ZlZmVmZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyMy4wNDEiPjxnIHN0cm9rZT0iI2ZlZmVmZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyMy4wNDEiPjxwYXRoIGQ9Ik0yODMgMjI2bC00Ny0xOSA3NC0xMDVMMTU2IDIyMmw1MiAxOC03MyAxMDZ6IiBmaWxsPSIjZmVmZWZlIiBzdHJva2U9IiNmZWZlZmUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMjMuMDQxIi8+PC9nPjwvZz48L2c+PC9zdmc+';
-
 
     /**
      * register settings
@@ -152,33 +150,8 @@ class Statically_Settings
                 __CLASS__,
                 'settings_page',
             ],
-            self::ICON_BASE64_SVG
+            plugin_dir_url( STATICALLY_FILE ) . 'static/statically-mark-sm.png'
         );
-    }
-
-
-    /**
-     * Adjusts position of dashboard menu icons
-     *
-     * @param string[] $menu_order list of menu items
-     * @return string[] list of menu items
-     */
-    public static function set_menu_order( array $menu_order ) : array {
-        $order = [];
-        $file  = plugin_basename( __FILE__ );
-
-        foreach ( $menu_order as $index => $item ) {
-            if ( $item === 'index.php' ) {
-                $order[] = $item;
-            }
-        }
-
-        $order = array(
-            'index.php',
-            'statically',
-        );
-
-        return $order;
     }
 
 

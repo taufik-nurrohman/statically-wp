@@ -1,5 +1,6 @@
 /** Body settings */
-#wpcontent {
+body.toplevel_page_statically #wpcontent,
+body.toplevel_page_statically-debugger #wpcontent {
   padding-left: 0!important;
 }
 
@@ -110,6 +111,12 @@
 }
 .stly-header .dashicons-twitter {
   color: #1da1f2;
+}
+#adminmenu li.menu-top.toplevel_page_statically .wp-menu-image img {
+  padding-top: 7px!important;
+}
+#adminmenu li.current.menu-top.toplevel_page_statically .wp-menu-image img {
+  opacity: 100;
 }
 
 /** Options */

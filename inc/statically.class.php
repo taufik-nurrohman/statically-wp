@@ -61,8 +61,6 @@ class Statically
         add_action( 'admin_init', [ __CLASS__, 'register_textdomain' ] );
         add_action( 'admin_init', [ 'Statically_Settings', 'register_settings' ] );
         add_action( 'admin_menu', [ 'Statically_Settings', 'add_settings_page' ] );
-        add_filter( 'custom_menu_order', '__return_true' );
-        add_filter( 'menu_order', [ 'Statically_Settings', 'set_menu_order' ] );
         add_filter( 'plugin_action_links_' . STATICALLY_BASE, [ __CLASS__, 'add_action_link' ] );
         add_action( 'admin_menu', [ 'Statically_Debugger', 'add_settings_page' ] );
         add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_scripts' ] );
@@ -310,10 +308,6 @@ class Statically
      */
 
     public function admin_scripts() {
-        if ( ! Statically::admin_pagenow( 'statically' ) &&
-                ! Statically::admin_pagenow( 'statically-debugger' ) ) {
-            return;
-        }
 
         // main css
 		wp_enqueue_style( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.css', array(), STATICALLY_VERSION );
