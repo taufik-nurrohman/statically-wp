@@ -9,6 +9,7 @@
 class Statically
 {
     const CDN = 'https://cdn.statically.io/';
+    const WPCDN = 'https://cdn.statically.io/wp/';
 
 
     /**

@@ -9,7 +9,6 @@
 class Statically_Emoji
 {
     const CDN = 'https://cdn.statically.io/twemoji/';
-    const WPCDN = 'https://cdn.statically.io/wp/';
 
     public static function hook() {
         $options = Statically::get_options();
@@ -46,7 +45,7 @@ class Statically_Emoji
         global $wp_version;
 
         if ( 'concatemoji' == $name ) {
-            $src = self::WPCDN . "c/$wp_version/wp-includes/js/wp-emoji-release.min.js";
+            $src = Statically::WPCDN . "c/$wp_version/wp-includes/js/wp-emoji-release.min.js";
         }
 
         return $src;
