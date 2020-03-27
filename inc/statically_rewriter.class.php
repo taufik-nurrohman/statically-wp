@@ -20,10 +20,7 @@ class Statically_Rewriter
     var $external_images = null;    // set external image domains
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
-
     var $statically_api_key = null; // required API key for Statically
-    var $statically_cdn_url = 'https://cdn.statically.io'; // Statically CDN URL
-    var $statically_wpbase_url = 'https://cdn.statically.io/wp'; // Statically Libs for WP
 
     /**
      * constructor
@@ -301,7 +298,7 @@ class Statically_Rewriter
                 if ( !! $domain && ! strstr( $domain, $blog_domain ) ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
-                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->statically_cdn_url . '/img/' . $domain . $this->image_tranformations() . ',ext=1$1', $html
+                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", Statically::CDN . 'img/' . $domain . $this->image_tranformations() . ',ext=1$1', $html
                     );
                 }
             }
