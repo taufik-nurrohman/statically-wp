@@ -24,7 +24,6 @@ class Statically_OG
      * generate OG image
      * 
      * @since   0.4.0
-     * @change  0.4.1
      */
 
     public static function generate_og() {

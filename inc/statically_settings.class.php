@@ -13,7 +13,6 @@ class Statically_Settings
      * register settings
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function register_settings()
@@ -28,12 +27,10 @@ class Statically_Settings
         );
     }
 
-
     /**
      * validation of settings
      *
      * @since   0.0.1
-     * @change  0.5.0
      *
      * @param   array  $data  array with form data
      * @return  array         array with validated values
@@ -131,12 +128,10 @@ class Statically_Settings
         ];
     }
 
-
     /**
      * add menu page
      *
      * @since   0.0.1
-     * @change  0.5.0
      */
 
     public static function add_settings_page()
@@ -154,12 +149,10 @@ class Statically_Settings
         );
     }
 
-
     /**
      * settings page
      *
      * @since   0.0.1
-     * @change  0.5.0
      *
      * @return  void
      */

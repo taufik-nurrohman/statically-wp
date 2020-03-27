@@ -10,10 +10,8 @@
  * Text Domain: statically
  */
 
-
 /* Check & Quit */
 defined( 'ABSPATH' ) OR exit;
-
 
 /* constants */
 define( 'STATICALLY_VERSION', '0.5.0' );
@@ -22,36 +20,14 @@ define( 'STATICALLY_DIR', dirname( __FILE__ ) );
 define( 'STATICALLY_BASE', plugin_basename( __FILE__ ) );
 define( 'STATICALLY_MIN_WP', '3.8' );
 
-
 /* loader */
-add_action(
-    'plugins_loaded',
-    [
-        'Statically',
-        'instance',
-    ]
-);
-
+add_action( 'plugins_loaded', [ 'Statically', 'instance' ] );
 
 /* uninstall */
-register_uninstall_hook(
-    __FILE__,
-    [
-        'Statically',
-        'handle_uninstall_hook',
-    ]
-);
-
+register_uninstall_hook( __FILE__, [ 'Statically', 'handle_uninstall_hook' ] );
 
 /* activation */
-register_activation_hook(
-    __FILE__,
-    [
-        'Statically',
-        'handle_activation_hook',
-    ]
-);
-
+register_activation_hook( __FILE__, [ 'Statically', 'handle_activation_hook' ] );
 
 /* autoload init */
 spl_autoload_register('STATICALLY_autoload');

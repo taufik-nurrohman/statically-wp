@@ -26,7 +26,6 @@ class Statically_Rewriter
      * constructor
      *
      * @since   0.0.1
-     * @change  0.5.0
      */
 
     function __construct(
@@ -60,12 +59,10 @@ class Statically_Rewriter
         add_action( 'wp_head', [ $this, 'dns_prefetch' ], 1 );
     }
 
-
     /**
      * exclude assets that should not be rewritten
      *
      * @since   0.0.1
-     * @change  0.0.1
      *
      * @param   string  $asset  current asset
      * @return  boolean  true if need to be excluded
@@ -81,12 +78,10 @@ class Statically_Rewriter
         return false;
     }
 
-
     /**
      * relative url
      *
      * @since   0.0.1
-     * @change  0.0.1
      *
      * @param   string  $url a full url
      * @return  string  protocol relative url
@@ -95,12 +90,10 @@ class Statically_Rewriter
         return substr( $url, strpos( $url, '//' ) );
     }
 
-
     /**
      * rewrite url
      *
      * @since   0.0.1
-     * @change  0.3.0
      *
      * @param   string  $asset  current asset
      * @return  string  updated url if not excluded
@@ -169,6 +162,14 @@ class Statically_Rewriter
         return $cdn_url . $asset[0];
     }
 
+    /**
+     * image transformations
+     *
+     * @since   0.5.0
+     *
+     * @return  string  updated filter
+     */
+
     protected function image_tranformations() {
         $tf = '/';
 
@@ -205,12 +206,10 @@ class Statically_Rewriter
         return $tf;
     }
 
-
     /**
      * get directory scope
      *
      * @since   0.0.1
-     * @change  0.0.1
      *
      * @return  string  directory scope
      */
@@ -230,19 +229,16 @@ class Statically_Rewriter
      * check if the $cdn_url is custom domain
      *
      * @since   0.4.1
-     * @change  0.4.1
      */
 
     protected function is_custom_domain() {
         return ! preg_match( '/cdn.statically.io/', $this->cdn_url );
     }
 
-
     /**
      * add DNS prefetch meta
      * 
      * @since   0.4.1
-     * @change  0.4.1
      */
 
     public function dns_prefetch() {
@@ -254,12 +250,10 @@ class Statically_Rewriter
         }
     }
 
-
     /**
      * rewrite url
      *
      * @since   0.0.1
-     * @change  0.5.0
      *
      * @param   string  $html  current raw HTML doc
      * @return  string  updated HTML doc with CDN links

@@ -13,7 +13,6 @@ class Statically_Debugger
      * add settings page
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function add_settings_page()
@@ -31,12 +30,10 @@ class Statically_Debugger
         );
     }
 
-
     /**
      * settings page
      *
      * @since   0.0.1
-     * @change  0.5.0
      *
      * @return  void
      */

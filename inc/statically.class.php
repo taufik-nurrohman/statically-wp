@@ -11,24 +11,20 @@ class Statically
     const CDN = 'https://cdn.statically.io/';
     const WPCDN = 'https://cdn.statically.io/wp/';
 
-
     /**
      * pseudo-constructor
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function instance() {
         new self();
     }
 
-
     /**
      * constructor
      *
      * @since   0.0.1
-     * @change  0.5.0
      */
 
     public function __construct() {
@@ -71,12 +67,10 @@ class Statically
         add_action( 'all_admin_notices', [ __CLASS__, 'statically_requirements_check' ] );
     }
 
-
     /**
      * add action links
      *
      * @since   0.0.1
-     * @change  0.0.1
      *
      * @param   array  $data  alreay existing links
      * @return  array  $data  extended array with links
@@ -105,24 +99,20 @@ class Statically
         );
     }
 
-
     /**
      * run uninstall hook
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function handle_uninstall_hook() {
         delete_option( 'statically' );
     }
 
-
     /**
      * run activation hook
      *
      * @since   0.0.1
-     * @change  0.5.0
      */
 
     public static function handle_activation_hook() {
@@ -158,12 +148,10 @@ class Statically
         );
     }
 
-
     /**
      * check plugin requirements
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function statically_requirements_check() {
@@ -181,12 +169,10 @@ class Statically
         }
     }
 
-
     /**
      * register textdomain
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function register_textdomain() {
@@ -197,12 +183,10 @@ class Statically
         );
     }
 
-
     /**
      * return plugin options
      *
      * @since   0.0.1
-     * @change  0.5.0
      *
      * @return  array  $diff  data pairs
      */
@@ -240,13 +224,10 @@ class Statically
         );
     }
 
-
     /**
      * return new rewriter
      *
      * @since   0.0.1
-     * @change  0.5.0
-     *
      */
 
     public static function get_rewriter() {
@@ -270,14 +251,12 @@ class Statically
             $options['statically_api_key']
         );
     }
-
     
     /**
      * get CDN URL
      *
      * @since   0.5.0
      * 
-     * @param   string  $domain  site domain
      * @return  string  CDN URL
      */
 
@@ -288,12 +267,10 @@ class Statically
         return $cdn;
     }
 
-
     /**
      * remove query strings from asset URL
      *
      * @since   0.1.0
-     * @change  0.1.0
      *
      * @param   string  $src  original asset URL
      * @return  string  asset URL without query strings
@@ -311,7 +288,6 @@ class Statically
      * check if admin page
      *
      * @since   0.5.0
-     * @change  0.5.0
      * 
      * @param   string  $page  admin page now
      */
@@ -326,12 +302,10 @@ class Statically
         }
     }
 
-
     /**
      * register plugin styles
      * 
      * @since 0.0.1
-     * @change 0.1.0
      */
 
     public function admin_scripts() {
@@ -342,12 +316,10 @@ class Statically
         wp_enqueue_script( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.js', array(), STATICALLY_VERSION );
     }
 
-
     /**
      * run rewrite hook
      *
      * @since   0.0.1
-     * @change  0.4.2
      */
 
     public static function handle_rewrite_hook() {
@@ -381,12 +353,10 @@ class Statically
         ob_start( array( &$rewriter, 'rewrite' ) );
     }
 
-
     /**
      * rewrite html content
      *
      * @since   0.0.1
-     * @change  0.0.1
      */
 
     public static function rewrite_the_content( $html ) {

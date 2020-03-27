@@ -25,7 +25,6 @@ class Statically_Favicons
      * generate Favicon
      * 
      * @since   0.5.0
-     * @change  0.5.0
      */
 
     public static function generate_favicon() {

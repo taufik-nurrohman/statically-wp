@@ -26,19 +26,16 @@ class Statically_Emoji
      * set new emoji CDN URL
      * 
      * @since   0.1.0
-     * @change  0.1.0
      */
 
     public static function cdn_url_emoji() {
         return self::CDN;
     }
 
-
     /**
      * set new wp-emoji-release.min.js CDN URL
      * 
      * @since   0.1.0
-     * @change  0.1.0
      */
 
     public static function cdn_url_emoji_release_js( $src, $name ) {
