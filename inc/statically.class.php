@@ -8,6 +8,7 @@
 
 class Statically
 {
+    const CDN = 'https://cdn.statically.io/';
 
 
     /**
@@ -127,7 +128,7 @@ class Statically
         add_option(
             'statically',
             [
-                'url'            => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
+                'url'            => $this->get_cdn_url(),
                 'dirs'           => 'wp-content,wp-includes',
                 'excludes'       => '.php',
                 'qs_excludes'    => 'no-statically',
@@ -209,7 +210,7 @@ class Statically
         return wp_parse_args(
             get_option( 'statically' ),
             [
-                'url'             => 'https://cdn.statically.io/sites/' . parse_url( get_option( 'home' ), PHP_URL_HOST ),
+                'url'             => $this->get_cdn_url(),
                 'dirs'            => 'wp-content,wp-includes',
                 'excludes'        => '.php',
                 'qs_excludes'     => 'no-statically',
@@ -269,6 +270,23 @@ class Statically
         );
     }
 
+    
+    /**
+     * get CDN URL
+     *
+     * @since   0.5.0
+     * 
+     * @param   string  $domain  site domain
+     * @return  string  CDN URL
+     */
+
+    public static function get_cdn_url() {
+        $domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
+        $cdn = self::CDN . $domain;
+
+        return $cdn;
+    }
+
 
     /**
      * remove query strings from asset URL
@@ -288,6 +306,14 @@ class Statically
 		return $src;
     }
 
+    /**
+     * check if admin page
+     *
+     * @since   0.5.0
+     * @change  0.5.0
+     * 
+     * @param   string  $page  admin page now
+     */
 
     public function admin_pagenow( $page ) {
         global $pagenow;
@@ -308,7 +334,6 @@ class Statically
      */
 
     public function admin_scripts() {
-
         // main css
 		wp_enqueue_style( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.css', array(), STATICALLY_VERSION );
 
