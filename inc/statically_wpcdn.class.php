@@ -236,9 +236,3 @@ class Statically_WPCDN
 		return false;
 	}
 }
-
-if ( ! function_exists( 'wp_startswith' ) ) :
-	function wp_startswith( $haystack, $needle ) {
-		return 0 === strpos( $haystack, $needle );
-	}
-endif;
