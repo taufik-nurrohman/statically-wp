@@ -119,7 +119,7 @@ class Statically
         add_option(
             'statically',
             [
-                'url'            => $this->get_cdn_url(),
+                'url'            => self::get_cdn_url(),
                 'dirs'           => 'wp-content,wp-includes',
                 'excludes'       => '.php',
                 'qs_excludes'    => 'no-statically',
@@ -195,7 +195,7 @@ class Statically
         return wp_parse_args(
             get_option( 'statically' ),
             [
-                'url'             => $this->get_cdn_url(),
+                'url'             => self::get_cdn_url(),
                 'dirs'            => 'wp-content,wp-includes',
                 'excludes'        => '.php',
                 'qs_excludes'     => 'no-statically',
