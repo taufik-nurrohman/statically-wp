@@ -33,7 +33,7 @@ register_activation_hook( __FILE__, [ 'Statically', 'handle_activation_hook' ] )
 spl_autoload_register('STATICALLY_autoload');
 
 /* functions */
-require_once( STATICALLY_DIR . 'inc/statically.func.php' );
+require_once( STATICALLY_DIR . '/inc/statically.func.php' );
 
 /* autoload funktion */
 function STATICALLY_autoload( $class ) {
