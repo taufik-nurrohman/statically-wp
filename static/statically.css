@@ -38,6 +38,9 @@ body.admin_page_statically-debugger #wpcontent {
   width: 90px;
   height: 32px;
 }
+.stly input[type=checkbox]:checked::before {
+  content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23f56565%27%2F%3E%3C%2Fsvg%3E);
+}
 .stly .notice.notice-success {
   border: 1px solid #eee;
   border-left-color: #0fe273;
@@ -62,26 +65,29 @@ body.admin_page_statically-debugger #wpcontent {
 .stly .dashicons-star-filled {
   color:#ffb900;
 }
-.stly .submit .button-primary {
-  background: #4299e1;
+.stly .mr-1 {
+  margin-right: .6rem;
+}
+.stly pre.debugger strong {
+  text-transform: uppercase;
+}
+
+/** Buttons */
+.stly .button {
+  background: #e53e3e;
   border: 0;
-  border-bottom: 4px solid #2b6cb0;
   font-size: 14px;
   font-weight: 700;
   line-height: 2.71428571;
   min-height: 40px;
   padding: 0 14px;
 }
-.stly .submit .button-primary:hover, .stly .submit .button-primary:focus {
-  background: #63b3ed;
-  border-color: #4299e1;
-  box-shadow: none;
+.stly .button-primary {
+  background: #e53e3e!important;
 }
-.stly .mr-1 {
-  margin-right: .6rem;
-}
-.stly pre.debugger strong {
-  text-transform: uppercase;
+.stly .button-primary:hover, .stly .button-primary:focus {
+  opacity: .95;
+  box-shadow: 0 0 0 3px rgb(255, 187, 187);
 }
 
 /** Header */
@@ -130,6 +136,14 @@ body.admin_page_statically-debugger #wpcontent {
   color: #000;
   font-size: 1.5rem;
   margin-bottom: 2rem;
+}
+.stly-options a {
+  border-bottom: 1px solid transparent;
+  color: #e53e3e;
+  text-decoration: none;
+}
+.stly-options a:hover {
+  border-color: #e53e3e;
 }
 
 /** Footer */
