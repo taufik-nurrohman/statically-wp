@@ -35,8 +35,8 @@ class Statically_Rewriter
         $quality,
         $width,
         $height,
-        $external_images,
         $webp,
+        $external_images,
         $relative,
         $https,
         $statically_api_key
@@ -48,8 +48,8 @@ class Statically_Rewriter
         $this->quality        = $quality;
         $this->width          = $width;
         $this->height         = $height;
-        $this->external_images = $external_images;
         $this->webp           = $webp;
+        $this->external_images = $external_images;
         $this->relative       = $relative;
         $this->https          = $https;
         $this->statically_api_key = $statically_api_key;
@@ -195,7 +195,7 @@ class Statically_Rewriter
                 $this->height ||
                 $this->quality
             ) ) {
-            $tf = substr($tf, strpos($tf, '%2C') + 3);
+            $tf = substr( $tf, strpos( $tf, '%2C' ) + 3 );
             $tf = '/' . $tf;
         }
 

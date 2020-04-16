@@ -22,7 +22,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 #### FEATURES
 
 * Link assets to load from the Statically CDN.
-* Image Resizing.
+* Smart Image Resizing.
 * Image Auto-WebP.
 * Adjust image compression level.
 * Optimize external images.
@@ -64,8 +64,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 == Changelog ==
 
 = 0.5.0
-* Support for external images
+* Added smart image resizer
 * Added favicon generator service
+* Support for external images
 
 = 0.4.3 =
 * Updated UI

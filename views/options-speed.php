@@ -97,6 +97,13 @@
                         <?php _e( 'Set the maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
                     </p>
                 </fieldset>
+
+                <fieldset style="margin-top: 20px;">
+                    <label for="statically_autoresize">
+                        <input type="checkbox" name="statically[autoresize]" id="statically_autoresize" value="1" <?php checked(1, $options['autoresize']) ?> />
+                        <?php _e( 'Smart image resize for post thumbnail. Default: <code>OFF</code>', 'statically' ); ?>
+                    </label>
+                </fieldset>
             </td>
         </tr>
 

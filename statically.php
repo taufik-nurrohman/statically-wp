@@ -41,6 +41,7 @@ function STATICALLY_autoload( $class ) {
         $class, [
             'Statically',
             'Statically_Rewriter',
+            'Statically_SmartImageResize',
             'Statically_WPCDN',
             'Statically_Emoji',
             'Statically_Favicons',
