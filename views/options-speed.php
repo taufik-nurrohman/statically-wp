@@ -78,19 +78,19 @@
             <td>
                 <fieldset style="margin-bottom: 10px;">
                     <label for="statically_smartresize">
-                        <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); if ( $options['width'] || $options['height'] ) echo 'disabled'; ?> />
+                        <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); ?> />
                         <?php _e( 'Enable Smart Image Resize. Default: <code>OFF</code>', 'statically' ); ?>
                     </label>
 
                     <p class="description">
-                        <?php _e( 'or manually..', 'statically' ); ?>
+                        <?php _e( 'This option allows you to use automatic image resizing for most WordPress media. You can still use the Max-width and Max-height manual options below to control other images that are not listed in the library.', 'statically' ); ?>
                     </p>
                 </fieldset>
 
                 <fieldset>
                     <label for="statically_width">
                         <h4 style="margin-top: 0;">Max-width</h4>
-                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( $options['smartresize'] ) echo 'disabled'; ?> />
+                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
@@ -100,7 +100,7 @@
 
                     <label for="statically_height">
                         <h4>Max-height</h4>
-                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( $options['smartresize'] ) echo 'disabled'; ?> />
+                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
@@ -119,7 +119,7 @@
                 <fieldset>
                     <label for="statically_webp">
                         <input type="checkbox" name="statically[webp]" id="statically_webp" value="1" <?php checked(1, $options['webp']) ?> />
-                        <?php _e( 'Convert image into the next-gen WebP format when browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
+                        <?php _e( 'Convert images to WebP format if browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
                     </label>
                 </fieldset>
             </td>
