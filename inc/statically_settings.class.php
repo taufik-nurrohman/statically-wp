@@ -43,8 +43,8 @@ class Statically_Settings
         if ( ! isset( $data['height'] ) ) {
             $data['height'] = 0;
         }
-        if ( ! isset( $data['autoresize'] ) ) {
-            $data['autoresize'] = 0;
+        if ( ! isset( $data['smartresize'] ) ) {
+            $data['smartresize'] = 0;
         }
         if ( ! isset( $data['webp'] ) ) {
             $data['webp'] = 0;
@@ -106,7 +106,7 @@ class Statically_Settings
             'quality'         => (int)( $data['quality'] ),
             'width'           => (int)( $data['width'] ),
             'height'          => (int)( $data['height'] ),
-            'autoresize'      => (int)( $data['autoresize'] ),
+            'smartresize'     => (int)( $data['smartresize'] ),
             'webp'            => (int)( $data['webp'] ),
             'external_images' => esc_attr( $data['external_images'] ),
             'emoji'           => (int)( $data['emoji'] ),

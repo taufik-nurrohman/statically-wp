@@ -14,7 +14,7 @@ class Statically_SmartImageResize
      * 
      * @since 0.5.0
      */
-    public function smartresize_thumbnail($image) {
+    public function smartresize($image) {
       $options = Statically::get_options( 'statically' );
       $cdn_url = str_replace( '/sites', '/img', $options['url'] );
 
@@ -26,7 +26,7 @@ class Statically_SmartImageResize
           $img_size = sprintf( '-%dx%d', $image[1], $image[2] );
           $img_url  = str_replace( $img_size, '', $image[0] );
       } else {
-          $img_url  = str_replace( get_option( 'home' ), '', $image[0] );
+          $img_url = $image[0];
       }
 
       // resizer start
@@ -50,7 +50,7 @@ class Statically_SmartImageResize
           $tf = '/' . $tf;
       }
   
-      $image[0] = $cdn_url . $tf . $img_url;
+      $image[0] = $cdn_url . $tf . str_replace( get_option( 'home' ), '', $img_url );
   
       return $image;
   }

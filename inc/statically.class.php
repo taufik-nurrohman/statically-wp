@@ -47,8 +47,8 @@ class Statically
         add_action( $base_action, [ 'Statically_Favicons', 'hook' ] );
         add_action( 'wp_head', [ 'Statically_OG', 'hook' ], 3 );
 
-        if ( $options['autoresize'] ) {
-            add_filter( 'wp_get_attachment_image_src', [ 'Statically_SmartImageResize', 'smartresize_thumbnail'] );
+        if ( $options['smartresize'] ) {
+            add_filter( 'wp_get_attachment_image_src', [ 'Statically_SmartImageResize', 'smartresize'] );
         }
 
         // remove query strings
@@ -125,7 +125,7 @@ class Statically
                 'quality'        => '0',
                 'width'          => '0',
                 'height'         => '0',
-                'autoresize'     => '0',
+                'smartresize'    => '0',
                 'webp'           => '0',
                 'external_images'=> '',
                 'emoji'          => '1',
@@ -199,7 +199,7 @@ class Statically
                 'quality'         => '0',
                 'width'           => '0',
                 'height'          => '0',
-                'autoresize'      => 0,
+                'smartresize'     => 0,
                 'webp'            => 0,
                 'external_images' => '',
                 'emoji'           => 1,
@@ -240,7 +240,6 @@ class Statically
             $options['quality'],
             $options['width'],
             $options['height'],
-            $options['autoresize'],
             $options['webp'],
             $options['external_images'],
             $options['relative'],

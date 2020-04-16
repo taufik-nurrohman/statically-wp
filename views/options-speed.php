@@ -65,7 +65,7 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Set the compression rate for all images.  Set <code>0</code> to disable.', 'statically' ); ?>
+                        <?php _e( 'Set the compression rate for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
                     </p>
                 </fieldset>
             </td>
@@ -76,33 +76,37 @@
                 <?php _e( 'Image Resize', 'statically' ); ?>
             </th>
             <td>
+                <fieldset style="margin-bottom: 10px;">
+                    <label for="statically_smartresize">
+                        <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); if ( $options['width'] || $options['height'] ) echo 'disabled'; ?> />
+                        <?php _e( 'Enable Smart Image Resize. Default: <code>OFF</code>', 'statically' ); ?>
+                    </label>
+
+                    <p class="description">
+                        <?php _e( 'or manually..', 'statically' ); ?>
+                    </p>
+                </fieldset>
+
                 <fieldset>
                     <label for="statically_width">
                         <h4 style="margin-top: 0;">Max-width</h4>
-                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
+                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( $options['smartresize'] ) echo 'disabled'; ?> />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Set the maximum width for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                        <?php _e( 'Set the maximum width for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
                     </p>
 
                     <label for="statically_height">
                         <h4>Max-height</h4>
-                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
+                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( $options['smartresize'] ) echo 'disabled'; ?> />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Set the maximum height for all images. Set <code>0</code> to disable.', 'statically' ); ?>
+                        <?php _e( 'Set the maximum height for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
                     </p>
-                </fieldset>
-
-                <fieldset style="margin-top: 20px;">
-                    <label for="statically_autoresize">
-                        <input type="checkbox" name="statically[autoresize]" id="statically_autoresize" value="1" <?php checked(1, $options['autoresize']) ?> />
-                        <?php _e( 'Smart image resize for post thumbnail. Default: <code>OFF</code>', 'statically' ); ?>
-                    </label>
                 </fieldset>
             </td>
         </tr>
