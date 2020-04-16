@@ -17,7 +17,7 @@ $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.sv
         <nav>
             <ul>
                 <li><a href="https://wordpress.org/support/plugin/statically/" target="_blank"><?php _e( 'Help', 'statically' ); ?></a></li>
-                <li><a href="https://twitter.com/intent/follow?screen_name=staticallyio" target="_blank" title="Follow @staticallyio on Twitter"><i class="dashicons dashicons-twitter"></i></a></li>
+                <li><a href="https://twitter.com/intent/follow?screen_name=staticallyio" target="_blank" title="<?php _e( 'Follow @staticallyio on Twitter', 'statically' ); ?>"><i class="dashicons dashicons-twitter"></i></a></li>
             </ul>
         </nav>
     </div>
@@ -28,10 +28,12 @@ $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.sv
 
     <?php if ( Statically::admin_pagenow( 'statically' ) ) : ?>
         <li><a data-stly-tab="general" href="#general"><?php _e( 'General', 'statically' ); ?></a></li>
-        <li><a data-stly-tab="optimization" href="#optimization"><?php _e ( 'Optimization', 'statically'); ?></a></li>
-        <li><a data-stly-tab="extra" href="#extra"><?php _e( 'Extra', 'statically' ); ?></a></li>
+        <li><a data-stly-tab="speed" href="#speed"><?php _e ( 'Speed', 'statically'); ?></a></li>
         <li><a data-stly-tab="caching" href="#caching"><?php _e( 'Caching', 'statically' ); ?></a></li>
-        <li><a data-stly-tab="advanced" href="#advanced"><?php _e( 'Advanced', 'statically' ); ?></a></li>
+        <li><a data-stly-tab="extra" href="#extra"><?php _e( 'Extra', 'statically' ); ?></a></li>
+        <?php if ( !Statically::is_custom_domain() ) : ?>
+        <li><a style="color:#f56565;" href="https://statically.io/contact/" target="_blank"><?php _e ('Request a custom domain', 'statically' ); ?></a></li>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php if ( Statically::admin_pagenow( 'statically-debugger' ) ) : ?>

@@ -22,11 +22,11 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 #### FEATURES
 
 * Link assets to load from the Statically CDN.
-* Image resizing.
-* Image auto-WebP.
+* Image Resizing.
+* Image Auto-WebP.
 * Adjust image compression level.
-* Custom domain support.
 * Optimize external images.
+* Custom domain support.
 * Use Statically as the main emoji CDN.
 * Generate favicon based on website's name.
 * Enable automatic Open Graph Image service.
@@ -65,7 +65,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 = 0.5.0
 * Support for external images
-* Added Favicon feature
+* Added favicon generator service
 
 = 0.4.3 =
 * Updated UI

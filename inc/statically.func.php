@@ -11,3 +11,12 @@ if ( ! function_exists( 'wp_startswith' ) ) :
 		return 0 === strpos( $haystack, $needle );
 	}
 endif;
+
+if ( ! function_exists( 'wp_list_the_plugins' ) ) :
+	function wp_list_the_plugins() {
+		$plugins = get_option( 'active_plugins', array () );
+		foreach ( $plugins as $plugin ) {
+				echo "$plugin,";
+		}
+	}
+endif;

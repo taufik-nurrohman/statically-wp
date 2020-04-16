@@ -16,4 +16,5 @@ unset( $options['statically_api_key'] );
         echo '<strong>' . $key . '</strong>: ' . $value . "\n";
     }
 ?>
+<strong>Active Plugins</strong>: <?php echo wp_list_the_plugins() . "\n"; ?>
 </pre>

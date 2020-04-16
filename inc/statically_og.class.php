@@ -23,9 +23,8 @@ class Statically_OG
     /**
      * generate OG image
      * 
-     * @since   0.4.0
+     * @since 0.4.0
      */
-
     public static function generate_og() {
         $options = Statically::get_options();
 

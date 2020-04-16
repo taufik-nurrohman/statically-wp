@@ -12,11 +12,9 @@ class Statically_Settings
     /**
      * register settings
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
-    public static function register_settings()
-    {
+    public static function register_settings() {
         register_setting(
             'statically',
             'statically',
@@ -30,14 +28,12 @@ class Statically_Settings
     /**
      * validation of settings
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   array  $data  array with form data
-     * @return  array         array with validated values
+     * @param array $data array with form data
+     * @return array array with validated values
      */
-
-    public static function validate_settings( $data )
-    {
+    public static function validate_settings( $data ) {
         if ( ! isset( $data['quality'] ) ) {
             $data['quality'] = 0;
         }
@@ -131,11 +127,9 @@ class Statically_Settings
     /**
      * add menu page
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
-    public static function add_settings_page()
-    {
+    public static function add_settings_page() {
         $page = add_menu_page(
             'Statically',
             'Statically',
@@ -152,13 +146,11 @@ class Statically_Settings
     /**
      * settings page
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @return  void
+     * @return void
      */
-
-    public static function settings_page()
-    {
+    public static function settings_page() {
         $options = Statically::get_options();
 
         include STATICALLY_DIR . '/views/header.php';

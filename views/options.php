@@ -11,10 +11,9 @@
                 settings_fields( 'statically' );
 
                 include STATICALLY_DIR . '/views/options-general.php';
-                include STATICALLY_DIR . '/views/options-optimization.php';
+                include STATICALLY_DIR . '/views/options-speed.php';
                 include STATICALLY_DIR . '/views/options-extra.php';
                 include STATICALLY_DIR . '/views/options-caching.php';
-                include STATICALLY_DIR . '/views/options-advanced.php';
 
                 submit_button(); ?>
                 </form>

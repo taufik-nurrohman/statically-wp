@@ -25,9 +25,8 @@ class Statically_Emoji
     /**
      * set new emoji CDN URL
      * 
-     * @since   0.1.0
+     * @since 0.1.0
      */
-
     public static function cdn_url_emoji() {
         return self::CDN;
     }
@@ -35,9 +34,8 @@ class Statically_Emoji
     /**
      * set new wp-emoji-release.min.js CDN URL
      * 
-     * @since   0.1.0
+     * @since 0.1.0
      */
-
     public static function cdn_url_emoji_release_js( $src, $name ) {
         global $wp_version;
 

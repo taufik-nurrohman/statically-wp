@@ -12,11 +12,9 @@ class Statically_Debugger
     /**
      * add settings page
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
-    public static function add_settings_page()
-    {
+    public static function add_settings_page() {
         $page = add_submenu_page(
             [ 'Statically_Settings', 'add_settings_page' ],
             'Statically Debugging Center',
@@ -33,13 +31,11 @@ class Statically_Debugger
     /**
      * settings page
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @return  void
+     * @return void
      */
-
-    public static function settings_page()
-    {
+    public static function settings_page() {
         $options = Statically::get_options();
 
         include STATICALLY_DIR . '/views/header.php';

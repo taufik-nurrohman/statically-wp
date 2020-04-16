@@ -14,9 +14,8 @@ class Statically
     /**
      * pseudo-constructor
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function instance() {
         new self();
     }
@@ -24,9 +23,8 @@ class Statically
     /**
      * constructor
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public function __construct() {
         $options = Statically::get_options( 'statically' );
         if ( $options['wpadmin'] ) {
@@ -70,12 +68,11 @@ class Statically
     /**
      * add action links
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   array  $data  alreay existing links
-     * @return  array  $data  extended array with links
+     * @param array $data alreay existing links
+     * @return array $data extended array with links
      */
-
     public static function add_action_link($data) {
         // check permission
         if ( ! current_user_can( 'manage_options' ) ) {
@@ -102,9 +99,8 @@ class Statically
     /**
      * run uninstall hook
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function handle_uninstall_hook() {
         delete_option( 'statically' );
     }
@@ -112,9 +108,8 @@ class Statically
     /**
      * run activation hook
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function handle_activation_hook() {
         add_option(
             'statically',
@@ -151,9 +146,8 @@ class Statically
     /**
      * check plugin requirements
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function statically_requirements_check() {
         // WordPress version check
         if ( version_compare( $GLOBALS['wp_version'], STATICALLY_MIN_WP . 'alpha', '<' ) ) {
@@ -172,9 +166,8 @@ class Statically
     /**
      * register textdomain
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function register_textdomain() {
         load_plugin_textdomain(
             'statically',
@@ -186,11 +179,10 @@ class Statically
     /**
      * return plugin options
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @return  array  $diff  data pairs
+     * @return array $diff data pairs
      */
-
     public static function get_options() {
         return wp_parse_args(
             get_option( 'statically' ),
@@ -227,9 +219,8 @@ class Statically
     /**
      * return new rewriter
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function get_rewriter() {
         $options = self::get_options();
 
@@ -255,11 +246,10 @@ class Statically
     /**
      * get CDN URL
      *
-     * @since   0.5.0
+     * @since 0.5.0
      * 
-     * @return  string  CDN URL
+     * @return string CDN URL
      */
-
     public static function get_cdn_url() {
         $domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
         $cdn = self::CDN . $domain;
@@ -268,14 +258,24 @@ class Statically
     }
 
     /**
+     * check if the CDN URL is custom domain
+     *
+     * @since 0.4.1
+     */
+    public static function is_custom_domain() {
+        $options = self::get_options();
+        $cdn_url = $options['url'];
+        return ! preg_match( '/cdn.statically.io/', $cdn_url );
+    }
+
+    /**
      * remove query strings from asset URL
      *
-     * @since   0.1.0
+     * @since 0.1.0
      *
-     * @param   string  $src  original asset URL
-     * @return  string  asset URL without query strings
+     * @param string $src original asset URL
+     * @return string asset URL without query strings
      */
-
     public static function remove_query_strings( $src ) {
 		if ( false !== strpos( $src, '.css?' ) || false !== strpos( $src, '.js?' ) ) {
 			$src = preg_replace( '/\?.*/', '', $src );
@@ -287,12 +287,11 @@ class Statically
     /**
      * check if admin page
      *
-     * @since   0.5.0
+     * @since 0.5.0
      * 
-     * @param   string  $page  admin page now
+     * @param string $page admin page now
      */
-
-    public function admin_pagenow( $page ) {
+    public static function admin_pagenow( $page ) {
         global $pagenow;
         if ( 'admin.php' === $pagenow &&
                 isset( $_GET['page'] ) && $page === $_GET['page'] ) {
@@ -307,8 +306,7 @@ class Statically
      * 
      * @since 0.0.1
      */
-
-    public function admin_scripts() {
+    public static function admin_scripts() {
         // main css
 		wp_enqueue_style( 'statically', plugin_dir_url( STATICALLY_FILE ) . 'static/statically.css', array(), STATICALLY_VERSION );
 
@@ -319,9 +317,8 @@ class Statically
     /**
      * run rewrite hook
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function handle_rewrite_hook() {
         $options = self::get_options();
         $qs_excludes = array_map( 'trim', explode( ',', $options['qs_excludes'] ) );
@@ -356,9 +353,8 @@ class Statically
     /**
      * rewrite html content
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     public static function rewrite_the_content( $html ) {
         $rewriter = self::get_rewriter();
         return $rewriter->rewrite( $html );

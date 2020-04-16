@@ -14,7 +14,7 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Enter the CDN URL without trailing slash', 'statically' ); ?>. <?php _e( 'The format is', 'statically' ); ?> <code>https://cdn.statically.io/sites/:domain</code>
+                        <?php _e( 'Enter the CDN URL without trailing slash', 'statically' ); ?>. <?php _e( 'The format is', 'statically' ); ?> <code>https://cdn.statically.io/sites/example.com</code>
                     </p>
                 </fieldset>
             </td>
@@ -31,7 +31,7 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Statically API key to make this plugin working &#8212; <a href="https://statically.io/wordpress" target="_blank">Get one here</a>', 'statically' ); ?>
+                        <?php _e( 'Statically API key to make this plugin working &#8212; <a href="https://statically.io/wordpress/" target="_blank">Get one here</a>', 'statically' ); ?>
                     </p>
                 </fieldset>
             </td>

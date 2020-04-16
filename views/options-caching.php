@@ -14,11 +14,11 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( '<strong>You can also try changing <a data-stly-tab="optimization" href="#optimization">Image Quality or Resize</a> settings</strong> to get the fresh version of the image.', 'statically' ); ?>
+                        <?php _e( '<strong>You can also try changing <a data-stly-tab="speed" href="#speed">Image Quality or Resize</a> settings</strong> to get the fresh version of the image.', 'statically' ); ?>
                     </p>
 
                     <p class="description">
-                        <?php _e( 'While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
+                        <?php _e( 'While auto purging is not currently supported, alternatively you can use <a href="https://statically.io/purge/" target="_blank">this page</a> to send purge request. Please note this solution could be much longer than expected, this is because we received dozens of purge request per day. We would suggest to rename the file instead if possible.', 'statically' ); ?>
                     </p>
 
                     <label style="margin-top: 2em!important;">

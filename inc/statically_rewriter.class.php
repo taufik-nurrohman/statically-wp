@@ -25,9 +25,8 @@ class Statically_Rewriter
     /**
      * constructor
      *
-     * @since   0.0.1
+     * @since 0.0.1
      */
-
     function __construct(
         $blog_url,
         $cdn_url,
@@ -62,12 +61,11 @@ class Statically_Rewriter
     /**
      * exclude assets that should not be rewritten
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   string  $asset  current asset
-     * @return  boolean  true if need to be excluded
+     * @param string $asset current asset
+     * @return boolean true if need to be excluded
      */
-
     protected function exclude_asset( &$asset ) {
         // excludes
         foreach ( $this->excludes as $exclude ) {
@@ -81,10 +79,10 @@ class Statically_Rewriter
     /**
      * relative url
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   string  $url a full url
-     * @return  string  protocol relative url
+     * @param string $url a full url
+     * @return string protocol relative url
      */
     protected function relative_url( $url ) {
         return substr( $url, strpos( $url, '//' ) );
@@ -93,12 +91,11 @@ class Statically_Rewriter
     /**
      * rewrite url
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   string  $asset  current asset
-     * @return  string  updated url if not excluded
+     * @param string $asset current asset
+     * @return string updated url if not excluded
      */
-
     protected function rewrite_url( &$asset ) {
         if ( $this->exclude_asset( $asset[0]) ) {
             return $asset[0];
@@ -138,7 +135,7 @@ class Statically_Rewriter
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if it's a custom domain
-            if ( $this->is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
+            if ( Statically::is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
                 $cdn_url = $cdn_url . '/statically/img';
             }
         }
@@ -165,11 +162,10 @@ class Statically_Rewriter
     /**
      * image transformations
      *
-     * @since   0.5.0
+     * @since 0.5.0
      *
-     * @return  string  updated filter
+     * @return string updated filter
      */
-
     protected function image_tranformations() {
         $tf = '/';
 
@@ -180,17 +176,17 @@ class Statically_Rewriter
 
         // if image width is ON
         if ( $this->width ) {
-            $tf .= ',w=' . $this->width;
+            $tf .= '%2Cw=' . $this->width;
         }
 
         // if image height is ON
         if ( $this->height ) {
-            $tf .= ',h=' . $this->height;
+            $tf .= '%2Ch=' . $this->height;
         }
 
         // if image quality is ON
         if ( $this->quality ) {
-            $tf .= ',q=' . $this->quality;
+            $tf .= '%2Cq=' . $this->quality;
         }
 
         // if everything are set except webp
@@ -199,7 +195,7 @@ class Statically_Rewriter
                 $this->height ||
                 $this->quality
             ) ) {
-            $tf = substr($tf, strpos($tf, ',') + 1);
+            $tf = substr($tf, strpos($tf, '%2C') + 3);
             $tf = '/' . $tf;
         }
 
@@ -209,11 +205,10 @@ class Statically_Rewriter
     /**
      * get directory scope
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @return  string  directory scope
+     * @return string directory scope
      */
-
     protected function get_dir_scope() {
         $input = explode( ',', $this->dirs );
 
@@ -226,24 +221,13 @@ class Statically_Rewriter
     }
 
     /**
-     * check if the $cdn_url is custom domain
-     *
-     * @since   0.4.1
-     */
-
-    protected function is_custom_domain() {
-        return ! preg_match( '/cdn.statically.io/', $this->cdn_url );
-    }
-
-    /**
      * add DNS prefetch meta
      * 
-     * @since   0.4.1
+     * @since 0.4.1
      */
-
     public function dns_prefetch() {
         // meta for custom domain
-        if ( $this->is_custom_domain() ) {
+        if ( Statically::is_custom_domain() ) {
             $domain = parse_url( $this->cdn_url, PHP_URL_HOST );
             $dns = '<link rel="dns-prefetch" href="//' . $domain . '" />' . "\n";
             echo $dns;
@@ -253,12 +237,11 @@ class Statically_Rewriter
     /**
      * rewrite url
      *
-     * @since   0.0.1
+     * @since 0.0.1
      *
-     * @param   string  $html  current raw HTML doc
-     * @return  string  updated HTML doc with CDN links
+     * @param string $html current raw HTML doc
+     * @return string updated HTML doc with CDN links
      */
-
     public function rewrite( $html ) {
         // check if HTTPS and use CDN over HTTPS enabled
         if ( ! $this->https && isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == 'on' ) {
@@ -292,7 +275,7 @@ class Statically_Rewriter
                 if ( !! $domain && ! strstr( $domain, $blog_domain ) ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
-                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", Statically::CDN . 'img/' . $domain . $this->image_tranformations() . ',ext=1$1', $html
+                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", Statically::CDN . 'img/' . $domain . $this->image_tranformations() . '%2Cext=1$1', $html
                     );
                 }
             }

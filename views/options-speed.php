@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) OR exit; ?>
 
-<div data-stly-layout="optimization">
-    <h3 class="title">Optimization</h3>
+<div data-stly-layout="speed">
+    <h3 class="title">Speed</h3>
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
