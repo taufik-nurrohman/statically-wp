@@ -258,7 +258,7 @@ class Statically
      */
     public static function get_cdn_url() {
         $domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
-        $cdn = self::CDN . $domain;
+        $cdn = self::CDN . 'sites/' . $domain;
 
         return $cdn;
     }
