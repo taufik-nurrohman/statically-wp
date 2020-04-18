@@ -270,12 +270,12 @@ class Statically_Rewriter
         $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
 
         // rules for proxying external images
-        if ( $this->external_images ) {
+        if ( Statically::is_custom_domain() && $this->external_images ) {
             foreach ( $external_images as $domain ) {
                 if ( !! $domain && ! strstr( $domain, $blog_domain ) ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
-                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", Statically::CDN . 'img/' . $domain . $this->image_tranformations() . '%2Cext=1$1', $html
+                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->cdn_url . '/statically/img/remote/' . $domain . $this->image_tranformations() . '$1', $html
                     );
                 }
             }
