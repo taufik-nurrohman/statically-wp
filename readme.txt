@@ -106,4 +106,6 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Screenshots ==
 
-1. Statically settings page
+1. General settings
+2. Speed settings
+3. Extra settings
