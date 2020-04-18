@@ -1,4 +1,4 @@
-=== Statically - Optimization and CDN ===
+=== Statically - Asset Optimization and CDN ===
 
 Contributors: statically, fransallen
 Tags: optimization, minification, cdn, content delivery network
