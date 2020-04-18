@@ -63,7 +63,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
-= 0.5.0
+= 0.5.0 =
 * Added smart image resizer
 * Added favicon generator service
 * Support for external images
