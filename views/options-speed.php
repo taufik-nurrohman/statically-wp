@@ -132,11 +132,15 @@
             <td>
                 <fieldset>
                     <label for="external_images">
-                        <input type="text" name="statically[external_images]" id="external_images" value="<?php echo $options['external_images']; ?>" size="64" class="regular-text" />
+                        <?php if ( Statically::is_custom_domain() ) : ?>
+                            <input type="text" name="statically[external_images]" id="external_images" value="<?php echo $options['external_images']; ?>" size="64" class="regular-text" />
+                        <?php else : ?>
+                            <a href="https://statically.io/contact/"><?php _e( 'Set up a custom domain' ); ?></a>
+                        <?php endif; ?>
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Images that are from these external domains will be included to Statically. Enter domains separated by', 'statically' ); ?> <code>,</code>
+                        <?php _e( 'Images that are from these external domains will be included to the CDN. Enter domains separated by', 'statically' ); ?> <code>,</code>
                     </p>
                 </fieldset>
             </td>
