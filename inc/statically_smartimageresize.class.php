@@ -14,7 +14,7 @@ class Statically_SmartImageResize
      * 
      * @since 0.5.0
      */
-    public function smartresize($image) {
+    public function smartresize( $image ) {
       $options = Statically::get_options( 'statically' );
       $cdn_url = str_replace( '/sites', '/img', $options['url'] );
 

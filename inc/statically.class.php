@@ -26,6 +26,8 @@ class Statically
      * @since 0.0.1
      */
     public function __construct() {
+        error_reporting(0);
+
         $options = Statically::get_options( 'statically' );
         if ( $options['wpadmin'] ) {
             $base_action = 'init';

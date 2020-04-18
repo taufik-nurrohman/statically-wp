@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Statically
  * Plugin URI:  https://statically.io/wordpress
- * Description: The all-in-one solution for your WordPress static asset optimization and CDN.
+ * Description: The all-in-one solution for your WordPress static asset optimization and CDN. This plugin allows you to host all static assets on Statically CDN and optimize it for fast website performance around the world.
  * Version:     0.5.0
  * Author:      Statically
  * Author URI:  https://statically.io
