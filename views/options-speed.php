@@ -127,7 +127,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <?php _e( 'Allowed External Images', 'statically' ); ?>
+                <?php _e( 'Optimize External Images', 'statically' ); ?>
             </th>
             <td>
                 <fieldset>
