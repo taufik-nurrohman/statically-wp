@@ -20,3 +20,11 @@ if ( ! function_exists( 'wp_list_the_plugins' ) ) :
 		}
 	}
 endif;
+
+function statically_is_processable_image( $url ) {
+	return preg_match( '/^.*\.(bmp|gif|jpe?g|png|webp)$/i', $url );
+}
+
+function statically_is_svg( $url ) {
+	return preg_match( '/^.*\.svg$/i', $url );
+}
