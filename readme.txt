@@ -63,6 +63,9 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.5.2 =
+* Remove transformation for SVG files on Smart Image Resize
+
 = 0.5.0 =
 * Added smart image resizer
 * Added favicon generator service
