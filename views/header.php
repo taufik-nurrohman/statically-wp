@@ -31,6 +31,7 @@ $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.sv
         <li><a data-stly-tab="speed" href="#speed"><?php _e ( 'Speed', 'statically'); ?></a></li>
         <li><a data-stly-tab="caching" href="#caching"><?php _e( 'Caching', 'statically' ); ?></a></li>
         <li><a data-stly-tab="extra" href="#extra"><?php _e( 'Extra', 'statically' ); ?></a></li>
+        <li><a data-stly-tab="labs" href="#labs"><?php _e( 'Labs', 'statically' ); ?></a></li>
         <?php if ( !Statically::is_custom_domain() ) : ?>
         <li><a style="color:#f56565;" href="https://statically.io/contact/" target="_blank"><?php _e ('Get a custom domain', 'statically' ); ?></a></li>
         <?php endif; ?>

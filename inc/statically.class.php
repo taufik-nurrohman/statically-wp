@@ -49,6 +49,10 @@ class Statically
         add_action( $base_action, [ 'Statically_Favicons', 'hook' ] );
         add_action( 'wp_head', [ 'Statically_OG', 'hook' ], 3 );
 
+        if ( $options['pagebooster'] ) {
+            add_action( 'wp_footer', [ 'Statically_PageBooster', 'add_js' ] );
+        }
+
         if ( $options['smartresize'] ) {
             add_filter( 'wp_get_attachment_image_src', [ 'Statically_SmartImageResize', 'smartresize'] );
         }
@@ -139,6 +143,8 @@ class Statically
                 'og_theme'       => 'light',
                 'og_fontsize'    => 'medium',
                 'og_type'        => 'jpeg',
+                'pagebooster'    => '0',
+                'pagebooster_content' => 'html',
                 'wpadmin'        => '0',
                 'relative'       => '1',
                 'https'          => '1',
@@ -213,6 +219,8 @@ class Statically
                 'og_theme'        => 'light',
                 'og_fontsize'     => 'medium',
                 'og_type'         => 'jpeg',
+                'pagebooster'     => 0,
+                'pagebooster_content' => 'html',
                 'wpadmin'         => 0,
                 'relative'        => 1,
                 'https'           => 1,

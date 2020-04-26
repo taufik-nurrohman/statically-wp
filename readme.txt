@@ -53,7 +53,7 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 1. Visit the plugins page within your dashboard and select "Add New";
 2. Search for "Statically";
 3. Activate Statically from your Plugins page;
-4. Access the plugin settings from the "Settings" menu.
+4. Access the plugin settings from the "Statically" menu.
 
 #### INSTALL STATICALLY MANUALLY
 

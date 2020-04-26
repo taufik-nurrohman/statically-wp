@@ -118,6 +118,8 @@ class Statically_Settings
             'og_theme'        => esc_attr( $data['og_theme'] ),
             'og_fontsize'     => esc_attr( $data['og_fontsize'] ),
             'og_type'         => esc_attr( $data['og_type'] ),
+            'pagebooster'     => (int)( $data['pagebooster'] ),
+            'pagebooster_content' => esc_attr( $data['pagebooster_content'] ),
             'wpadmin'         => (int)( $data['wpadmin'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
