@@ -15,12 +15,12 @@ class Statically_PageBooster
             cache: true,
         }),
             content = document.querySelector("' . $content . '");
-        f3h.on("success", function(response) {
+        f3h.on(200, function(response) {
             document.title = response.title;
             content.innerHTML = response.querySelector("' . $content . '").innerHTML;
         });';
 
-        wp_enqueue_script( 'statically-f3h', Statically::CDN . 'gh/taufik-nurrohman/f3h/311a217d/f3h.min.js', array(), STATICALLY_VERSION );
+        wp_enqueue_script( 'statically-f3h', Statically::CDN . 'gh/taufik-nurrohman/f3h/543cce1/f3h.min.js', array(), STATICALLY_VERSION );
         wp_add_inline_script( 'statically-f3h', $inline );
     }
 }
