@@ -1,6 +1,10 @@
 <?php defined( 'ABSPATH' ) OR exit; ?>
 
 <footer class="stly stly-footer">
+    <div class="mission">
+        <em><?php _e( 'In mission to make static files easy to manage and fast to deliver.', 'statically' ); ?></em>
+    </div>
+
     <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>
     <a href="https://statically.io/contact/" target="_blank"><?php _e( 'Get a custom domain', 'statically'); ?></a>
     <a href="<?php echo admin_url( 'admin.php?page=statically-debugger' ); ?>"><?php _e( 'Debug', 'statically'); ?></a>

@@ -171,6 +171,9 @@ body.admin_page_statically-debugger #wpcontent {
   display: block;
   padding-top: 1rem;
 }
+.stly-footer .mission {
+  margin-bottom: 2rem;
+}
 
 /** Social */
 .tweet {
