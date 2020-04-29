@@ -16,7 +16,7 @@
                 include STATICALLY_DIR . '/views/options-caching.php';
                 include STATICALLY_DIR . '/views/options-labs.php';
 
-                submit_button(); ?>
+                ?>
                 </form>
             
             <?php endif; ?>

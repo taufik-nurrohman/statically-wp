@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) OR exit; ?>
 
 <div data-stly-layout="labs">
-    <h3 class="title">Labs</h3>
+    <h3 class="title"><?php _e( 'Labs', 'statically' ); ?></h3>
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
@@ -25,4 +25,6 @@
             </td>
         </tr>
     </table>
+
+    <?php submit_button(); ?>
 </div>
