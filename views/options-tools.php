@@ -43,17 +43,17 @@
         <p class="description">We use these tools every day and it really makes our development fast and easy, check them out for something good!</p>
 
         <div class="tools" style="margin-top:1rem;">
-            <a class="tool" href="https://statically.io/go/shifter">
+            <a class="tool" href="https://statically.io/go/shifter" target="_blank">
                 <h4>Shifter</h4>
                 <p class="description">On-premise static site generator for WordPress.</p>
             </a>
 
-            <a class="tool" href="https://statically.io/go/runcloud">
+            <a class="tool" href="https://statically.io/go/runcloud" target="_blank">
                 <h4>RunCloud</h4>
                 <p class="description">A simple yet powerful control panel for cloud servers.</p>
             </a>
 
-            <a class="tool" href="https://statically.io/go/dnsimple">
+            <a class="tool" href="https://statically.io/go/dnsimple" target="_blank">
                 <h4>DNSimple</h4>
                 <p class="description">Simple, Secure Domain Management.</p>
             </a>
