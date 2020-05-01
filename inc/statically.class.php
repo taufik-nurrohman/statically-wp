@@ -132,7 +132,7 @@ class Statically
                 'width'          => '0',
                 'height'         => '0',
                 'smartresize'    => '0',
-                'webp'           => '0',
+                'webp'           => '1',
                 'external_images'=> '',
                 'emoji'          => '1',
                 'favicon'        => '0',
@@ -144,7 +144,7 @@ class Statically
                 'og_fontsize'    => 'medium',
                 'og_type'        => 'jpeg',
                 'pagebooster'    => '0',
-                'pagebooster_content' => 'html',
+                'pagebooster_content' => '#page',
                 'pagebooster_custom_js' => '',
                 'pagebooster_custom_js_enabled' => '0',
                 'wpadmin'        => '0',
@@ -211,7 +211,7 @@ class Statically
                 'width'           => '0',
                 'height'          => '0',
                 'smartresize'     => 0,
-                'webp'            => 0,
+                'webp'            => 1,
                 'external_images' => '',
                 'emoji'           => 1,
                 'favicon'         => 0,
@@ -223,7 +223,7 @@ class Statically
                 'og_fontsize'     => 'medium',
                 'og_type'         => 'jpeg',
                 'pagebooster'     => 0,
-                'pagebooster_content' => 'html',
+                'pagebooster_content' => '#page',
                 'pagebooster_custom_js' => '',
                 'pagebooster_custom_js_enabled' => 0,
                 'wpadmin'         => 0,
@@ -273,9 +273,9 @@ class Statically
      * @return string CDN URL
      */
     public static function get_cdn_url() {
-        $domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
-        $cdn = self::CDN . 'sites/' . $domain;
+        $base = str_replace( ['http://', 'https://'], '', get_option( 'home' ) );
 
+        $cdn = self::CDN . 'sites/' . $base;
         return $cdn;
     }
 

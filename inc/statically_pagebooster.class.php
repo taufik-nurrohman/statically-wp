@@ -9,7 +9,7 @@ class Statically_PageBooster
             if ( $options['pagebooster_content'] ) {
                 $content = $options['pagebooster_content'];
             } else {
-                $content = 'html';
+                $content = '#page';
             }
 
             $inline = 'let f3h = new F3H(state = {

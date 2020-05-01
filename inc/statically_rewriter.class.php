@@ -53,6 +53,8 @@ class Statically_Rewriter
         $this->relative       = $relative;
         $this->https          = $https;
         $this->statically_api_key = $statically_api_key;
+        $this->blog_domain    = parse_url( $blog_url, PHP_URL_HOST );
+        $this->blog_path      = parse_url( $blog_url, PHP_URL_PATH );
 
         // add DNS prefetch meta
         add_action( 'wp_head', [ $this, 'dns_prefetch' ], 1 );
@@ -123,8 +125,14 @@ class Statically_Rewriter
 
         // check if it is an image
         if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/i', $asset[0] ) ) {
+            $this->blog_path_regex = str_replace( '/', '\/', $this->blog_path );
+
             // check options and apply transformations
-            $asset[0] = str_replace( $blog_url, $blog_url . $this->image_tranformations(), $asset[0] );
+            if ( ! preg_match( "/$this->blog_path_regex/i", $blog_url ) ) {
+                $asset[0] = str_replace( $blog_url, $blog_url . $this->image_tranformations(), $asset[0] );
+            } else {
+                $asset[0] = str_replace( $blog_url, $blog_url . $this->image_tranformations() . $this->blog_path, $asset[0] );
+            }
 
             // relative URL
             if ( $this->relative && ! strstr( $asset[0], $blog_url ) ) {
@@ -132,7 +140,7 @@ class Statically_Rewriter
             }
 
             // use /img/
-            $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
+            $cdn_url = Statically::CDN . 'img/' . $this->blog_domain;
 
             // if it's a custom domain
             if ( Statically::is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
@@ -250,7 +258,6 @@ class Statically_Rewriter
 
         // get dir scope in regex format
         $dirs = $this->get_dir_scope();
-        $blog_domain = parse_url( get_option( 'home' ), PHP_URL_HOST );
         $blog_url = $this->https
             ? '(https?:|)'.$this->relative_url( quotemeta( $this->blog_url ) )
             : '(http:|)'.$this->relative_url( quotemeta( $this->blog_url ) );
@@ -272,7 +279,7 @@ class Statically_Rewriter
         // rules for proxying external images
         if ( Statically::is_custom_domain() && $this->external_images ) {
             foreach ( $external_images as $domain ) {
-                if ( !! $domain && ! strstr( $domain, $blog_domain ) ) {
+                if ( !! $domain && ! strstr( $domain, $this->blog_domain ) ) {
                     $domain_regex = str_replace( '.', '\.', $domain );
                     $html = preg_replace(
                         "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->cdn_url . '/statically/img/remote/' . $domain . $this->image_tranformations() . '$1', $html
