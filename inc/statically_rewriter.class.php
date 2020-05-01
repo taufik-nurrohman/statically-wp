@@ -140,11 +140,11 @@ class Statically_Rewriter
             }
 
             // use /img/
-            $cdn_url = Statically::CDN . 'img/' . $this->blog_domain;
+            $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
-            // if it's a custom domain
+            // if user use a custom domain
             if ( Statically::is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
-                $cdn_url = $cdn_url . '/statically/img';
+                $cdn_url = $this->cdn_url . '/statically/img';
             }
         }
 
