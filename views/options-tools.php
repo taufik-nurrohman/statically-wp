@@ -21,8 +21,8 @@
             </a>
 
             <a class="tool" href="https://statically.io/contact/" target="_blank">
-                <h4>Dedicated Consultant</h4>
-                <p class="description">Need a hand to boost and scale up your WordPress? Contact us!</p>
+                <h4>Consultant</h4>
+                <p class="description">Need help enabling a CDN or improving your WordPress?</p>
             </a>
         </div>
     </section>
