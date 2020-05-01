@@ -2,7 +2,7 @@
 
 <footer class="stly stly-footer">
     <div class="mission">
-        <em><?php _e( 'In mission to make static files easy to manage and fast to deliver.', 'statically' ); ?></em>
+        <em>&#8212; <?php _e( 'In mission to make static files easy to manage and fast to deliver.', 'statically' ); ?> &#8212;</em>
     </div>
 
     <a href="https://statically.io/" target="_blank"><?php _e( 'About', 'statically'); ?></a>

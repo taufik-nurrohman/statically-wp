@@ -120,12 +120,15 @@ class Statically_Settings
             'og_type'         => esc_attr( $data['og_type'] ),
             'pagebooster'     => (int)( $data['pagebooster'] ),
             'pagebooster_content' => esc_attr( $data['pagebooster_content'] ),
+            'pagebooster_custom_js' => $data['pagebooster_custom_js'],
+            'pagebooster_custom_js_enabled' => (int)( $data['pagebooster_custom_js_enabled'] ),
             'wpadmin'         => (int)( $data['wpadmin'] ),
             'relative'        => (int)( $data['relative'] ),
             'https'           => (int)( $data['https'] ),
             'query_strings'   => (int)( $data['query_strings'] ),
             'wpcdn'           => (int)( $data['wpcdn'] ),
             'private'         => (int)( $data['private'] ),
+            'dev'             => (int)( $data['dev'] ),
             'statically_api_key'  => esc_attr( $data['statically_api_key'] ),
         ];
     }

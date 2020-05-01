@@ -15,6 +15,7 @@
                 include STATICALLY_DIR . '/views/options-extra.php';
                 include STATICALLY_DIR . '/views/options-caching.php';
                 include STATICALLY_DIR . '/views/options-labs.php';
+                include STATICALLY_DIR . '/views/options-tools.php';
 
                 ?>
                 </form>

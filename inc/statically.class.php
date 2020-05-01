@@ -145,12 +145,15 @@ class Statically
                 'og_type'        => 'jpeg',
                 'pagebooster'    => '0',
                 'pagebooster_content' => 'html',
+                'pagebooster_custom_js' => '',
+                'pagebooster_custom_js_enabled' => '0',
                 'wpadmin'        => '0',
                 'relative'       => '1',
                 'https'          => '1',
                 'query_strings'  => '1',
                 'wpcdn'          => '1',
                 'private'        => '0',
+                'dev'            => '0',
                 'statically_api_key' => '',
             ]
         );
@@ -221,12 +224,15 @@ class Statically
                 'og_type'         => 'jpeg',
                 'pagebooster'     => 0,
                 'pagebooster_content' => 'html',
+                'pagebooster_custom_js' => '',
+                'pagebooster_custom_js_enabled' => 0,
                 'wpadmin'         => 0,
                 'relative'        => 1,
                 'https'           => 1,
                 'query_strings'   => 1,
                 'wpcdn'           => 1,
                 'private'         => 0,
+                'dev'             => 0,
                 'statically_api_key'  => '',
             ]
         );

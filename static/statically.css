@@ -25,11 +25,11 @@ body.admin_page_statically-debugger #wpcontent {
 .stly a:focus {
   box-shadow: none;
 }
-.stly input {
+.stly input, .stly textarea {
   border-color: #b9b8b8;
   border-radius: .3rem;
 }
-.stly input:focus {
+.stly input:focus, .stly textarea:focus {
   border-color: #79cbff;
   box-shadow: none;
 }
@@ -40,6 +40,13 @@ body.admin_page_statically-debugger #wpcontent {
 }
 .stly input[type=checkbox]:checked::before {
   content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23f56565%27%2F%3E%3C%2Fsvg%3E);
+}
+.stly textarea {
+  width: 30rem;
+  min-width: 15rem;
+  height: 10rem;
+  min-height: 5rem;
+  resize: auto;
 }
 .stly .notice.notice-success {
   border: 1px solid #eee;
@@ -219,6 +226,41 @@ body.admin_page_statically-debugger #wpcontent {
 .stly-tab li a.active {
   border-bottom: 4px solid #23282d;
 }
+.stly-tab li a .new {
+  position: absolute;
+  font-size: 10px;
+  color: #ff2020;
+  margin-top: -16px;
+  margin-left: -18px;
+}
+
+/* Tools */
+.tools-content {
+  margin-top: 2rem;
+}
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tool {
+  border: 1px solid #ddd!important;
+  border-radius: 4px;
+  margin-right: 2rem;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  width: 50%;
+  max-width: 24rem;
+}
+.tool:hover {
+  border: 1px solid #ccc!important;
+}
+.tool h4, .tool p {
+  margin: 0;
+}
+.tool h4 {
+  font-size: 14px;
+}
+
 
 @media screen and (max-width: 600px) {
   .stly-header {

@@ -33,20 +33,20 @@
                     </p>
 
                     <label for="statically_favicon-shape">
-                        <h4>Shape</h4>
+                        <h4><?php _e( 'Shape', 'statically' ); ?></h4>
                         <select class="mr-1" name="statically[favicon_shape]">
-                            <option <?php if ( 'rounded' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="rounded">rounded</option>
-                            <option <?php if ( 'square' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="square">square</option>
+                            <option <?php if ( 'rounded' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="rounded"><?php _e( 'rounded', 'statically' ); ?></option>
+                            <option <?php if ( 'square' === $options['favicon_shape'] ) echo 'selected="selected"'; ?> value="square"><?php _e( 'square', 'statically' ); ?></option>
                         </select>
                     </label>
 
                     <label for="statically_favicon-bg">
-                        <h4>Background</h4>
+                        <h4><?php _e( 'Background', 'statically' ); ?></h4>
                         <input type="color" name="statically[favicon_bg]" class="mr-1" id="statically_favicon-bg" value="<?php echo $options['favicon_bg']; ?>" />
                     </label>
 
                     <label for="statically_favicon-color">
-                        <h4>Font Color</h4>
+                        <h4><?php _e( 'Font Color', 'statically' ); ?></h4>
                         <input type="color" name="statically[favicon_color]" class="mr-1" id="statically_favicon-color" value="<?php echo $options['favicon_color']; ?>" />
                     </label>
                 </fieldset>
@@ -69,27 +69,27 @@
                     </p>
 
                     <label for="statically_og-theme">
-                        <h4>Theme</h4>
+                        <h4><?php _e( 'Theme', 'statically' ); ?></h4>
                         <select class="mr-1" name="statically[og_theme]">
-                            <option <?php if ( 'light' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="light">light</option>
-                            <option <?php if ( 'dark' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="dark">dark</option>
+                            <option <?php if ( 'light' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="light"><?php _e( 'light', 'statically' ); ?></option>
+                            <option <?php if ( 'dark' === $options['og_theme'] ) echo 'selected="selected"'; ?> value="dark"><?php _e( 'dark', 'statically' ); ?></option>
                         </select>
                     </label>
 
                     <label for="statically_og-fontsize">
-                        <h4>Font Size</h4>
+                        <h4><?php _e( 'Font Size', 'statically' ); ?></h4>
                         <select class="mr-1" name="statically[og_fontsize]">
-                            <option <?php if ( 'medium' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="medium">medium</option>
-                            <option <?php if ( 'large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="large">large</option>
-                            <option <?php if ( 'extra-large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="extra-large">extra-large</option>
+                            <option <?php if ( 'medium' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="medium"><?php _e( 'medium', 'statically' ); ?></option>
+                            <option <?php if ( 'large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="large"><?php _e( 'large', 'statically' ); ?></option>
+                            <option <?php if ( 'extra-large' === $options['og_fontsize'] ) echo 'selected="selected"'; ?> value="extra-large"><?php _e( 'extra-large', 'statically' ); ?></option>
                         </select>
                     </label>
 
                     <label for="statically_og-type">
-                        <h4>File Type</h4>
+                        <h4><?php _e( 'File Type', 'statically' ); ?></h4>
                         <select name="statically[og_type]">
-                            <option <?php if ( 'jpeg' === $options['og_type'] ) echo 'selected="selected"'; ?> value="jpeg">jpeg</option>
-                            <option <?php if ( 'png' === $options['og_type'] ) echo 'selected="selected"'; ?> value="png">png</option>
+                            <option <?php if ( 'jpeg' === $options['og_type'] ) echo 'selected="selected"'; ?> value="jpeg"><?php _e( 'jpeg', 'statically' ); ?></option>
+                            <option <?php if ( 'png' === $options['og_type'] ) echo 'selected="selected"'; ?> value="png"><?php _e( 'png', 'statically' ); ?></option>
                         </select>
                     </label>
                 </fieldset>
@@ -152,6 +152,20 @@
                     <p class="description">
                         <?php _e( 'Since Statically ignores query strings when downloading content from your site, it is recommended to leave this option enabled.', 'statically' ); ?>
                     </p>
+                </fieldset>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <?php _e( 'Developer Mode', 'statically' ); ?>
+            </th>
+            <td>
+                <fieldset>
+                    <label for="statically_dev">
+                        <input type="checkbox" name="statically[dev]" id="statically_dev" value="1" <?php checked(1, $options['dev']) ?> />
+                        <?php _e( 'Enable developer mode to add more options. Default: <code>OFF</code>', 'statically' ); ?>
+                    </label>
                 </fieldset>
             </td>
         </tr>
