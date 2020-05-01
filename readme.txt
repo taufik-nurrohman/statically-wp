@@ -63,6 +63,11 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 == Changelog ==
 
+= 0.6 =
+* Load pages without reloading
+* Developer mode
+* Tools tab
+
 = 0.5.2 =
 * Remove transformation for SVG files on Smart Image Resize
 

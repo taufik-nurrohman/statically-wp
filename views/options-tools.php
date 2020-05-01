@@ -43,7 +43,7 @@
         <p class="description">We use these tools every day and it really makes our development fast and easy, check them out for something good!</p>
 
         <div class="tools" style="margin-top:1rem;">
-            <a class="tool" href="">
+            <a class="tool" href="https://statically.io/go/shifter">
                 <h4>Shifter</h4>
                 <p class="description">On-premise static site generator for WordPress.</p>
             </a>
