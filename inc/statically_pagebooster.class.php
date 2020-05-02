@@ -7,13 +7,23 @@ class Statically_PageBooster
 
         if ( 1 !== $options['pagebooster_custom_js_enabled'] ) {
             if ( !empty( $options['pagebooster_content'] ) ) {
-                $content = $options['pagebooster_content'];
+                $elements_to_replace = $options['pagebooster_content'];
             } else {
-                $content = '#page';
+                $elements_to_replace = '#page';
+            }
+
+            // TODO: Add plugin option for this
+            if ( 1 ) {
+                $scripts_to_refresh = 'connect.facebook.net/id_ID/sdk.js,platform.twitter.com/widgets.js,foo/bar/script-1.js,foo/bar/script-2.js';
+            } else {
+                $scripts_to_refresh = "";
             }
 
             $inline = <<<JS
-F3H.state.statically = '$content';
+F3H.state.statically = {
+    elementsToReplace: '$elements_to_replace',
+    scriptsToRefresh: '$scripts_to_refresh'
+};
 
 // TODO: Store this to an external file and leave the
 // state above inline so that we can minify the code below!
@@ -32,14 +42,14 @@ let f3h = new F3H({
         sources: 'a[href]:not([href*="/wp-admin/"]), form:not([action*="/wp-admin/"])', // Ignore links to the admin area
     }),
     currentBody = doc.body,
-    currentElements = $$$(F3H.state.statically),
+    currentElements = $$$(F3H.state.statically.elementsToReplace),
     currentMetaDescription = $$('meta[content][name="description"]'),
     currentMetaDescriptionOG = $$('meta[content][name="og:description"]'),
     currentRoot = doc.documentElement;
 
 f3h.on(200, function(next) {
     let nextBody = next.body,
-        nextElements = $$$(F3H.state.statically, next),
+        nextElements = $$$(F3H.state.statically.elementsToReplace, next),
         nextMetaDescription = $$('meta[content][name="description"]', next),
         nextMetaDescriptionOG = $$('meta[content][name="og:description"]', next),
         nextRoot = next.documentElement;
@@ -89,7 +99,9 @@ function doAutoDetectScriptsToRefresh(base) {
         // Remove by content
         if (scriptContent) {
             if (
-                // Maybe Google Analytic script
+                // Maybe Facebook SDK script
+                /\b(fbasyncinit|fb\.init)\b/.test(scriptContent) ||
+                // Maybe Google Analytics script
                 /\b(_gaq|datalayer|gtag)\b/.test(scriptContent) ||
                 // Maybe Google AdSense script
                 /\badsbygoogle\b/.test(scriptContent)
@@ -99,11 +111,7 @@ function doAutoDetectScriptsToRefresh(base) {
         }
         // Remove by source path
         if (scriptSource) {
-            if (
-                // Maybe Twitter Embed script
-                'platform.twitter.com/widgets.js' === scriptSource
-                // ...
-            ) {
+            if (F3H.state.statically.scriptsToRefresh.split(/\s*,\s*/).indexOf(scriptSource) > -1) {
                 delete scripts[id];
             }
         }
