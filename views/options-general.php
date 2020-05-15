@@ -31,7 +31,7 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Statically API key to make this plugin working &#8212; <a href="https://statically.io/wordpress/" target="_blank">Get one here</a>', 'statically' ); ?>
+                        <?php _e( 'Statically API key to make this plugin working. Never share it to anybody! Treat this API key as a password. &#8212; <a href="https://statically.io/wordpress/" target="_blank">Get one here</a>', 'statically' ); ?>
                     </p>
                 </fieldset>
             </td>

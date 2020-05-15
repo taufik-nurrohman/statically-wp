@@ -23,7 +23,7 @@
                     <label for="statically_pagebooster-content">
                         <h4><?php _e( 'Selector', 'statically' ); ?></h4>
                         <input type="text" name="statically[pagebooster_content]" id="statically_pagebooster-content" value="<?php echo $options['pagebooster_content']; ?>" style="max-width: 10em" />
-                        <?php _e( ' &#8212; Can be class, ID, or element.', 'statically' ); ?>
+                        <?php _e( ' &#8212; Can be class, ID, or element selector.', 'statically' ); ?>
                     </label>
                 </fieldset>
 
