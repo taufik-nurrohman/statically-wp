@@ -17,7 +17,6 @@ class Statically_Rewriter
     var $width          = null;     // set image width
     var $height         = null;     // set image height
     var $webp           = false;    // enable WebP
-    var $external_images = null;    // set external image domains
     var $relative       = false;    // use CDN on relative paths
     var $https          = false;    // use CDN on HTTPS
     var $statically_api_key = null; // required API key for Statically
@@ -275,18 +274,6 @@ class Statically_Rewriter
 
         // regex rule end
         $regex_rule .= '/(?:((?:'.$dirs.')[^\"\')]+)|([^/\"\']+\.[^/\"\')]+))(?=[\"\')])#';
-
-        // rules for proxying external images
-        if ( Statically::is_custom_domain() && $this->external_images ) {
-            foreach ( $external_images as $domain ) {
-                if ( !! $domain && ! strstr( $domain, $this->blog_domain ) ) {
-                    $domain_regex = str_replace( '.', '\.', $domain );
-                    $html = preg_replace(
-                        "/(?:https?:)?\/\/$domain_regex(.*\.(?:bmp|gif|jpe?g|png|webp))/", $this->cdn_url . '/statically/img/remote/' . $domain . $this->image_tranformations() . '$1', $html
-                    );
-                }
-            }
-        }
 
         // call the cdn rewriter callback
         $cdn_html = preg_replace_callback( $regex_rule, [$this, 'rewrite_url'], $html );
