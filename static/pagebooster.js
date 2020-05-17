@@ -41,7 +41,7 @@ f3h.on(200, function(next) {
     // Update root class names (if any)
     currentRoot &&
     nextRoot &&
-    (currentRoot.className = nextRoot.className);
+    (currentRoot.className = nextRoot.className.replace(/\bno-js\b/, 'js'));
 
     currentElements.forEach(function(element, index) {
         if (nextElements[index]) {
