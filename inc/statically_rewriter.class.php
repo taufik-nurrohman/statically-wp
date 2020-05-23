@@ -152,7 +152,7 @@ class Statically_Rewriter
         }
 
         // SVG image
-        if ( preg_match( '/\.svg$/i', $asset[0] ) ) {
+        if ( preg_match( '/\.svg/i', $asset[0] ) ) {
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
         }
 
