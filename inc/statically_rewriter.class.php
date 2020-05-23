@@ -127,7 +127,7 @@ class Statically_Rewriter
         }
 
         // check if it is an image
-        if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)$/i', $asset[0] ) ) {
+        if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/i', $asset[0] ) ) {
             $this->blog_path_regex = str_replace( '/', '\/', $this->blog_path );
 
             // check options and apply transformations
