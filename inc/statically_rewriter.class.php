@@ -122,6 +122,12 @@ class Statically_Rewriter
             ];
         }
 
+        // return original URL on non-custom domain
+        if ( !Statically::is_custom_domain()
+                && !preg_match( '/\.(bmp|gif|jpe?g|png|webp|svg)/i', $asset[0] ) ) {
+            return $asset[0];
+        }
+
         // check if it is an image
         if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/i', $asset[0] ) ) {
             $this->blog_path_regex = str_replace( '/', '\/', $this->blog_path );
@@ -181,14 +187,19 @@ class Statically_Rewriter
             $tf .= 'f=auto';
         }
 
-        // if image width is ON
-        if ( $this->width ) {
-            $tf .= '%2Cw=' . $this->width;
-        }
+        // ONLY activate Image Resize on custom domain
+        if ( Statically::is_custom_domain() ) {
 
-        // if image height is ON
-        if ( $this->height ) {
-            $tf .= '%2Ch=' . $this->height;
+            // if image width is ON
+            if ( $this->width ) {
+                $tf .= '%2Cw=' . $this->width;
+            }
+
+            // if image height is ON
+            if ( $this->height ) {
+                $tf .= '%2Ch=' . $this->height;
+            }
+
         }
 
         // if image quality is ON

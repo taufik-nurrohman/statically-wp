@@ -14,7 +14,7 @@
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Enter the CDN URL without trailing slash', 'statically' ); ?>. <?php _e( 'The format is', 'statically' ); ?> <code>https://cdn.statically.io/sites/example.com</code>
+                        <?php _e( 'Enter the CDN URL without trailing slash', 'statically' ); ?>. <?php _e( 'Example:', 'statically' ); ?> <code>https://cdn.statically.io/sites/example.com</code>
                     </p>
                 </fieldset>
             </td>
@@ -37,7 +37,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" <?php if ( !Statically::is_custom_domain() ) echo 'style="display:none"'; ?>>
             <th scope="row">
                 <?php _e( 'Asset Inclusions', 'statically' ); ?>
             </th>
@@ -55,7 +55,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" <?php if ( !Statically::is_custom_domain() ) echo 'style="display:none"'; ?>>
             <th scope="row">
                 <?php _e( 'Asset Exclusions', 'statically' ); ?>
             </th>

@@ -38,11 +38,18 @@ class Statically
         /* CDN rewriter hook */
         add_action( $base_action, [ __CLASS__, 'handle_rewrite_hook' ] );
 
-        /* WP Core CDN rewriter hook */
-        add_action( $base_action, [ 'Statically_WPCDN', 'hook' ] );
-
         /* Rewrite rendered content in REST API */
         add_filter( 'the_content', [ __CLASS__, 'rewrite_the_content', ], 100 );
+
+        /* ONLY enable these options if has a custom domain */
+        if ( $this->is_custom_domain() ) {
+            if ( $options['smartresize'] ) {
+                add_filter( 'wp_get_attachment_image_src', [ 'Statically_SmartImageResize', 'smartresize'] );
+            }
+        }
+
+        /* WP Core CDN rewriter hook */
+        add_action( $base_action, [ 'Statically_WPCDN', 'hook' ] );
 
         /* Features */
         add_action( $base_action, [ 'Statically_Emoji', 'hook' ] );
@@ -51,10 +58,6 @@ class Statically
 
         if ( $options['pagebooster'] ) {
             add_action( 'wp_footer', [ 'Statically_PageBooster', 'add_js' ] );
-        }
-
-        if ( $options['smartresize'] ) {
-            add_filter( 'wp_get_attachment_image_src', [ 'Statically_SmartImageResize', 'smartresize'] );
         }
 
         // remove query strings

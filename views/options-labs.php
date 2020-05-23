@@ -9,13 +9,13 @@
     <table class="form-table">
         <tr valign="top">
             <th scope="row">
-                <?php _e( 'Automatically speeds up your pages using latest progressive enhancements', 'statically' ); ?>
+                <?php _e( 'Page Booster', 'statically' ); ?>
             </th>
             <td>
                 <fieldset>
                     <label for="statically_pagebooster">
                         <input type="checkbox" name="statically[pagebooster]" id="statically_pagebooster" value="1" <?php checked(1, $options['pagebooster']) ?> />
-                        <?php _e( 'Make your WordPress smooth and performant by applying progressive enhancements to internal pages. Default: <code>OFF</code>', 'statically' ); ?>
+                        <?php _e( 'Automatically speeds up your pages using latest progressive enhancements. Default: <code>OFF</code>', 'statically' ); ?>
                     </label>
                 </fieldset>
 

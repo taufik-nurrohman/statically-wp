@@ -23,35 +23,53 @@
 
         <tr valign="top">
             <th scope="row">
-                <?php _e( 'CSS & JS Minifications', 'statically' ); ?>
+                <?php _e( 'Image Resize', 'statically' ); ?>
             </th>
             <td>
-                <fieldset>
-                    <label for="statically_minifications">
-                        <input type="checkbox" name="statically[minifications]" id="statically_minifications" value="1" checked="checked" disabled />
-                        <?php _e( 'Automatically enabled for maximum performance of your static assets.', 'statically' ); ?>
+                <?php if ( !Statically::is_custom_domain() ) : ?>
+                <fieldset style="margin-bottom: 10px;">
+                    <label>
+                        <?php _e( 'Enable <a href="https://statically.io/contact/" target="_blank">custom domain</a> to use Image Resize.', 'statically' ); ?>
                     </label>
                 </fieldset>
-            </td>
-        </tr>
+                <?php endif; ?>
 
-        <tr valign="top" id="images">
-            <th scope="row">
-                <?php _e( 'Image Optimization', 'statically' ); ?>
-            </th>
-            <td>
-                <fieldset>
-                    <label for="statically_images">
-                        <input type="checkbox" name="statically[images]" id="statically_images" value="1" checked="checked" disabled />
-                        <?php _e( 'Automatically enabled for maximum performance of your image files.', 'statically' ); ?>
+                <div <?php if ( !Statically::is_custom_domain() ) echo 'style="opacity:.7"'; ?>>
+                <fieldset style="margin-bottom: 10px;">
+                    <label for="statically_smartresize">
+                        <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); ?> <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
+                        <?php _e( 'Enable Smart Image Resize. Default: <code>OFF</code>', 'statically' ); ?>
                     </label>
 
                     <p class="description">
-                        <?php _e( 'Optimize all images via CDN. Add the ability to compress and resize. It also minimizes SVG files. Configure the settings below to set a different quality or size.', 'statically' ); ?>
+                        <?php _e( 'This option allows you to use automatic image resizing for most WordPress media. You can still use the Max-width and Max-height manual options below to control other images that are not listed in the library.', 'statically' ); ?>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <label for="statically_width">
+                        <h4 style="margin-top: 0;"><?php _e( 'Max-width', 'statically' ); ?></h4>
+                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
+                        <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
+                    </label>
+
+                    <p class="description">
+                        <?php _e( 'Set the maximum width for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
+                    </p>
+
+                    <label for="statically_height">
+                        <h4><?php _e( 'Max-height', 'statically' ); ?></h4>
+                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
+                        <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
+                    </label>
+
+                    <p class="description">
+                        <?php _e( 'Set the maximum height for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
                     </p>
                 </fieldset>
             </td>
         </tr>
+        </div>
 
         <tr valign="top">
             <th scope="row">
@@ -66,46 +84,6 @@
 
                     <p class="description">
                         <?php _e( 'Set the compression rate for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
-                    </p>
-                </fieldset>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <?php _e( 'Image Resize', 'statically' ); ?>
-            </th>
-            <td>
-                <fieldset style="margin-bottom: 10px;">
-                    <label for="statically_smartresize">
-                        <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); ?> />
-                        <?php _e( 'Enable Smart Image Resize. Default: <code>OFF</code>', 'statically' ); ?>
-                    </label>
-
-                    <p class="description">
-                        <?php _e( 'This option allows you to use automatic image resizing for most WordPress media. You can still use the Max-width and Max-height manual options below to control other images that are not listed in the library.', 'statically' ); ?>
-                    </p>
-                </fieldset>
-
-                <fieldset>
-                    <label for="statically_width">
-                        <h4 style="margin-top: 0;">Max-width</h4>
-                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
-                        <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
-                    </label>
-
-                    <p class="description">
-                        <?php _e( 'Set the maximum width for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
-                    </p>
-
-                    <label for="statically_height">
-                        <h4>Max-height</h4>
-                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
-                        <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
-                    </label>
-
-                    <p class="description">
-                        <?php _e( 'Set the maximum height for all images. Enter <code>0</code> to disable.', 'statically' ); ?>
                     </p>
                 </fieldset>
             </td>
