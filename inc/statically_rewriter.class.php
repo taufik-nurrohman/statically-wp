@@ -127,7 +127,7 @@ class Statically_Rewriter
         }
 
         // check if it is an image
-        if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)/i', $asset[0] ) ) {
+        if ( preg_match( '/\.(bmp|gif|jpe?g|png|webp)$/i', $asset[0] ) ) {
             $this->blog_path_regex = str_replace( '/', '\/', $this->blog_path );
 
             // check options and apply transformations
@@ -146,13 +146,13 @@ class Statically_Rewriter
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
 
             // if user use a custom domain
-            if ( Statically::is_custom_domain() && ( $this->quality || $this->width || $this->height ) ) {
+            if ( Statically::is_custom_domain() && ( $this->quality || $this->width || $this->height || $this->webp ) ) {
                 $cdn_url = $this->cdn_url . '/statically/img';
             }
         }
 
         // SVG image
-        if ( preg_match( '/\.svg/i', $asset[0] ) ) {
+        if ( preg_match( '/\.svg$/i', $asset[0] ) ) {
             $cdn_url = str_replace( '/sites', '/img', $this->cdn_url );
         }
 

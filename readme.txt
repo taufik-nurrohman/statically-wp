@@ -5,7 +5,7 @@ Tags: optimization, minification, cdn, content delivery network
 Requires at least: 4.6
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: trunk
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
