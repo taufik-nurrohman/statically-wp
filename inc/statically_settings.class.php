@@ -46,9 +46,6 @@ class Statically_Settings
         if ( ! isset( $data['smartresize'] ) ) {
             $data['smartresize'] = 0;
         }
-        if ( ! isset( $data['webp'] ) ) {
-            $data['webp'] = 1;
-        }
         if ( ! isset( $data['emoji'] ) ) {
             $data['emoji'] = 0;
         }
