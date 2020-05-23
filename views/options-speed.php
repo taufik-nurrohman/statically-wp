@@ -97,7 +97,7 @@
                 <fieldset>
                     <label for="statically_webp">
                         <input type="checkbox" name="statically[webp]" id="statically_webp" value="1" <?php checked(1, $options['webp']) ?> />
-                        <?php _e( 'Convert images to WebP format if browser supports it. Default: <code>OFF</code>', 'statically' ); ?>
+                        <?php _e( 'Convert images to WebP format if browser supports it. Default: <code>ON</code>', 'statically' ); ?>
                     </label>
                 </fieldset>
             </td>
