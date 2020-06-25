@@ -84,6 +84,9 @@ class Statically
         
         /* ajax for illegal usage notice */
         add_action( 'wp_ajax_statically_illegal_cdnurl_notice_dismiss', [ __CLASS__, 'statically_illegal_cdnurl_notice_dismiss' ] );
+
+        /* delete unused options */
+        delete_option( $options['external_images'] );
     }
 
     /**
@@ -202,7 +205,7 @@ class Statically
                 '<div class="statically-illegal-cdnurl-notice notice notice-warning is-dismissible">
                     <p>%s</p>
                 </div>',
-                __( 'Statically: Support us by not using the Statically CDN URL in other plugin settings. This use is not recommended and can interfere with the appearance of your site.', 'statically' )
+                __( 'Statically: Support us by not using the Statically CDN URL in other plugin settings. This use is not recommended and can interfere with the appearance of your site. You have been reminded!', 'statically' )
             )
         );
     }

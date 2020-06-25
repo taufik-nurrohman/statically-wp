@@ -9,37 +9,29 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The all-in-one solution for your WordPress static asset optimization and CDN.
+The free CDN for WordPress.
 
 == Description ==
 
-Statically is a Content Delivery Network (CDN) that is optimized for all types of websites and static assets. The service allows you to minify CSS or JavaScript files, optimize and add transformation capabilities to images, so you can resize, crop, adjust quality, and even more.
-
-It can be an all-in-one solution for static asset delivery, while using WordPress to manage your content, Statically optimizes all files.
+Statically is a free and public Content Delivery Network (CDN) for static assets. The service allows you to use serve assets from GitHub, GitLab, Bitbucket, and WordPress SVN.
 
 [**Statically**](https://statically.io/)
 
 #### FEATURES
 
-* Link assets to load from the Statically CDN.
-* Smart Image Resizing.
+* Link WordPress Core Assets to load from the Statically CDN.
 * Image Auto-WebP.
 * Adjust image compression level.
-* Optimize external images.
-* Custom domain support.
 * Use Statically as the main emoji CDN.
 * Generate favicon based on website's name.
 * Enable automatic Open Graph Image service.
 * Enable or disable for HTTPS.
 * Remove query string from assets.
-* Set included directories.
-* Define exclusions (directories or extensions).
 
 #### BENEFITS
 
 * Speeds up your site by serving assets from Statically Multi-CDN infrastructure.
 * Accelerate the delivery of your image files and add transformation capabilities.
-* Minify CSS or JavaScript files, on-the-fly.
 * Save storage by serving post featured image with Statically OG Image service.
 
 #### CONTRIBUTE
@@ -59,9 +51,13 @@ It can be an all-in-one solution for static asset delivery, while using WordPres
 
 1. Upload the "statically" folder to the /wp-content/plugins/ directory;
 2. Activate the Statically plugin through the "Plugins" menu in WordPress;
-3. Access the plugin settings from the "Settings" menu.
+3. Access the plugin settings from the "Statically" menu.
 
 == Changelog ==
+
+= 0.6.1 =
+* Fixes
+* Simplify the settings
 
 = 0.6 =
 * Automatic progressive enhancements

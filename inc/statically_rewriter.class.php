@@ -269,7 +269,6 @@ class Statically_Rewriter
         $blog_url = $this->https
             ? '(https?:|)'.$this->relative_url( quotemeta( $this->blog_url ) )
             : '(http:|)'.$this->relative_url( quotemeta( $this->blog_url ) );
-        $external_images = $excludes = array_map( 'trim', explode( ',', $this->external_images ) );
 
         // regex rule start
         $regex_rule = '#(?<=[(\"\'])';

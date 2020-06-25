@@ -21,20 +21,11 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" <?php if ( !Statically::is_custom_domain() ) echo 'style="display:none"'; ?>>
             <th scope="row">
                 <?php _e( 'Image Resize', 'statically' ); ?>
             </th>
             <td>
-                <?php if ( !Statically::is_custom_domain() ) : ?>
-                <fieldset style="margin-bottom: 10px;">
-                    <label>
-                        <?php _e( 'Enable <a href="https://statically.io/contact/" target="_blank">custom domain</a> to use Image Resize.', 'statically' ); ?>
-                    </label>
-                </fieldset>
-                <?php endif; ?>
-
-                <div <?php if ( !Statically::is_custom_domain() ) echo 'style="opacity:.7"'; ?>>
                 <fieldset style="margin-bottom: 10px;">
                     <label for="statically_smartresize">
                         <input type="checkbox" name="statically[smartresize]" id="statically_smartresize" value="1" <?php checked(1, $options['smartresize']); ?> <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
@@ -49,7 +40,7 @@
                 <fieldset>
                     <label for="statically_width">
                         <h4 style="margin-top: 0;"><?php _e( 'Max-width', 'statically' ); ?></h4>
-                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
+                        <input type="number" name="statically[width]" id="statically_width" value="<?php echo $options['width']; ?>" min="0" max="2000" style="max-width: 6em" />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
@@ -59,7 +50,7 @@
 
                     <label for="statically_height">
                         <h4><?php _e( 'Max-height', 'statically' ); ?></h4>
-                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" <?php if ( !Statically::is_custom_domain() ) echo 'disabled'; ?> />
+                        <input type="number" name="statically[height]" id="statically_height" value="<?php echo $options['height']; ?>" min="0" max="2000" style="max-width: 6em" />
                         <?php _e( ' px &#8212; Value up to: <code>2000</code>', 'statically' ); ?>
                     </label>
 
@@ -69,7 +60,6 @@
                 </fieldset>
             </td>
         </tr>
-        </div>
 
         <tr valign="top">
             <th scope="row">
