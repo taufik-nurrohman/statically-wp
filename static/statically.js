@@ -21,8 +21,19 @@
 			}) ;
 		}
 
-	}) ;
-})(jQuery) ;
+	});
+
+	jQuery(document).on('click', '.statically-illegal-cdnurl-notice .notice-dismiss', function() {
+
+		jQuery.ajax({
+			url: ajaxurl,
+			data: {
+				action: 'statically_illegal_cdnurl_notice_dismiss'
+			}
+		})
+	
+	});
+})(jQuery);
 
 function stly_display_tab(tab) {
 	jQuery('[data-stly-tab]').removeClass('active') ;

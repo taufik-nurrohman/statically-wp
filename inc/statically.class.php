@@ -60,7 +60,7 @@ class Statically
             add_action( 'wp_footer', [ 'Statically_PageBooster', 'add_js' ] );
         }
 
-        // remove query strings
+        /* remove query strings */
         if ( $options['query_strings'] ) {
             add_filter( 'style_loader_src', [ __CLASS__, 'remove_query_strings' ], 999 );
             add_filter( 'script_loader_src', [ __CLASS__, 'remove_query_strings' ], 999 );
@@ -76,6 +76,14 @@ class Statically
 
         /* admin notices */
         add_action( 'all_admin_notices', [ __CLASS__, 'statically_requirements_check' ] );
+
+        /* add illage usage notice */
+        if( empty( get_option( 'statically-illegal-cdnurl-notice-dismissed' ) ) ) {
+            add_action( 'all_admin_notices', [ __CLASS__, 'statically_illegal_cdnurl_notice' ] );
+        }
+        
+        /* ajax for illegal usage notice */
+        add_action( 'wp_ajax_statically_illegal_cdnurl_notice_dismiss', [ __CLASS__, 'statically_illegal_cdnurl_notice_dismiss' ] );
     }
 
     /**
@@ -181,6 +189,31 @@ class Statically
                 )
             );
         }
+    }
+
+    /**
+     * tell people to stop using the Statically CDN URL in other plugin settings
+     * 
+     * @since 0.6.1
+     */
+    public static function statically_illegal_cdnurl_notice() {
+        show_message(
+            sprintf(
+                '<div class="statically-illegal-cdnurl-notice notice notice-warning is-dismissible">
+                    <p>%s</p>
+                </div>',
+                __( 'Statically: Support us by not using the Statically CDN URL in other plugin settings. This use is not recommended and can interfere with the appearance of your site.', 'statically' )
+            )
+        );
+    }
+
+    /**
+     * update option for CDN URL notice dismiss
+     * 
+     * @since 0.6.1
+     */
+    public static function statically_illegal_cdnurl_notice_dismiss() {
+        update_option( 'statically-illegal-cdnurl-notice-dismissed', 1 );
     }
 
     /**
