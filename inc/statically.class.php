@@ -202,9 +202,9 @@ class Statically
         show_message(
             sprintf(
                 '<div class="statically-illegal-cdnurl-notice notice notice-warning is-dismissible">
-                    <p>%s</p>
+                    <p><i class="dashicons dashicons-warning"></i> %s</p>
                 </div>',
-                __( 'Statically: Support us by not using the Statically CDN URL in other plugin settings. This use is not recommended and can interfere with the appearance of your site. You have been reminded!', 'statically' )
+                __( 'Statically is a free and public CDN, support us by <strong>not</strong> using the <strong>Statically CDN URL</strong> in <strong>other plugin settings</strong>. This use is <strong>not recommended and can interfere with the appearance of your site</strong>. You have been warned!', 'statically' )
             )
         );
     }
