@@ -85,8 +85,7 @@ class Statically
         /* ajax for illegal usage notice */
         add_action( 'wp_ajax_statically_illegal_cdnurl_notice_dismiss', [ __CLASS__, 'statically_illegal_cdnurl_notice_dismiss' ] );
 
-        /* delete unused options */
-        delete_option( $options['external_images'] );
+        /* TODO: remove unused options */
     }
 
     /**
