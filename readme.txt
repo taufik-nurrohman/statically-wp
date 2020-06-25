@@ -13,7 +13,7 @@ The free CDN for WordPress.
 
 == Description ==
 
-Statically is a free and public Content Delivery Network (CDN) for static assets. The service allows you to use serve assets from GitHub, GitLab, Bitbucket, and WordPress SVN.
+Statically is a free and public Content Delivery Network (CDN) for static assets. The service allows you to serve assets from GitHub, GitLab, Bitbucket, and WordPress SVN.
 
 [**Statically**](https://statically.io/)
 
