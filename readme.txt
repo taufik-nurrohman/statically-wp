@@ -55,6 +55,9 @@ Statically is a free and public Content Delivery Network (CDN) for static assets
 
 == Changelog ==
 
+= 0.6.2 =
+* Fixes
+
 = 0.6.1 =
 * Fixes
 * Simplify the settings
