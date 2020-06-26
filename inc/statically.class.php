@@ -79,7 +79,7 @@ class Statically
 
         /* add illage usage notice */
         if( empty( get_option( 'statically-illegal-cdnurl-notice-dismissed' ) ) ) {
-            add_action( 'all_admin_notices', [ __CLASS__, 'statically_illegal_cdnurl_notice' ] );
+            add_action( 'admin_notices', [ __CLASS__, 'statically_illegal_cdnurl_notice' ] );
         }
         
         /* ajax for illegal usage notice */
@@ -204,7 +204,7 @@ class Statically
                 '<div class="statically-illegal-cdnurl-notice notice notice-warning is-dismissible">
                     <p><i class="dashicons dashicons-warning"></i> %s</p>
                 </div>',
-                __( 'Statically is a free and public CDN, support us by <strong>not</strong> using the <strong>Statically CDN URL</strong> in <strong>other plugin settings</strong>. This use is <strong>not recommended and can interfere with the appearance of your site</strong>. You have been warned!', 'statically' )
+                __( 'Statically Sites Free CDN URL <code>https://cdn.statically.io/sites/</code> will be deprecated soon. Please re-check your settings and make sure to remove this CDN URL from any plugin settings except the Statically plugin.', 'statically' )
             )
         );
     }
