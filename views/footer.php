@@ -30,8 +30,12 @@
                 href="https://twitter.com/intent/tweet?hashtags=statically&amp;related=statically&amp;url=https://statically.io&amp;text=<?php _e( urlencode(  'The all-in-one solution for your website static asset optimization and CDN, try @staticallyio now!' ), 'statically' ); ?>"
                 target="_blank"
             >
-                <i class="dashicons dashicons-twitter"></i> <?php _e ( 'Tweet', 'statically' ); ?>
+                <i class="fab fa-twitter"></i> <?php _e ( 'Tweet', 'statically' ); ?>
             </a>
         </span>
+
+        <p class="project-by">
+            <?php _e( 'A project by', 'statically' ); ?> <a href="https://upset.dev"> upset.dev</a>
+        </p>
     </div>
 </footer>

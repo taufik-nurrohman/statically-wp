@@ -16,8 +16,9 @@ $statically_logo_url = plugin_dir_url( STATICALLY_FILE ) . 'static/statically.sv
 
         <nav>
             <ul>
-                <li><a href="https://wordpress.org/support/plugin/statically/" target="_blank"><?php _e( 'Help', 'statically' ); ?></a></li>
-                <li><a href="https://twitter.com/intent/follow?screen_name=staticallyio" target="_blank" title="<?php _e( 'Follow @staticallyio on Twitter', 'statically' ); ?>"><i class="dashicons dashicons-twitter"></i></a></li>
+                <li><a href="https://statically.discourse.group/" target="_blank"><?php _e( 'Ask the Community', 'statically' ); ?></a></li>
+                <li><a href="https://twitter.com/intent/follow?screen_name=staticallyio" target="_blank" title="<?php _e( 'Follow @staticallyio on Twitter', 'statically' ); ?>"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="https://github.com/staticallyio" target="_blank" title="<?php _e( 'This plugin is open source software', 'statically' ); ?>"><i class="fab fa-github"></i></a></li>
             </ul>
         </nav>
     </div>

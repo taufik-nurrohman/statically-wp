@@ -1,3 +1,24 @@
+/* Fonts */
+@import url("https://cdn.statically.io/libs/font-awesome/5.13.1/css/brands.min.css");
+
+.fab {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fa-github:before {
+  content: "\f09b";
+}
+
+.fa-twitter:before {
+  content: "\f099";
+}
+
 /** Body settings */
 body.toplevel_page_statically #wpcontent,
 body.admin_page_statically-debugger #wpcontent {
@@ -63,15 +84,6 @@ body.admin_page_statically-debugger #wpcontent {
   margin-top: 1em;
   margin-bottom: .5em;
 }
-.stly .dashicons-yes {
-  color: #14d462;
-}
-.stly .dashicons-no {
-  color: #f35353;
-}
-.stly .dashicons-star-filled {
-  color:#ffb900;
-}
 .stly .mr-1 {
   margin-right: .6rem;
 }
@@ -119,7 +131,7 @@ body.admin_page_statically-debugger #wpcontent {
 }
 .stly-header li a {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #444;
   text-decoration: none;
   margin-right: 1.5rem;
@@ -129,9 +141,6 @@ body.admin_page_statically-debugger #wpcontent {
 }
 .stly-header .logo img {
   max-height: 2.3rem;
-}
-.stly-header .dashicons-twitter {
-  color: #1da1f2;
 }
 
 /** Options */
@@ -161,8 +170,9 @@ body.admin_page_statically-debugger #wpcontent {
   text-align: center;
 }
 .stly-footer a {
+  border-bottom: 1px solid;
   color: #888;
-  padding: 1rem .5rem;
+  margin: 1rem .5rem;
   text-decoration: none;
 }
 .stly-footer a:hover {
@@ -178,8 +188,17 @@ body.admin_page_statically-debugger #wpcontent {
   display: block;
   padding-top: 1rem;
 }
+.stly-footer .stars {
+  border-bottom: 0;
+}
 .stly-footer .mission {
   margin-bottom: 2rem;
+}
+.stly-footer .project-by {
+  margin-top: 3rem!important;
+}
+.stly-footer .project-by a {
+  margin: 0;
 }
 
 /** Social */
@@ -193,11 +212,14 @@ body.admin_page_statically-debugger #wpcontent {
 .tweet:hover {
   background: #0c8fe0;
 }
+.stly .dashicons-star-filled {
+  color:#ffb900;
+}
 .stly-footer .stars:hover .dashicons-star-filled {
   color:#e0a500;
 }
-.stly-footer .social .dashicons-twitter {
-  font-size: 18px;
+.stly-header .fa-twitter {
+  color: #1da1f2;
 }
 
 /** Tabs */

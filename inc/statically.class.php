@@ -86,6 +86,7 @@ class Statically
         add_action( 'wp_ajax_statically_illegal_cdnurl_notice_dismiss', [ __CLASS__, 'statically_illegal_cdnurl_notice_dismiss' ] );
 
         /* TODO: remove unused options */
+        //delete_option( 'statically-illegal-cdnurl-notice-dismissed' );
     }
 
     /**
