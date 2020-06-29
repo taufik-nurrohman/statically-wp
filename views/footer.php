@@ -35,7 +35,7 @@
         </span>
 
         <p class="project-by">
-            <?php _e( 'A project by', 'statically' ); ?> <a href="https://upset.dev"> upset.dev</a>
+            <?php _e( 'A project by', 'statically' ); ?> <a href="https://upset.dev" target="_blank"> upset.dev</a>
         </p>
     </div>
 </footer>
