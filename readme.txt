@@ -1,4 +1,4 @@
-=== Statically - Asset Optimization and CDN ===
+=== Statically - Free CDN for WordPress ===
 
 Contributors: statically, fransallen
 Tags: optimization, minification, cdn, content delivery network
